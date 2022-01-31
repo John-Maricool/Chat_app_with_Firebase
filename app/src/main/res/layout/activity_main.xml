@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorPrimaryDark"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="9dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="WELCOME TO MY CHAT APP"
+        android:textSize="30sp"/>
+
+    <Button
+        android:id="@+id/login_here"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="12dp"
+        android:textColor="#fff"
+        android:textSize="30sp"
+        android:padding="20sp"/>
+
+    <Button
+        android:id="@+id/signUp_here"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGNUP"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"
+        android:textSize="30sp"
+        android:padding="20sp"/>
+</LinearLayout>
