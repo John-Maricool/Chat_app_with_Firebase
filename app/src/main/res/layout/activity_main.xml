@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@color/colorPrimaryDark"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="9dp"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
+    <include
+        android:id="@+id/main_toolbar"
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/main_toolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph"
+        tools:ignore="FragmentTagUsage" />
+
+    <ProgressBar
+        android:id="@+id/main_progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:text="WELCOME TO MY CHAT APP"
-        android:textSize="30sp"/>
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-    <Button
-        android:id="@+id/login_here"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LOGIN"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="12dp"
-        android:textColor="#fff"
-        android:textSize="30sp"
-        android:padding="20sp"/>
-
-    <Button
-        android:id="@+id/signUp_here"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SIGNUP"
-        android:background="@color/colorPrimary"
-        android:textColor="#fff"
-        android:textSize="30sp"
-        android:padding="20sp"/>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/firstFragment">
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="com.example.firebasechatapp.ui.first.FirstFragment"
+        android:label="FirstFragment" >
+        <action
+            android:id="@+id/action_firstFragment2_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_firstFragment2_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.firebasechatapp.ui.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.firebasechatapp.ui.signup.SignUpFragment"
+        android:label="SignUpFragment" />
+</navigation>
