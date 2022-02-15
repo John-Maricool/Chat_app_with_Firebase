@@ -15,6 +15,9 @@ class ChatsFragment : Fragment(R.layout.fragment_chats) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentChatsBinding.bind(view)
+       // binding.viewmodel = model
+        //binding.lifecycleOwner = this.viewLifecycleOwner
+
     }
 
     override fun onDestroy() {

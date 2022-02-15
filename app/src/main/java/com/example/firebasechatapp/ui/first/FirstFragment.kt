@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentFirstBinding
@@ -16,10 +17,35 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
+    private val model: FirstViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFirstBinding.bind(view)
+        binding.viewmodel = model
+        binding.lifecycleOwner = this.viewLifecycleOwner
+
+        if(model.user != null){
+            navigateToChats()
+        }
+        navigate()
+    }
+
+    private fun navigateToChats() {
+        val action = FirstFragmentDirections.actionFirstFragmentToChatsFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigate() {
+        model.loginEvent.observe(viewLifecycleOwner) {
+            val action = FirstFragmentDirections.actionFirstFragment2ToLoginFragment2()
+            findNavController().navigate(action)
+        }
+        model.createAccountEvent.observe(viewLifecycleOwner) {
+            val action = FirstFragmentDirections.actionFirstFragment2ToSignUpFragment()
+            findNavController().navigate(action)
+        }
+
     }
 
 }
