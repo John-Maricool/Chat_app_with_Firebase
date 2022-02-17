@@ -12,4 +12,5 @@
     <string name="create_a_new_account">Create a new Accout</string>
     <string name="display_name">Display name</string>
     <string name="create">Createe User</string>
+    <string name="user_image">Image</string>
 </resources>

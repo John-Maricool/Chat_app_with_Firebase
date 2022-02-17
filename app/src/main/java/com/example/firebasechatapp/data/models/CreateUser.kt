@@ -1,8 +1,8 @@
 package com.example.firebasechatapp.data.models
 
 data class CreateUser(
-       var displayName: String,
-       val password: String,
-       val email: String
+       var displayName: String = "",
+       var password: String = "",
+       var email: String = ""
     ) {
 }
