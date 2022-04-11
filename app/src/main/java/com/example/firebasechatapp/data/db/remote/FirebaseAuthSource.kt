@@ -8,7 +8,8 @@ import com.example.firebasechatapp.utils.Event
 import com.google.firebase.auth.*
 import javax.inject.Inject
 
-class FirebaseAuthSource @Inject constructor( val auth: FirebaseAuth) {
+class FirebaseAuthSource
+@Inject constructor( val auth: FirebaseAuth) {
 
     val user = auth.currentUser
 
@@ -16,13 +17,13 @@ class FirebaseAuthSource @Inject constructor( val auth: FirebaseAuth) {
         return auth.createUserWithEmailAndPassword(createUser.email, createUser.password)
     }
 
-    fun getAuthState(): MutableLiveData<Event<FirebaseUser?>> {
-        val result = MutableLiveData<Event<FirebaseUser?>>()
+    fun getAuthState(): MutableLiveData<FirebaseUser?> {
+        val result = MutableLiveData<FirebaseUser?>()
         auth.addAuthStateListener {
-            if (it.currentUser == null && it.uid == null) {
-                result.value = Event(it.currentUser)
+            if (it.currentUser != null && it.uid != null) {
+                result.value = it.currentUser
             } else {
-                result.value = Event(null)
+                result.value = null
             }
         }
         return result

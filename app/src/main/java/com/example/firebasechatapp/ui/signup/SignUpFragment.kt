@@ -1,13 +1,15 @@
 package com.example.firebasechatapp.ui.signup
 
+import android.app.Activity
 import android.os.Bundle
 import com.example.firebasechatapp.R
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.firebasechatapp.databinding.FragmentSignUpBinding
-import com.example.firebasechatapp.ui.MainActivity
+import com.example.firebasechatapp.ui.app_components.MainActivity
 import com.example.firebasechatapp.utils.EventObserver
 import com.example.firebasechatapp.utils.forceHideKeyboard
 import com.example.firebasechatapp.utils.showSnackBar
@@ -20,12 +22,21 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     private val binding get() = _binding!!
     private val model: SignupViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model.resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    model.imageUri.value = result.data?.data.toString()
+                }
+            }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSignUpBinding.bind(view)
         binding.viewmodel = model
         binding.lifecycleOwner = this.viewLifecycleOwner
-
         setupObservers()
     }
 
@@ -49,12 +60,12 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     }
 
     private fun navigateToChats() {
-        val action = SignUpFragmentDirections.actionSignUpFragmentToChatsFragment()
-        findNavController().navigate(action)
+        findNavController().navigate(R.id.chatsFragment)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        model.authRepository.getUser().removeObservers(this)
         _binding = null
     }
 }

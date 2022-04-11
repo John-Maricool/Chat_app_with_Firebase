@@ -1,4 +1,4 @@
-package com.example.firebasechatapp
+package com.example.firebasechatapp.ui.app_components
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

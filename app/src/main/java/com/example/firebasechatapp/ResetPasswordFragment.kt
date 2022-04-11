@@ -3,7 +3,6 @@ package com.example.firebasechatapp
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.firebasechatapp.databinding.FragmentLoginBinding
 import com.example.firebasechatapp.databinding.FragmentResetPasswordBinding
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,12 +1,13 @@
 package com.example.firebasechatapp.data.db.remote
 
+import com.example.firebasechatapp.data.models.ChatInfo
 import com.example.firebasechatapp.data.models.Message
+import com.example.firebasechatapp.data.models.UId
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Constants
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class FirebaseFirestoreSource @Inject constructor(
@@ -17,7 +18,7 @@ class FirebaseFirestoreSource @Inject constructor(
      * This function is used to upload a registered user details to the database
      */
     fun uploadUserDetailsToDb(userInfo: UserInfo): Task<Void> {
-       return cloud.collection(Constants.user).document(userInfo.id).set(userInfo)
+        return cloud.collection(Constants.user).document(userInfo.id).set(userInfo)
     }
 
     /**
@@ -25,7 +26,7 @@ class FirebaseFirestoreSource @Inject constructor(
      */
     fun getChats(id: String): Task<QuerySnapshot> {
         return cloud.collection(Constants.user).document(id)
-            .collection(Constants.chats).get()
+            .collection(Constants.chat).get()
     }
 
     /**
@@ -37,26 +38,114 @@ class FirebaseFirestoreSource @Inject constructor(
     }
 
     /**
+     * This function is used to get all the registeredUsers
+     */
+    fun getAllUsers(userId: String): Task<QuerySnapshot> {
+        return cloud.collection(Constants.user).whereNotEqualTo("id", userId).get()
+    }
+
+    /**
      * This function is used to get the last message of the current user with one of his contacts
      */
-    fun getLastMessageFromChat(userId: String, chatId: String): Task<DocumentSnapshot> {
+
+    fun getLastMessageFromChat(chatId: String): DocumentReference {
+        return cloud.collection(Constants.chatChannels)
+            .document(chatId).collection(Constants.messages)
+            .document(Constants.lastMessage)
+    }
+
+    fun getAllMessages(channelId: String): Query {
+        return cloud.collection(Constants.chatChannels)
+            .document(channelId).collection(Constants.messages).orderBy("sentTime")
+    }
+
+    fun getChatChannelId(userId: String, chatId: String): Task<DocumentSnapshot> {
         return cloud.collection(Constants.user).document(userId)
-            .collection(chatId).document(Constants.lastMessage).get()
+            .collection(Constants.chatChannels)
+            .document(chatId).get()
     }
 
     /**
      * This function is used to change the status of the last sent message of the user
      */
-    fun changeLastMessageFromChat(id: String, chatId: String): Task<Void> {
-        return cloud.collection(Constants.user).document(id)
-            .collection(chatId).document(Constants.lastMessage).update("seen", true)
-    }
 
     /**
      * This function is used to change the online status of the user to true or false.
      */
+
     fun toggleOnline(id: String, online: Boolean): Task<Void> {
         return cloud.collection(Constants.user).document(id)
             .update("online", online)
+    }
+
+    /**
+     * This function is used to save the user data to the database on sign up.
+     */
+    fun saveUserDetailsToDb(userInfo: UserInfo): Task<Void> {
+        return cloud.collection(Constants.user).document(userInfo.id).set(userInfo)
+    }
+
+    /**
+     * This function created chat channel with the first message in it
+     */
+    suspend fun createChatInfo(user: String, secUser: String): String {
+        val doc = cloud.collection(Constants.user).document(user).collection(Constants.chatChannels)
+            .document(secUser).get().await()
+        return if (doc.exists()) {
+            doc["id"].toString()
+        } else {
+            val channelIdRef = cloud.collection(Constants.chatChannels).document()
+            val channelId = channelIdRef.get().await().reference.id
+            val chatInfoForUser = ChatInfo(channelId, user, secUser)
+            val chatInfoForSecUser = ChatInfo(channelId, secUser, user)
+            channelIdRef.set(chatInfoForUser)
+            cloud.collection(Constants.user).document(user).collection(Constants.chatChannels)
+                .document(chatInfoForUser.secUserId).set(chatInfoForUser)
+            cloud.collection(Constants.user).document(secUser).collection(Constants.chatChannels)
+                .document(chatInfoForSecUser.secUserId).set(chatInfoForSecUser)
+            channelId
+        }
+    }
+
+    /**
+    This function is used to send message
+     */
+
+    suspend fun sendMessage(message: Message, chatId: String) {
+        cloud.collection(Constants.chatChannels).document(chatId)
+            .collection(Constants.messages)
+            .add(message).await()
+
+        cloud.collection(Constants.chatChannels).document(chatId)
+            .collection(Constants.messages)
+            .document(Constants.lastMessage).set(message).await()
+    }
+
+    /**
+    This function is used to add users to chats
+     */
+
+    suspend fun addUserToChats(user: String, secUser: String) {
+        val userDet = UId(secUser)
+        val mainUserDet = UId(user)
+        cloud.collection(Constants.user).document(user).collection(Constants.chat)
+            .document(secUser).set(userDet).await()
+        cloud.collection(Constants.user).document(secUser).collection(Constants.chat)
+            .document(user).set(mainUserDet).await()
+    }
+
+    /**
+     * This function checks if the user is added to the list of chats
+     */
+    suspend fun isUserAddedToChats(user: String, secUser: String): DocumentSnapshot? {
+        return cloud.collection(Constants.user).document(user).collection(Constants.chat)
+            .document(secUser).get().await()
+    }
+
+    /**
+     * This function updates the user name
+     */
+    fun changeName(userId: String, name: String): Task<Void> {
+        return cloud.collection(Constants.user).document(userId).update("displayName", name)
     }
 }

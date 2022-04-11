@@ -3,7 +3,6 @@ package com.example.firebasechatapp.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import com.example.firebasechatapp.R
 import com.google.android.material.snackbar.Snackbar
 

@@ -7,39 +7,117 @@
     <fragment
         android:id="@+id/firstFragment"
         android:name="com.example.firebasechatapp.ui.first.FirstFragment"
-        android:label="FirstFragment" >
-        <action
-            android:id="@+id/action_firstFragment2_to_loginFragment2"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_firstFragment2_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
-            android:id="@+id/action_firstFragment_to_chatsFragment"
-            app:destination="@id/chatsFragment" />
-        <action
-            android:id="@+id/action_firstFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-    </fragment>
+        android:label="FirstFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.firebasechatapp.ui.login.LoginFragment"
-        android:label="LoginFragment" >
-        <action
-            android:id="@+id/action_loginFragment_to_chatsFragment"
-            app:destination="@id/chatsFragment" />
-    </fragment>
+        android:label="LoginFragment" />
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.firebasechatapp.ui.signup.SignUpFragment"
-        android:label="SignUpFragment" >
-        <action
-            android:id="@+id/action_signUpFragment_to_chatsFragment"
-            app:destination="@id/chatsFragment" />
-    </fragment>
+        android:label="SignUpFragment" />
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.example.firebasechatapp.ui.chats.ChatsFragment"
-        android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats" />
+        android:label="Chats"
+        tools:layout="@layout/fragment_chats">
+        <action
+            android:id="@+id/action_chatsFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.example.firebasechatapp.ui.users.UsersFragment"
+        android:label="Users">
+        <action
+            android:id="@+id/action_usersFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.firebasechatapp.ui.profile.ProfileFragment"
+        android:label="ProfileFragment">
+        <argument
+            android:name="userInfo"
+            app:argType="com.example.firebasechatapp.data.models.UserInfo" />
+    </fragment>
+    <dialog
+        android:id="@+id/messageFragment"
+        android:name="com.example.firebasechatapp.ui.firstmessage.MessageFragment"
+        android:label="MessageFragment">
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_messageFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.firebasechatapp.ui.chat.ChatFragment"
+        android:label="ChatFragment">
+        <argument
+            android:name="otherUserId"
+            app:argType="string" />
+        <argument
+            android:name="channelId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_chatFragment_to_mediaDisplayFragment"
+            app:destination="@id/mediaDisplayFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_mediaFragment"
+            app:destination="@id/mediaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaDisplayFragment"
+        android:name="com.example.firebasechatapp.ui.chat.MediaDisplayFragment"
+        android:label="fragment_media_display"
+        tools:layout="@layout/fragment_media_display">
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="channelId"
+            app:argType="string" />
+        <argument
+            android:name="uri"
+            app:argType="string" />
+        <argument android:name="receiverId" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.firebasechatapp.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changeNameFragment"
+            app:destination="@id/changeNameFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/changeNameFragment"
+        android:name="com.example.firebasechatapp.ui.changeDetails.ChangeNameFragment"
+        android:label="fragment_change_name"
+        tools:layout="@layout/fragment_change_name">
+        <argument
+            android:name="userInfo"
+            app:argType="com.example.firebasechatapp.data.models.UserInfo" />
+    </dialog>
+    <dialog
+        android:id="@+id/mediaFragment"
+        android:name="com.example.firebasechatapp.ui.mediaDisplay.MediaFragment"
+        android:label="MediaFragment" >
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="mediaUri"
+            app:argType="string" />
+    </dialog>
 </navigation>

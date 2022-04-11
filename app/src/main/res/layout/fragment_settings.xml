@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="user"
+            type="com.example.firebasechatapp.data.models.UserInfo" />
+        <variable
+            name="viewmodel"
+            type="com.example.firebasechatapp.ui.settings.SettingsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.settings.SettingsFragment">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/user_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="@{() -> viewmodel.navigateToChangeImage()}"
+            android:layout_marginStart="16dp"
+            app:set_image_resource="@{user.profileImageUrl}"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/chat_box" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/user_name"
+            android:layout_width="286dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="16dp"
+            android:text="@{user.displayName}"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/edit"
+            app:layout_constraintStart_toEndOf="@+id/user_image"
+            app:layout_constraintTop_toTopOf="@+id/user_image"
+            tools:text="John" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/user_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{user.email}"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/user_image"
+            app:layout_constraintEnd_toStartOf="@+id/edit"
+            app:layout_constraintStart_toStartOf="@+id/user_name"
+            app:layout_constraintTop_toBottomOf="@+id/user_name"
+            tools:text="ebuka@gmail.com" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/edit"
+            android:layout_width="35dp"
+            android:onClick="@{() -> viewmodel.navigateToChangeName()}"
+            android:layout_height="35dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/user_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/user_name" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dark"
+            android:background="@color/white"
+            android:layout_width="0dp"
+            android:gravity="center|start"
+            android:drawablePadding="8dp"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_night"
+            android:text="@string/dark_theme"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_mode"
+            app:layout_constraintStart_toStartOf="@+id/user_image"
+            app:layout_constraintTop_toBottomOf="@+id/user_email" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/toggle_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.toggleMode()}"
+            app:layout_constraintBottom_toBottomOf="@+id/dark"
+            app:layout_constraintEnd_toEndOf="@+id/edit"
+            app:layout_constraintTop_toTopOf="@+id/dark" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/invite"
+            android:layout_width="0dp"
+            android:onClick="@{() -> viewmodel.shareApp()}"
+            android:drawablePadding="8dp"
+            android:gravity="start|center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:drawableStart="@drawable/ic_share"
+            android:text="@string/invite_a_friend"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/toggle_mode"
+            app:layout_constraintStart_toStartOf="@+id/dark"
+            app:layout_constraintTop_toBottomOf="@+id/dark" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:onClick="@{() -> viewmodel.signOutUser()}"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/logout"
+            android:textColor="#FD0303"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/invite"
+            app:layout_constraintTop_toBottomOf="@+id/invite" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

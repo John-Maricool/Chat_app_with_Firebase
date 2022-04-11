@@ -1,67 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#CFC6C6"
-    tools:context=".MessageFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="model"
+            type="com.example.firebasechatapp.ui.firstmessage.MessageViewModel" />
 
-    <com.google.android.material.appbar.AppBarLayout
+        <variable
+            name="frag"
+            type="com.example.firebasechatapp.ui.firstmessage.MessageFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:id="@+id/app_bar_layout"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:background="@color/colorPrimaryDark"
-            app:popupTheme="@style/MenuStyle"
-            android:layout_height="wrap_content">
-
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:id="@+id/profile_image"
-                android:layout_height="30dp"/>
-
-            <TextView
-                android:id="@+id/the_username"
-                android:text="username"
-                android:textColor="#fff"
-                android:textStyle="bold"
-                android:layout_marginStart="25dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar_layout"
-        android:layout_above="@+id/message_send"
-        android:id="@+id/recycler_view" />
-
-        <EditText
-            android:id="@+id/message_send"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_first_message"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="10dp"
-            android:layout_toLeftOf="@+id/btn_send"
-            android:background="@android:color/transparent"
-            android:textSize="24sp"
-            android:hint="Type a message" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/enter_your_first_message_below"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/btn_send"
-            android:background="@drawable/ic_action_name"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
-</RelativeLayout>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/first_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/message_hint"
+            android:text="@={model.messageText}"
+            app:layout_constraintEnd_toEndOf="@+id/text_first_message"
+            app:layout_constraintStart_toStartOf="@+id/text_first_message"
+            app:layout_constraintTop_toBottomOf="@+id/text_first_message" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:onClick="@{() -> model.finishUp(frag.secUserId)}"
+            android:text="@string/send"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/first_message"
+            app:layout_constraintStart_toStartOf="@+id/first_message"
+            app:layout_constraintTop_toBottomOf="@+id/first_message" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

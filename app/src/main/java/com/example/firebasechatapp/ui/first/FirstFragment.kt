@@ -32,18 +32,15 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
     }
 
     private fun navigateToChats() {
-        val action = FirstFragmentDirections.actionFirstFragmentToChatsFragment()
-        findNavController().navigate(action)
+       findNavController().navigate(R.id.chatsFragment)
     }
 
     private fun navigate() {
         model.loginEvent.observe(viewLifecycleOwner) {
-            val action = FirstFragmentDirections.actionFirstFragment2ToLoginFragment2()
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.loginFragment)
         }
         model.createAccountEvent.observe(viewLifecycleOwner) {
-            val action = FirstFragmentDirections.actionFirstFragment2ToSignUpFragment()
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.signUpFragment)
         }
 
     }

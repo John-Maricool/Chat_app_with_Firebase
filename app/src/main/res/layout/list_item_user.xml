@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="chatwithuserinfo"
+            type="com.example.firebasechatapp.data.models.UserInfo" />
+
+        <variable
+            name="listener"
+            type="com.example.firebasechatapp.data.interfaces.OnListItemClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:elevation="3dp"
+        android:focusable="true">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="29dp"
+            app:cardElevation="3dp"
+            app:cardPreventCornerOverlap="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/userProfileImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="0dp"
+                android:contentDescription="@string/user_image"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                app:set_image_resource="@{chatwithuserinfo.profileImageUrl}" />
+
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:id="@+id/onlineView"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/round_circle_online_green"
+            android:visibility="@{chatwithuserinfo.online == true? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/imageCardView"
+            app:layout_constraintRight_toRightOf="@id/imageCardView"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/imageCardView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/displayNameText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:singleLine="true"
+                android:text="@{chatwithuserinfo.displayName}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Display namedsksajkbjk" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/appCompatButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimary"
+                android:onClick="@{() -> listener.onListItemClick(chatwithuserinfo.id)}"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:text="@string/start_chat"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

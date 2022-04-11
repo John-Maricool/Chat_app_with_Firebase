@@ -2,76 +2,53 @@ package com.example.firebasechatapp.data.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.firebasechatapp.data.models.Message
-import com.example.firebasechatapp.data.models.UserInfo
+import com.example.firebasechatapp.R
+import com.example.firebasechatapp.data.interfaces.OnListItemClickListener
+import com.example.firebasechatapp.data.models.ChatWithUserInfo
 import com.example.firebasechatapp.databinding.ListItemChatBinding
-import com.example.firebasechatapp.ui.chats.ChatsViewModel
+import javax.inject.Inject
 
-class ChatsListAdapter(var viewModel: ChatsViewModel):
+class ChatsListAdapter
+@Inject constructor() :
     RecyclerView.Adapter<ChatsListAdapter.ChatsListViewHolder>() {
 
-    var chats: List<UserInfo> = listOf()
-    var lastMessage: List<Message> = listOf()
+    var chats: List<ChatWithUserInfo> = listOf()
+    lateinit var listener: OnListItemClickListener
 
-    inner class ChatsListViewHolder(val binding: ListItemChatBinding):
+    inner class ChatsListViewHolder(val binding: ListItemChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(item: UserInfo, message: Message, model: ChatsViewModel){
-                binding.chatwithuserinfo = item
-                binding.viewmodel = model
-                binding.message = message
-                binding.executePendingBindings()
-            }
+        fun bind(item: ChatWithUserInfo) {
+            binding.chatwithuserinfo = item
+            binding.listener = listener
+        }
+    }
+
+    fun setOnItemClickListener(mListener: OnListItemClickListener){
+        listener = mListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsListViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ListItemChatBinding.inflate(layoutInflater, parent, false)
+        val binding = DataBindingUtil.inflate<ListItemChatBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.list_item_chat,
+            parent,
+            false
+        )
         return ChatsListViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ChatsListViewHolder, position: Int) {
-        holder.bind(chats[position], lastMessage[position], viewModel)
+    override fun onBindViewHolder(holder: ChatsListViewHolder, position: Int){
+        holder.bind(chats[position])
     }
 
-    fun getChats(mChats: List<UserInfo>, mMessage: List<Message>){
+    fun getChats(mChats: List<ChatWithUserInfo>) {
         chats = mChats
-        lastMessage = mMessage
         notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-       return chats.size
-    }
-
-    fun updateEmployeeListItems(infos: List<UserInfo>) {
-        val diffCallback: DiffUtil.Callback = ChatDiffCallback(infos)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        this.chats.toMutableList().clear()
-        this.chats.toMutableList().addAll(infos)
-        diffResult.dispatchUpdatesTo(this)
+        return chats.size
     }
 }
-
-
-class ChatDiffCallback(var info: List<UserInfo>) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getNewListSize(): Int {
-        return info.size
-    }
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-       return info[oldItemPosition] == info[newItemPosition]
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return info[oldItemPosition].id == info[newItemPosition].id
-    }
-
-}
-

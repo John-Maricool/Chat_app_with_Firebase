@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.firebasechatapp.databinding.FragmentLoginBinding
-import com.example.firebasechatapp.ui.MainActivity
+import com.example.firebasechatapp.ui.app_components.MainActivity
 import com.example.firebasechatapp.utils.EventObserver
 import com.example.firebasechatapp.utils.forceHideKeyboard
 import com.example.firebasechatapp.utils.showSnackBar
@@ -44,8 +44,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToChats() {
-       val action = LoginFragmentDirections.actionLoginFragmentToChatsFragment()
-        findNavController().navigate(action)
+        findNavController().navigate(R.id.chatsFragment)
     }
 
     override fun onDestroy() {

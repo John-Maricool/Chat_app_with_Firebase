@@ -38,7 +38,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_height="70dp"
+                app:set_image_resource="@{viewmodel.imageUri}"
+                android:layout_width="70dp"
+                android:id="@+id/user_image"
+                android:layout_marginBottom="20dp"
+                android:onClick="@{() -> viewmodel.goToGallery()}"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_account_circle"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="fill_parent"
@@ -103,20 +113,42 @@
                     tools:background="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="0dp"
+                app:boxBackgroundColor="@android:color/transparent">
+
+                <EditText
+                    android:id="@+id/reenterPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/reenter_password"
+                    android:importantForAutofill="no"
+                    android:inputType="textPassword"
+                    android:maxLength="25"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@={viewmodel.secondPassword}"
+                    tools:background="@android:color/transparent" />
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginTop="98dp"
+            android:layout_marginTop="58dp"
             android:backgroundTint="@color/colorAccent"
             android:enabled="@{!viewmodel.isCreatingAccount()}"
             android:onClick="@{() -> viewmodel.createAccountPressed()}"
             android:text="@string/create"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guideline50"
             tools:enabled="@{true}" />
@@ -126,7 +158,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".5" />
+            app:layout_constraintGuide_percent=".6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,32 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:padding="8dp"
-    android:layout_height="wrap_content">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/profile_image"
-        android:src="@mipmap/ic_launcher"/>
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="message"
+            type="com.example.firebasechatapp.data.models.Message" />
 
-    <TextView
+        <variable
+            name="listener"
+            type="com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener" />
+
+
+    </data>
+
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/profile_image"
-        android:id="@+id/show_message"
-        android:layout_marginLeft="5dp"
-        android:text="hello"
-        android:padding="8dp"
-        android:background="@drawable/background_left"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_seen"
-        android:layout_below="@+id/show_message"
-        android:layout_toRightOf="@+id/profile_image"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginStart="4dp"
+        android:layout_gravity="start"
+        android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/const_inside"
+            android:padding="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/background_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="match_parent">
 
-</RelativeLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/show_message"
+            android:padding="3dp"
+            android:inputType="textMultiLine"
+            android:visibility="@{message.type == 0 ? View.VISIBLE : View.GONE}"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            app:setMessageText="@{message}"
+            android:maxWidth="140dp"
+            android:layout_height="wrap_content"
+            tools:text="Hello therdsmnkjsj s jbsks]ssdnljks ksjbs s sjjs se"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image"
+                android:layout_width="200dp"
+                android:visibility="@{message.type == 1 ? View.VISIBLE : View.GONE}"
+                android:gravity="start"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                app:setImageRes="@{message}"
+                android:scaleType="fitCenter"
+                android:onClickListener="@{() -> listener.onMediaItemClick(message.type, message.text)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <VideoView
+                android:id="@+id/video"
+                android:visibility="@{message.type == 2 ? View.VISIBLE : View.GONE}"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:setVideoRes="@{message}"
+                android:onClickListener="@{() -> listener.onMediaItemClick(message.type, message.text)}"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:gravity="start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/message_time"
+                app:setMessageTime="@{message}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#DDD6D6"
+                app:layout_constraintEnd_toEndOf="@+id/show_message"
+                app:layout_constraintTop_toBottomOf="@+id/show_message"
+                tools:text="5:51 PM" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/const_inside"
+            app:setMessageSeen="@{message}"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/const_inside"
+            app:layout_constraintTop_toBottomOf="@+id/const_inside" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>
