@@ -16,12 +16,13 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         android:layout_marginBottom="?attr/actionBarSize">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#74CCCACD">
+            android:background="@color/backgroundColor">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

@@ -56,7 +56,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         requireActivity().onBackPressedDispatcher.addCallback(
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().popBackStack(R.id.chatsFragment, true)
+                    val action = ChatFragmentDirections.actionChatFragmentToChatsFragment()
+                    findNavController().navigate(action)
                 }
             })
     }
@@ -80,17 +81,16 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         model.channelId = args.channelId
         model.getUserInfo(args.otherUserId)
         model.getAllMessages()
-
+        adapter.setOnItemClickListener(this)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.adapter = adapter
         binding.model = model
         binding.frag = this
-        binding.lifecycleOwner = viewLifecycleOwner
         _bindingToolbar!!.lifecycleOwner = viewLifecycleOwner
         _bindingToolbar!!.viewmodel = model
         binding.executePendingBindings()
         setupListAdapter()
         setupCustomToolbar()
-        adapter.setOnItemClickListener(this)
     }
 
     private fun setupCustomToolbar() {
@@ -136,7 +136,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         resultLauncher.launch(intent)
     }
 
-    override fun onMediaItemClick(type: String, mediaLink: String) {
+    override fun onMediaItemClick(type: Int, mediaLink: String) {
         val action = ChatFragmentDirections.actionChatFragmentToMediaFragment(type, mediaLink)
         findNavController().navigate(action)
     }

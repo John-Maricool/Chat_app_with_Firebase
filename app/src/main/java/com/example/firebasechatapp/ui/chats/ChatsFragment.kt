@@ -45,7 +45,7 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
 
         binding.adapter = mAdapter
         binding.viewmodel = model
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.executePendingBindings()
         observeLiveData()
     }

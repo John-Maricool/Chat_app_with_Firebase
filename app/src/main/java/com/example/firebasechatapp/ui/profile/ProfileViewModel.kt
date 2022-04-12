@@ -9,4 +9,16 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel
 @Inject constructor(val defaultRepo: DefaultRepository, val cloud: CloudRepository): ViewModel(){
+
+    fun seeChats(){
+
+    }
+
+    fun changeName(){
+
+    }
+
+    fun changeImage(){
+
+    }
 }

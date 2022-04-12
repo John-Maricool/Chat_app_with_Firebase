@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentMediaBinding
+import com.example.firebasechatapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,10 +18,10 @@ class MediaFragment : DialogFragment(R.layout.fragment_media) {
     private val binding: FragmentMediaBinding get() = _binding!!
     private val args: MediaFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMediaBinding.bind(view)
-        if (args.type == "video"){
+        if (args.type == Constants.TYPE_VIDEO){
             binding.image.visibility = View.GONE
             binding.video.setVideoPath(args.mediaUri)
             val controller = MediaController(requireActivity())

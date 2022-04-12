@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="frag"
             type="com.example.firebasechatapp.ui.chat.ChatFragment" />
@@ -21,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="#100F0F"
+        android:background="@color/backgroundColor"
         tools:context=".ui.product_ui.chat.ChatFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -29,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="5dp"
-            android:background="#100F0F"
+            android:background="@color/backgroundColor"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/edit_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,8 +49,8 @@
             android:inputType="textAutoComplete|textMultiLine"
             android:paddingStart="5dp"
             android:text="@={model.messageText}"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/textColor"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/send_message"

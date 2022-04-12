@@ -31,4 +31,7 @@
     <string name="save">SAVE</string>
     <string name="change">Change</string>
     <string name="edit_name">Edit Name</string>
+    <string name="change_profile_image">Change Profile Image</string>
+    <string name="change_email">Change Email</string>
+    <string name="see_chats">See Chats</string>
 </resources>

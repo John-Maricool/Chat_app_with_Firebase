@@ -30,7 +30,7 @@ class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().popBackStack(R.id.chatsFragment, true)
+                requireActivity().finish()
             }
         })
     }
@@ -64,8 +64,9 @@ class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener
         mAdapter.setOnItemClickListener(this)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as MainActivity).showGlobalProgressBar(false)
         _binding = null
     }
 

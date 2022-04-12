@@ -17,6 +17,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         android:layout_marginBottom="?attr/actionBarSize">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,12 +26,12 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chatsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:background="@color/backgroundColor"
+                android:layout_height="0dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:setChatsAdapter="@{adapter}"

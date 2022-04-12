@@ -17,6 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:onClick="@{() -> listener.onListItemClick(chatwithuserinfo.mUserInfo.id)}"
@@ -71,6 +72,7 @@
                 android:id="@+id/displayNameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
                 android:singleLine="true"
                 android:text="@{chatwithuserinfo.mUserInfo.displayName}"
                 android:textSize="18sp"
@@ -83,6 +85,7 @@
                  android:id="@+id/messageText"
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
                  android:singleLine="true"
                  android:textSize="14sp"
                  android:text="@{chatwithuserinfo.mChat.lastMessage.text}"
@@ -93,6 +96,7 @@
          <TextView
                 android:id="@+id/timeText"
                 android:layout_width="0dp"
+             android:textColor="@color/textColor"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 app:layout_constraintRight_toRightOf="parent"

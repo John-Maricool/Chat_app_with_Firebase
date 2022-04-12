@@ -7,6 +7,7 @@
         <variable
             name="user"
             type="com.example.firebasechatapp.data.models.UserInfo" />
+
         <variable
             name="viewmodel"
             type="com.example.firebasechatapp.ui.settings.SettingsViewModel" />
@@ -14,6 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/backgroundColor"
         android:layout_height="match_parent"
         tools:context=".ui.settings.SettingsFragment">
 
@@ -31,11 +33,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/user_name"
-            android:layout_width="286dp"
-            android:layout_height="22dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@{user.displayName}"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/edit"
@@ -48,8 +50,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{user.email}"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textColor="@color/textColor"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/user_image"
             app:layout_constraintEnd_toStartOf="@+id/edit"
             app:layout_constraintStart_toStartOf="@+id/user_name"
@@ -69,11 +71,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dark"
-            android:background="@color/white"
+            android:background="@color/backgroundColor"
             android:layout_width="0dp"
             android:gravity="center|start"
             android:drawablePadding="8dp"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:drawableStart="@drawable/ic_night"
@@ -100,10 +102,10 @@
             android:gravity="start|center"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/white"
+            android:background="@color/backgroundColor"
             android:drawableStart="@drawable/ic_share"
             android:text="@string/invite_a_friend"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/toggle_mode"
             app:layout_constraintStart_toStartOf="@+id/dark"

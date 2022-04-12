@@ -14,6 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/backgroundColor"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:textColor="@color/textColor"
             android:gravity="center"
             android:text="@string/enter_your_first_message_below"
             android:textSize="20sp"
@@ -32,6 +34,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/first_message"
+            android:textColor="@color/textColor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -50,7 +53,7 @@
             android:background="@color/colorPrimary"
             android:onClick="@{() -> model.finishUp(frag.secUserId)}"
             android:text="@string/send"
-            android:textColor="@color/white"
+            android:textColor="@color/colorOnPrimary"
             app:layout_constraintEnd_toEndOf="@+id/first_message"
             app:layout_constraintStart_toStartOf="@+id/first_message"
             app:layout_constraintTop_toBottomOf="@+id/first_message" />

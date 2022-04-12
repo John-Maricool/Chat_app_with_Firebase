@@ -12,6 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/backgroundColor"
         android:layout_height="fill_parent">
 
         <LinearLayout
@@ -30,6 +31,7 @@
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
+                android:textColor="@color/textColor"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
                 android:gravity="start"
@@ -59,6 +61,7 @@
                 <EditText
                     android:id="@+id/editTextDisplayName"
                     android:layout_width="match_parent"
+                    android:textColor="@color/textColor"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/display_name"
@@ -81,6 +84,7 @@
                 <EditText
                     android:id="@+id/editTextEmail"
                     android:layout_width="match_parent"
+                    android:textColor="@color/textColor"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
@@ -102,6 +106,7 @@
                     android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/textColor"
                     android:ems="10"
                     android:hint="@string/password"
                     android:importantForAutofill="no"
@@ -125,6 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:textColor="@color/textColor"
                     android:hint="@string/reenter_password"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
@@ -141,6 +147,7 @@
             android:id="@+id/loginButton"
             android:layout_width="300dp"
             android:layout_height="60dp"
+            android:textColor="@color/colorOnPrimary"
             android:layout_marginTop="58dp"
             android:backgroundTint="@color/colorAccent"
             android:enabled="@{!viewmodel.isCreatingAccount()}"

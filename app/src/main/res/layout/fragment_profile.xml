@@ -5,53 +5,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
+        <variable
+            name="userInfo"
+            type="com.example.firebasechatapp.data.models.UserInfo" />
+        <variable
+            name="viewModel"
+            type="com.example.firebasechatapp.ui.profile.ProfileViewModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="14dp"
-        android:layout_margin="20dp"
+        android:background="@color/backgroundColor"
+        android:layout_height="match_parent"
         tools:context=".ui.profile.ProfileFragment">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/profile_image_blur"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:scaleType="fitXY"
+            app:set_image_resource="@{userInfo.profileImageUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
-        <RelativeLayout
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/profile_image"
+            android:layout_width="70dp"
+            app:set_image_resource="@{userInfo.profileImageUrl}"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image_blur"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/profile_image_blur"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image_blur"
+            tools:src="@tools:sample/avatars" />
+
+        <View
+            android:id="@+id/onlineView"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/round_circle_online_green"
+            android:visibility="@{userInfo.online == true? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/profile_image"
+            app:layout_constraintRight_toRightOf="@id/profile_image"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="@{userInfo.displayName}"
+            android:layout_margin="16dp"
+            android:textColor="@color/textColor"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+            tools:text="Ikenwa John Ebuka" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile"
-                android:id="@+id/textView_profile"
-                android:textSize="24sp"
-                android:layout_margin="16dp" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> viewModel.changeName()}"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/user_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/user_name" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="180dp"
-                android:id="@+id/profile_image"
-                android:layout_height="180dp"
-                android:src="@mipmap/ic_launcher"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="70dp"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/textView_profile"
-                android:layout_centerHorizontal="true" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.changeImage()}"
+            android:background="@drawable/blue_background"
+            android:padding="8dp"
+            android:text="@string/change_profile_image"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/change_email"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goto_chats" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_image"
-                android:text="Username"
-                android:id="@+id/username"
-                android:layout_marginRight="77dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="15dp"
-                android:textSize="25sp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="8dp"
+            android:text="@string/change_email"
+            android:textAllCaps="false"
+            android:textColor="@color/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/change_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/change_image"
+            app:layout_constraintTop_toTopOf="@+id/change_image" />
 
-        </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/goto_chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_chats"
+            android:onClick="@{() -> viewModel.seeChats()}"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@+id/user_name"
+            app:layout_constraintStart_toStartOf="@+id/user_name"
+            app:layout_constraintTop_toBottomOf="@+id/user_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

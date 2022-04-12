@@ -13,7 +13,6 @@
             name="listener"
             type="com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener" />
 
-
     </data>
 
     <FrameLayout
@@ -48,7 +47,7 @@
             android:maxWidth="140dp"
             android:layout_height="wrap_content"
             tools:text="Hello therdsmnkjsj s jbsks]ssdnljks ksjbs s sjjs se"
-            android:textColor="@color/white"
+            android:textColor="@color/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -61,7 +60,7 @@
                 android:adjustViewBounds="true"
                 app:setImageRes="@{message}"
                 android:scaleType="fitCenter"
-                android:onClickListener="@{() -> listener.onMediaItemClick(message.type, message.text)}"
+                android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -71,7 +70,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 app:setVideoRes="@{message}"
-                android:onClickListener="@{() -> listener.onMediaItemClick(message.type, message.text)}"
+                android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:gravity="start"
@@ -83,7 +82,7 @@
                 app:setMessageTime="@{message}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#DDD6D6"
+                android:textColor="@color/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="@+id/show_message"
                 app:layout_constraintTop_toBottomOf="@+id/show_message"
                 tools:text="5:51 PM" />
@@ -95,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/const_inside"
             app:setMessageSeen="@{message}"
-            android:textColor="@color/white"
+            android:textColor="@color/textColor"
             app:layout_constraintStart_toStartOf="@+id/const_inside"
             app:layout_constraintTop_toBottomOf="@+id/const_inside" />
     </androidx.constraintlayout.widget.ConstraintLayout>

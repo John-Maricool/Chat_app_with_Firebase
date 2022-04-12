@@ -7,9 +7,8 @@ import android.view.View
 import android.widget.MediaController
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
@@ -19,7 +18,7 @@ import com.example.firebasechatapp.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MediaDisplayFragment : Fragment(R.layout.fragment_media_display) {
+class MediaDisplayFragment : DialogFragment(R.layout.fragment_media_display) {
 
     private var _binding: FragmentMediaDisplayBinding? = null
     private val binding: FragmentMediaDisplayBinding get() = _binding!!
@@ -57,13 +56,13 @@ class MediaDisplayFragment : Fragment(R.layout.fragment_media_display) {
     }
 
     private fun observeLiveData() {
-        model.done.observe(viewLifecycleOwner, EventObserver{
+        model.done.observe(viewLifecycleOwner, EventObserver {
             activity?.onBackPressed()
         })
-        model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver{
+        model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
             (activity as MainActivity).showGlobalProgressBar(it)
         })
-        model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver{
+        model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
     }

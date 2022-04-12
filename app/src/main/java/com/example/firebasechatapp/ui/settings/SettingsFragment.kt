@@ -3,6 +3,8 @@ package com.example.firebasechatapp.ui.settings
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,20 +23,29 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val model: SettingsViewModel by viewModels()
     lateinit var user: UserInfo
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSettingsBinding.bind(view)
         binding.viewmodel = model
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.executePendingBindings()
         observeLiveData()
-
     }
 
-    private fun observeLiveData() {
+    private fun observeLiveData(){
         model.result.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.user = it
                 user = it
-                binding.executePendingBindings()
             }
         }
         model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
@@ -52,17 +63,31 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         model.navigateToChangeImage.observe(viewLifecycleOwner) {
             if (it != null && this::user.isInitialized) {
                 val action =
-                    SettingsFragmentDirections.actionSettingsFragmentToProfileFragment(user)
+                    SettingsFragmentDirections.actionSettingsFragmentToProfileFragment()
                 findNavController().navigate(action)
             }
         }
-        model.navigateToChangeName.observe(viewLifecycleOwner) {
-            if (it != null && this::user.isInitialized) {
+
+        model.activateMode.observe(viewLifecycleOwner, EventObserver{
+            if (it){
+                AppCompatDelegate
+                    .setDefaultNightMode(
+                        AppCompatDelegate
+                            .MODE_NIGHT_NO)
+            }else{
+                AppCompatDelegate
+                    .setDefaultNightMode(
+                        AppCompatDelegate
+                            .MODE_NIGHT_YES)
+            }
+        })
+        model.navigateToChangeName.observe(viewLifecycleOwner, EventObserver {
+            if (it && this::user.isInitialized) {
                 val action =
                     SettingsFragmentDirections.actionSettingsFragmentToChangeNameFragment(user)
                 findNavController().navigate(action)
             }
-        }
+        })
     }
 
     override fun onDestroyView() {
