@@ -24,17 +24,22 @@ class FirebaseFirestoreSource @Inject constructor(
     /**
      * This function is used to get the chats that the current user is following
      */
-    fun getChats(id: String): Task<QuerySnapshot> {
+    suspend fun getChats(id: String): QuerySnapshot? {
         return cloud.collection(Constants.user).document(id)
-            .collection(Constants.chat).get()
+            .collection(Constants.chat).get().await()
     }
 
     /**
      * This function is used to get the user info of a user given tbe id
      */
-    fun getUserInfo(id: String): Task<DocumentSnapshot> {
+    suspend fun getUserInfo(id: String): DocumentSnapshot? {
         return cloud.collection(Constants.user).document(id)
-            .get()
+            .get(Source.SERVER).await()
+    }
+
+    fun getChangedUserInfo(id: String): DocumentReference {
+        return cloud.collection(Constants.user).document(id)
+
     }
 
     /**
@@ -48,10 +53,10 @@ class FirebaseFirestoreSource @Inject constructor(
      * This function is used to get the last message of the current user with one of his contacts
      */
 
-    fun getLastMessageFromChat(chatId: String): DocumentReference {
+    suspend fun getLastMessageFromChat(chatId: String): DocumentSnapshot? {
         return cloud.collection(Constants.chatChannels)
             .document(chatId).collection(Constants.messages)
-            .document(Constants.lastMessage)
+            .document(Constants.lastMessage).get().await()
     }
 
     fun getAllMessages(channelId: String): Query {
@@ -59,10 +64,10 @@ class FirebaseFirestoreSource @Inject constructor(
             .document(channelId).collection(Constants.messages).orderBy("sentTime")
     }
 
-    fun getChatChannelId(userId: String, chatId: String): Task<DocumentSnapshot> {
+    suspend fun getChatChannelId(userId: String, chatId: String): DocumentSnapshot? {
         return cloud.collection(Constants.user).document(userId)
             .collection(Constants.chatChannels)
-            .document(chatId).get()
+            .document(chatId).get().await()
     }
 
     /**
@@ -73,9 +78,9 @@ class FirebaseFirestoreSource @Inject constructor(
      * This function is used to change the online status of the user to true or false.
      */
 
-    fun toggleOnline(id: String, online: Boolean): Task<Void> {
+    suspend fun toggleOnline(id: String, online: Boolean): Void? {
         return cloud.collection(Constants.user).document(id)
-            .update("online", online)
+            .update("online", online).await()
     }
 
     /**

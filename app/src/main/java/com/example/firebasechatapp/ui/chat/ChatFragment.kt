@@ -69,9 +69,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     ): View {
         _binding =
             FragmentChatBinding.inflate(inflater, container, false)
-
         _bindingToolbar =
             ChatToolbarBinding.inflate(inflater, container, false)
+        setupCustomToolbar()
         return binding.root
     }
 
@@ -90,7 +90,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         _bindingToolbar!!.viewmodel = model
         binding.executePendingBindings()
         setupListAdapter()
-        setupCustomToolbar()
     }
 
     private fun setupCustomToolbar() {
@@ -123,8 +122,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     }
 
     fun openGallery() {
-        val intent =
-            Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         intent.type = "image/*"
         resultLauncher.launch(intent)
     }

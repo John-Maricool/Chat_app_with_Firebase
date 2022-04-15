@@ -1,8 +1,5 @@
 package com.example.firebasechatapp.ui.chat
 
-import android.content.Intent
-import android.provider.MediaStore
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
@@ -46,12 +43,8 @@ class ChatViewModel
         }
     }
 
-    fun toggleOpenOptions(){
+    fun toggleOpenOptions() {
         isOpened.value = !isOpened.value!!
-    }
-
-    fun closeOptions(){
-        isOpened.value = false
     }
 
     fun sendMessage() {
@@ -65,7 +58,6 @@ class ChatViewModel
                     defaultRepo.onResult(null, it)
                 }
             }
-
             messageText.value = null
         } else {
             return
@@ -73,7 +65,7 @@ class ChatViewModel
     }
 
     fun getUserInfo(otherUserId: String) {
-        cloud.getUserInfo(otherUserId) {
+        cloud.getChangedUserInfo(otherUserId) {
             defaultRepo.onResult(null, it)
             if (it is Result.Success) {
                 _userInfo.value = it.data

@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.MediaController
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -18,7 +18,7 @@ import com.example.firebasechatapp.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MediaDisplayFragment : DialogFragment(R.layout.fragment_media_display) {
+class MediaDisplayFragment : Fragment(R.layout.fragment_media_display) {
 
     private var _binding: FragmentMediaDisplayBinding? = null
     private val binding: FragmentMediaDisplayBinding get() = _binding!!
@@ -34,7 +34,7 @@ class MediaDisplayFragment : DialogFragment(R.layout.fragment_media_display) {
         model.media = args.uri
         model.otherUserId = args.receiverId
 
-        if (args.type == "video") {
+        if (args.type == "video"){
             binding.image.visibility = View.GONE
             val v = Uri.parse(args.uri)
             binding.videoPlayer.setVideoURI(v)
@@ -57,6 +57,7 @@ class MediaDisplayFragment : DialogFragment(R.layout.fragment_media_display) {
 
     private fun observeLiveData() {
         model.done.observe(viewLifecycleOwner, EventObserver {
+            if (it)
             activity?.onBackPressed()
         })
         model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
@@ -69,7 +70,7 @@ class MediaDisplayFragment : DialogFragment(R.layout.fragment_media_display) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).showGlobalProgressBar(false)
         _binding = null
     }
 }

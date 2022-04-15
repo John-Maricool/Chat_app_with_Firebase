@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.CloudRepository
@@ -11,6 +12,7 @@ import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,8 +27,8 @@ class SettingsViewModel
     private val _result = MutableLiveData<UserInfo?>()
     val result: LiveData<UserInfo?> get() = _result
 
-    private val _isSignOut = MutableLiveData<Event<Unit>>()
-    val isSignOut: LiveData<Event<Unit>> get() = _isSignOut
+    private val _isSignOut = MutableLiveData<Event<Boolean>>()
+    val isSignOut: LiveData<Event<Boolean>> get() = _isSignOut
 
     private val _navigateToChangeName = MutableLiveData<Event<Boolean>>()
     val navigateToChangeName: LiveData<Event<Boolean>> get() = _navigateToChangeName
@@ -48,38 +50,40 @@ class SettingsViewModel
             )
     }
 
-    fun signOutUser(){
+    fun signOutUser() {
         auth.signOut()
-        _isSignOut.value = Event(Unit)
+        _isSignOut.value = Event(true)
     }
 
-    fun navigateToChangeName(){
+    fun navigateToChangeName() {
         _navigateToChangeName.value = Event(true)
     }
 
-    fun navigateToChangeImage(){
+    fun navigateToChangeImage() {
         _navigateToChangeImage.value = Event(Unit)
     }
 
-    fun shareApp(){
+    fun goToSavedMedia() {
         TODO()
     }
 
-    fun toggleMode(){
-        if (isNightModeActivated()){
+    fun toggleMode() {
+        if (isNightModeActivated()) {
             _activateMode.value = Event(true)
             prefs.edit().putBoolean("isDarkModeOn", false).apply()
-        }else{
+        } else {
             _activateMode.value = Event(false)
             prefs.edit().putBoolean("isDarkModeOn", true).apply()
         }
     }
 
-    private fun getUserInfo(){
-        cloud.getUserInfo(auth.getUserID()){
-            defaultRepo.onResult(null, it)
-            if (it is Result.Success){
-                _result.value = it.data
+    private fun getUserInfo() {
+        viewModelScope.launch {
+            cloud.getUserInfo(auth.getUserID()) {
+                defaultRepo.onResult(null, it)
+                if (it is Result.Success) {
+                    _result.value = it.data
+                }
             }
         }
     }

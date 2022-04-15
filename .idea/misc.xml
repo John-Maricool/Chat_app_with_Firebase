@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable-anydpi/ic_action_name.xml" value="0.108" />
+        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable-anydpi/ripple.xml" value="0.143" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable-mdpi/ic_baseline_chat_bubble_24.xml" value="0.1" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/background_left.xml" value="0.2015" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/background_right.xml" value="0.1325" />
@@ -17,6 +18,7 @@
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.108" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_close.xml" value="0.1485" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_image.xml" value="0.1985" />
+        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_play_arrow.xml" value="0.2015" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/red_border.xml" value="0.153" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/round_circle_primary.xml" value="0.108" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/white_border.xml" value="0.1485" />
@@ -43,12 +45,13 @@
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_settings.xml" value="0.22" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_users.xml" value="0.2" />
-        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/list_item_chat.xml" value="0.16" />
+        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/list_item_chat.xml" value="0.1" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/list_item_user.xml" value="0.18" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/main_part_layout.xml" value="0.1" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/toolbar_main.xml" value="0.1" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/user_item.xml" value="0.17999144933732364" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22395833333333334" />
+        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.143" />
       </map>
     </option>
   </component>

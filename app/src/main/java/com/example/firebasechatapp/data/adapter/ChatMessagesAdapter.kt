@@ -31,7 +31,7 @@ class ChatMessagesAdapter
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Message) {
-            when (data.type) {
+            when (data.type){
                 Constants.TYPE_TEXT -> {
                     val inst = ConstraintInstructions.ConnectConstraint(
                         R.id.message_time,
@@ -40,22 +40,13 @@ class ChatMessagesAdapter
                         ConstraintSet.BOTTOM
                     )
                     binding.constInside.updateConstraints(inst)
+                }
 
-                }
-                Constants.TYPE_IMAGE -> {
-                    val inst = ConstraintInstructions.ConnectConstraint(
-                        R.id.message_time,
-                        ConstraintSet.TOP,
-                        R.id.image,
-                        ConstraintSet.BOTTOM
-                    )
-                    binding.constInside.updateConstraints(inst)
-                }
                 else -> {
                     val inst = ConstraintInstructions.ConnectConstraint(
                         R.id.message_time,
                         ConstraintSet.TOP,
-                        R.id.video,
+                        R.id.image,
                         ConstraintSet.BOTTOM
                     )
                     binding.constInside.updateConstraints(inst)
@@ -80,20 +71,11 @@ class ChatMessagesAdapter
                     binding.constInside.updateConstraints(inst)
 
                 }
-                Constants.TYPE_IMAGE -> {
-                    val inst = ConstraintInstructions.ConnectConstraint(
-                        R.id.message_time,
-                        ConstraintSet.TOP,
-                        R.id.image,
-                        ConstraintSet.BOTTOM
-                    )
-                    binding.constInside.updateConstraints(inst)
-                }
                 else -> {
                     val inst = ConstraintInstructions.ConnectConstraint(
                         R.id.message_time,
                         ConstraintSet.TOP,
-                        R.id.video,
+                        R.id.image,
                         ConstraintSet.BOTTOM
                     )
                     binding.constInside.updateConstraints(inst)

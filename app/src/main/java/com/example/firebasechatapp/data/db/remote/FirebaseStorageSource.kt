@@ -5,6 +5,7 @@ import androidx.core.net.toUri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class FirebaseStorageSource
@@ -20,13 +21,13 @@ class FirebaseStorageSource
         return ref.downloadUrl
     }
 
-    fun putMediaInChatStorage(channelId: String, media: String): UploadTask {
-        val ref  = source.reference.child("$channelId/media")
-        return ref.putFile(media.toUri())
+    suspend fun putMediaInChatStorage(channelId: String, media: String): UploadTask.TaskSnapshot? {
+        val ref  = source.reference.child("media/$channelId")
+        return ref.putFile(media.toUri()).await()
     }
 
-    fun getDownloadUriOfChatMedia(channelId: String, media: String): Task<Uri> {
-        val ref = source.reference.child("$channelId/media")
-        return ref.downloadUrl
+    suspend fun getDownloadUriOfChatMedia(channelId: String): Uri? {
+        val ref = source.reference.child("media/$channelId")
+        return ref.downloadUrl.await()
     }
 }

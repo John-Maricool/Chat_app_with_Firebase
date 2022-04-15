@@ -41,7 +41,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         observeLiveData()
     }
 
-    private fun observeLiveData(){
+    private fun observeLiveData() {
         model.result.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.user = it
@@ -54,34 +54,38 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
-        model.isSignOut.observe(viewLifecycleOwner) {
-            if (it != null) {
-                findNavController().navigate(R.id.firstFragment)
-                findNavController().popBackStack()
+        model.isSignOut.observe(viewLifecycleOwner, EventObserver {
+            if (it) {
+                val action = SettingsFragmentDirections.actionSettingsFragmentToFirstFragment()
+                findNavController().navigate(action)
             }
-        }
-        model.navigateToChangeImage.observe(viewLifecycleOwner) {
-            if (it != null && this::user.isInitialized) {
+        })
+        model.navigateToChangeImage.observe(viewLifecycleOwner, EventObserver {
+            if (this::user.isInitialized) {
                 val action =
                     SettingsFragmentDirections.actionSettingsFragmentToProfileFragment()
                 findNavController().navigate(action)
             }
-        }
+        })
 
-        model.activateMode.observe(viewLifecycleOwner, EventObserver{
-            if (it){
+        model.activateMode.observe(viewLifecycleOwner, EventObserver
+        {
+            if (it) {
                 AppCompatDelegate
                     .setDefaultNightMode(
                         AppCompatDelegate
-                            .MODE_NIGHT_NO)
-            }else{
+                            .MODE_NIGHT_NO
+                    )
+            } else {
                 AppCompatDelegate
                     .setDefaultNightMode(
                         AppCompatDelegate
-                            .MODE_NIGHT_YES)
+                            .MODE_NIGHT_YES
+                    )
             }
         })
-        model.navigateToChangeName.observe(viewLifecycleOwner, EventObserver {
+        model.navigateToChangeName.observe(viewLifecycleOwner, EventObserver
+        {
             if (it && this::user.isInitialized) {
                 val action =
                     SettingsFragmentDirections.actionSettingsFragmentToChangeNameFragment(user)

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import com.example.firebasechatapp.R
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +31,11 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     model.imageUri.value = result.data?.data.toString()
                 }
             }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.firstFragment)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -71,13 +71,13 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         else mainProgressBar.visibility = View.GONE
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         model.goOnline()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         model.goOffline()
     }
 

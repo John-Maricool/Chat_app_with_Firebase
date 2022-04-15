@@ -43,6 +43,8 @@ android {
 
 dependencies {
     def lifecycle_version = "2.4.1"
+    def roomVersion = "2.3.0"
+
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -79,6 +81,12 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+
+    //room database implementation
+    implementation("androidx.room:room-ktx:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+    kapt("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'

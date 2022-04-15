@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebasechatapp.R
+import com.example.firebasechatapp.cache_source.UserEntity
 import com.example.firebasechatapp.data.interfaces.OnListItemClickListener
 import com.example.firebasechatapp.data.models.ChatWithUserInfo
 import com.example.firebasechatapp.databinding.ListItemChatBinding
@@ -14,13 +15,13 @@ class ChatsListAdapter
 @Inject constructor() :
     RecyclerView.Adapter<ChatsListAdapter.ChatsListViewHolder>() {
 
-    var chats: List<ChatWithUserInfo> = listOf()
+    var chats: List<UserEntity> = listOf()
     lateinit var listener: OnListItemClickListener
 
     inner class ChatsListViewHolder(val binding: ListItemChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatWithUserInfo) {
-            binding.chatwithuserinfo = item
+        fun bind(item: UserEntity) {
+            binding.userEntity = item
             binding.listener = listener
         }
     }
@@ -43,7 +44,7 @@ class ChatsListAdapter
         holder.bind(chats[position])
     }
 
-    fun getChats(mChats: List<ChatWithUserInfo>) {
+    fun getChats(mChats: List<UserEntity>) {
         chats = mChats
         notifyDataSetChanged()
     }

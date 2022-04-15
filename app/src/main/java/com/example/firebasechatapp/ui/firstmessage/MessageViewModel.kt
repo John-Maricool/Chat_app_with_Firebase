@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.repositories.AuthRepository
-import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
+import com.example.firebasechatapp.data.repositories.FirstMessageRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isTextValid
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,9 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MessageViewModel
 @Inject constructor(
-    val repo: CloudRepository,
+    val repo: FirstMessageRepository,
     val defRepo: DefaultRepository,
-    val auth: AuthRepository
+    val auth: AuthRepository,
 ) : ViewModel() {
 
     private val _finished = MutableLiveData<String?>()
@@ -39,7 +39,7 @@ class MessageViewModel
 
     private fun send(secUserId: String, message: Message) {
         viewModelScope.launch {
-            repo.createChatInfoWithFirstMessage(auth.getUserID(), secUserId, message) {
+            repo.send(secUserId, message) {
                 defRepo.onResult(null, it)
                 if (it is Result.Success) {
                     _finished.postValue(it.data)

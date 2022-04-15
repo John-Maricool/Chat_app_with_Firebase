@@ -1,6 +1,7 @@
 package com.example.firebasechatapp.utils
 
 object Constants {
+    val check_internet: String = "No Internet"
     const val chatChannels: String = "Chat Channels"
     const val lastMessage: String = "Last Message"
     const val user: String = "Users"

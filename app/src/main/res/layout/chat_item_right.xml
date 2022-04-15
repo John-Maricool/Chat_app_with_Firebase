@@ -37,14 +37,14 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/show_message"
                 android:padding="3dp"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:textStyle="bold"
                 android:visibility="@{message.type == 0 ? View.VISIBLE : View.GONE}"
                 android:layout_width="wrap_content"
                 android:maxWidth="130dp"
                 app:setMessageText="@{message}"
                 android:layout_height="wrap_content"
-                tools:text="Hello therdsmnkjsj s jbsks]ssdnljks ksjbs s sjjs se"
+                tools:text="Hello tdnljks ksjbs s sjjs se"
                 android:textColor="@color/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,9 +52,10 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image"
                 android:layout_width="200dp"
-                android:visibility="@{message.type == 1 ? View.VISIBLE : View.GONE}"
+                android:visibility="@{message.type != 0 ? View.VISIBLE : View.GONE}"
                 app:setImageRes="@{message}"
                 android:layout_height="200dp"
+                android:background="@color/colorPrimary"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
@@ -62,23 +63,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <VideoView
-                android:id="@+id/video"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/video_play"
                 android:visibility="@{message.type == 2 ? View.VISIBLE : View.GONE}"
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/ic_play_arrow"
+                android:layout_height="60dp"
+                android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:gravity="start"
-                app:setVideoRes="@{message}"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintEnd_toEndOf="@+id/image"
+                app:layout_constraintTop_toTopOf="@+id/image"
+                app:layout_constraintStart_toStartOf="@+id/image"
+                app:layout_constraintBottom_toBottomOf="@+id/image"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/message_time"
                 android:layout_width="wrap_content"
                 app:setMessageTime="@{message}"
+                android:padding="2dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="@+id/show_message"

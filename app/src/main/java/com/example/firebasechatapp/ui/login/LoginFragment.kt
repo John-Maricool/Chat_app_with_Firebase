@@ -3,6 +3,7 @@ package com.example.firebasechatapp.ui.login
 import android.os.Bundle
 import com.example.firebasechatapp.R
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private val binding get() = _binding!!
     private val model: LoginViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.firstFragment)
+            }
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLoginBinding.bind(view)
@@ -29,10 +39,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun setUpObservers() {
-        model.defaultRepo.dataLoading.observe(viewLifecycleOwner,
-            EventObserver { (activity as MainActivity).showGlobalProgressBar(it) })
+        model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
+            (activity as MainActivity).showGlobalProgressBar(it)
+        })
 
         model.defaultRepo.snackBarText.observe(viewLifecycleOwner,
+            EventObserver { text ->
+                view?.showSnackBar(text)
+                view?.forceHideKeyboard()
+            })
+
+        model.mSnackBarText.observe(viewLifecycleOwner,
             EventObserver { text ->
                 view?.showSnackBar(text)
                 view?.forceHideKeyboard()

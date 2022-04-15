@@ -51,9 +51,9 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     }
 
     private fun observeLiveData() {
-        model.defaultRepo.dataLoading.observe(viewLifecycleOwner,
-            EventObserver { (activity as MainActivity).showGlobalProgressBar(it) })
-        model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
+        /*model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
+            (activity as MainActivity).showGlobalProgressBar(it)})
+        */model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
     }

@@ -1,5 +1,6 @@
 package com.example.firebasechatapp.data.repositories
 
+import android.net.Uri
 import com.example.firebasechatapp.data.db.remote.FirebaseStorageSource
 import com.example.firebasechatapp.utils.Result
 import javax.inject.Inject
@@ -25,21 +26,11 @@ class StorageRepository
         }
     }
 
-    fun putChatMedia(channelId: String, media: String, b: (Result<String>) -> Unit) {
-        b.invoke(Result.Loading)
-        storage.putMediaInChatStorage(channelId, media).addOnSuccessListener {
-            b.invoke(Result.Success("Successful"))
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
+    suspend fun putChatMedia(channelId: String, media: String) {
+        storage.putMediaInChatStorage(channelId, media)
     }
 
-    fun getChatMediaDownloadString(channelId: String, media: String, b: (Result<String>) -> Unit) {
-        b.invoke(Result.Loading)
-        storage.getDownloadUriOfChatMedia(channelId, media).addOnSuccessListener {
-            b.invoke(Result.Success(it.toString()))
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
+    suspend fun getChatMediaDownloadString(channelId: String): Uri? {
+        return storage.getDownloadUriOfChatMedia(channelId)
     }
 }

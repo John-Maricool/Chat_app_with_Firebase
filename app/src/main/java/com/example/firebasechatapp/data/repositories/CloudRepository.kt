@@ -1,7 +1,8 @@
 package com.example.firebasechatapp.data.repositories
 
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
-import com.example.firebasechatapp.data.models.*
+import com.example.firebasechatapp.data.models.Message
+import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Result
 import javax.inject.Inject
 
@@ -16,63 +17,25 @@ class CloudRepository
         }
     }
 
-    fun getChatsWithUserInfo(id: String, b: ((Result<List<ChatWithUserInfo>>) -> Unit)) {
-        b.invoke(Result.Loading)
-        val cUserInfo = mutableListOf<ChatWithUserInfo>()
-        cloudSource.getChats(id).addOnSuccessListener { snap ->
-            snap.documents.forEach {
-                getUserInfo(it.reference.id) { result ->
-                    if (result is Result.Success) {
-                        getChat(id, result.data!!.id) { res ->
-                            if (res is Result.Success) {
-                                val chatWithUserInfo = ChatWithUserInfo(res.data!!, result.data)
-                                cUserInfo.add(chatWithUserInfo)
-                            }
-                        }
-                    }
-                }
-            }
-            b.invoke(Result.Success(cUserInfo))
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
+    suspend fun getChatsIds(id: String): List<String> {
+        val ids = mutableListOf<String>()
+        val res = cloudSource.getChats(id)?.documents
+        res?.forEach {
+            ids.add(it.reference.id)
         }
+        return ids
     }
 
-    private fun getChat(userId: String, chatId: String, b: (Result<Chat>) -> Unit) {
-        b.invoke(Result.Loading)
-        cloudSource.getChatChannelId(userId, chatId).addOnSuccessListener {
-            val res = it.toObject(ChatInfo::class.java)
-            if (res != null) {
-                getLastMessage(res.id) { resMes ->
-                    if (resMes is Result.Success) {
-                        val chat = Chat(resMes.data!!, res.id)
-                        b.invoke(Result.Success(chat))
-                    } else {
-                        b.invoke(Result.Error("Error"))
-                    }
-                }
-            } else {
-                b.invoke(Result.Error("Error"))
-            }
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
+    suspend fun getChatChannel(userId: String, chatId: String): String? {
+        return cloudSource.getChatChannelId(userId, chatId)?.get("id")?.toString()
     }
 
-    private fun getLastMessage(channelId: String, b: (Result<Message>) -> Unit) {
-        b.invoke(Result.Loading)
-        cloudSource.getLastMessageFromChat(channelId).get().addOnSuccessListener {
-            val res = it.toObject(Message::class.java)
-            if (res != null) {
-                b.invoke(Result.Success(res))
-            }
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
+    suspend fun getLastMessage(channelId: String): Message? {
+        val res = cloudSource.getLastMessageFromChat(channelId)?.toObject(Message::class.java)
+        return res
     }
 
     fun getAllMessages(userId: String, channelId: String, b: (Result<List<Message>>) -> Unit) {
-        b.invoke(Result.Loading)
         cloudSource.getAllMessages(channelId).addSnapshotListener { value, error ->
             if (error == null && value != null) {
                 value.documents.forEach { doc ->
@@ -86,15 +49,6 @@ class CloudRepository
         }
     }
 
-    fun getChatChannel(userId: String, otherId: String, b: (Result<String>) -> Unit) {
-        b.invoke(Result.Loading)
-        cloudSource.getChatChannelId(userId, otherId).addOnSuccessListener {
-            b.invoke(Result.Success(it["id"].toString()))
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
-    }
-
     fun getAllUsers(userId: String, b: (Result<List<UserInfo>>) -> Unit) {
         b.invoke(Result.Loading)
         cloudSource.getAllUsers(userId).addOnSuccessListener {
@@ -105,22 +59,36 @@ class CloudRepository
         }
     }
 
-    fun getUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
+    suspend fun getUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
         b.invoke(Result.Loading)
-        cloudSource.getUserInfo(id).addOnSuccessListener { res ->
-            val result = res.toObject(UserInfo::class.java)
+        try {
+            val result = cloudSource.getUserInfo(id)?.toObject(UserInfo::class.java)
             b.invoke(Result.Success(result))
-        }.addOnFailureListener {
+        } catch (it: java.lang.Exception) {
             b.invoke(Result.Error(it.toString()))
         }
     }
 
-    fun toggleOnline(id: String, online: Boolean, b: ((Result<Boolean>) -> Unit)) {
-        cloudSource.toggleOnline(id, online).addOnSuccessListener {
-            b.invoke(Result.Success(true))
-        }.addOnFailureListener {
+    fun getChangedUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
+        b.invoke(Result.Loading)
+        try {
+            cloudSource.getChangedUserInfo(id).addSnapshotListener { value, error ->
+                if (value != null && error == null) {
+                    val result = value.toObject(UserInfo::class.java)
+                    b.invoke(Result.Success(result))
+                }
+            }
+        } catch (it: java.lang.Exception) {
             b.invoke(Result.Error(it.toString()))
         }
+    }
+
+    suspend fun getUserInfo(id: String): UserInfo? {
+        return cloudSource.getUserInfo(id)?.toObject(UserInfo::class.java)
+    }
+
+    suspend fun toggleOnline(id: String, online: Boolean) {
+        cloudSource.toggleOnline(id, online)
     }
 
     fun saveUserDetailsToDb(userInfo: UserInfo, b: ((Result<Boolean>) -> Unit)) {
@@ -132,21 +100,19 @@ class CloudRepository
         }
     }
 
-    suspend fun createChatInfoWithFirstMessage(
+    suspend fun createChatChannel(
         user: String,
         secUser: String,
-        message: Message,
-        b: ((Result<String>) -> Unit)
-    ) {
-        b.invoke(Result.Loading)
-        try {
-            val id = cloudSource.createChatInfo(user, secUser)
-            cloudSource.sendMessage(message, id)
-            cloudSource.addUserToChats(user, secUser)
-            b.invoke(Result.Success(id))
-        } catch (e: Exception) {
-            b.invoke(Result.Error(e.toString()))
-        }
+    ): String {
+        return cloudSource.createChatInfo(user, secUser)
+    }
+
+    suspend fun addUserToChats(userId: String, otherId: String) {
+        cloudSource.addUserToChats(userId, otherId)
+    }
+
+    suspend fun sendMessage(message: Message, channelId: String) {
+        cloudSource.sendMessage(message, channelId)
     }
 
     suspend fun isUserAddedToChats(
@@ -171,6 +137,7 @@ class CloudRepository
         b.invoke(Result.Loading)
         try {
             cloudSource.sendMessage(message, channelId)
+            b.invoke(Result.Success("Successful"))
         } catch (e: Exception) {
             b.invoke(Result.Error(e.toString()))
         }

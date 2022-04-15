@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewmodel"
             type="com.example.firebasechatapp.ui.login.LoginViewModel" />
@@ -58,7 +57,6 @@
                     android:textColor="@color/textColor"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
-                    android:maxLength="25"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:text="@={viewmodel.emailText}"
@@ -97,7 +95,7 @@
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:textColor="@color/colorOnPrimary"
-            android:layout_marginTop="98dp"
+            android:layout_marginTop="48dp"
             android:enabled="@{!viewmodel.isLoggingIn()}"
             android:onClick="@{() -> viewmodel.loginPressed()}"
             android:text="@string/login"

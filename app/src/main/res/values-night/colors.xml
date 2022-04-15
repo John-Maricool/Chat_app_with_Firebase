@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#40A1A1</color>
-    <color name="colorPrimaryDark">#226e6e</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="backgroundColor">#131313</color>
-    <color name="colorOnPrimary">#101010</color>
+    <color name="colorPrimary">#C36819</color>
+    <color name="colorPrimaryDark">#EC7139</color>
+    <color name="colorAccent">#DA9D03</color>
+    <color name="backgroundColor">#2B2A2A</color>
+    <color name="chat_left">#D2035083</color>
+    <color name="colorOnPrimary">#9EFFFFFF</color>
     <color name="textColor">#EDFFFFFF</color>
 </resources>

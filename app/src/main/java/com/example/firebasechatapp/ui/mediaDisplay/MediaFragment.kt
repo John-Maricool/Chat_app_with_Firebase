@@ -1,5 +1,6 @@
 package com.example.firebasechatapp.ui.mediaDisplay
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.MediaController
@@ -23,10 +24,11 @@ class MediaFragment : DialogFragment(R.layout.fragment_media) {
         _binding = FragmentMediaBinding.bind(view)
         if (args.type == Constants.TYPE_VIDEO){
             binding.image.visibility = View.GONE
-            binding.video.setVideoPath(args.mediaUri)
+            val uri = Uri.parse(args.mediaUri)
+            binding.video.setVideoURI(uri)
             val controller = MediaController(requireActivity())
             controller.setAnchorView(binding.video)
-
+            controller.setMediaPlayer(binding.video)
             binding.video.setMediaController(controller)
             binding.video.start()
         }else{

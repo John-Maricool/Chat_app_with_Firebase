@@ -16,12 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel
-    @Inject constructor(
-        val authRepository: AuthRepository,
-        val defaultRepo: DefaultRepository
-    ): ViewModel() {
+@Inject constructor(
+    val authRepository: AuthRepository,
+    val defaultRepo: DefaultRepository
+) : ViewModel() {
 
-    protected val mSnackBarText = MutableLiveData<Event<String>>()
+     val mSnackBarText = MutableLiveData<Event<String>>()
     private val _isLoggedInEvent = MutableLiveData<Event<FirebaseUser>>()
     val isLoggedInEvent: LiveData<Event<FirebaseUser>> = _isLoggedInEvent
     val emailText = MutableLiveData<String>() // Two way
@@ -32,25 +32,22 @@ class LoginViewModel
     private fun login() {
         isLoggingIn.value = true
         val login =
-            Login(emailText.value!!, passwordText.value!!)
+            Login(email = emailText.value!!, password = passwordText.value!!)
 
-        authRepository.loginUser(login) {result: Result<FirebaseUser> ->
-            //the result is passed here.
+        authRepository.loginUser(login) { result: Result<FirebaseUser> ->
             defaultRepo.onResult(null, result)
             if (result is Result.Success) {
                 _isLoggedInEvent.value = Event(result.data!!)
             }
             if (result is Result.Success || result is Result.Error) isLoggingIn.value = false
-
         }
     }
 
     fun loginPressed() {
-        if (!isEmailValid(emailText.value.toString())) {
+        if (!isEmailValid(emailText.value.toString().trim())){
             mSnackBarText.value = Event("Invalid email format")
             return
         }
-
         if (!isTextValid(6, passwordText.value)) {
             mSnackBarText.value = Event("Password is too short")
             return
