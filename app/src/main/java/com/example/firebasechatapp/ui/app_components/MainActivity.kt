@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+        //onBackPressed()
+        return navController.navigateUp()|| super.onSupportNavigateUp()
     }
 
     override fun onDestinationChanged(

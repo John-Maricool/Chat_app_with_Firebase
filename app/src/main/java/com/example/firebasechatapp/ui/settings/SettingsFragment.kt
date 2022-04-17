@@ -60,13 +60,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 findNavController().navigate(action)
             }
         })
-        model.navigateToChangeImage.observe(viewLifecycleOwner, EventObserver {
-            if (this::user.isInitialized) {
-                val action =
-                    SettingsFragmentDirections.actionSettingsFragmentToProfileFragment()
-                findNavController().navigate(action)
-            }
-        })
 
         model.activateMode.observe(viewLifecycleOwner, EventObserver
         {

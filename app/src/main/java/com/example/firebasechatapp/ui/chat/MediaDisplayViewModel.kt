@@ -28,7 +28,7 @@ class MediaDisplayViewModel
 
     lateinit var channelId: String
     lateinit var media: String
-    lateinit var type: String
+    var type: Int = 1
     lateinit var otherUserId: String
 
     private val _done = MutableLiveData<Event<Boolean>>()
@@ -45,13 +45,9 @@ class MediaDisplayViewModel
         }
     }
 
-    private fun sendToDb(data: String?) {
+    private fun sendToDb(data: String?){
         val message =
-            Message(auth.getUserID(), otherUserId, data!!, false, Date().time, Constants.TYPE_IMAGE)
-        if (type == "video") {
-            message.type = Constants.TYPE_VIDEO
-        }
-
+            Message(auth.getUserID(), otherUserId, data!!, false, Date().time, type)
         viewModelScope.launch {
             cloud.sendMessage(channelId, message) {
                 defaultRepo.onResult(null, it)

@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="22dp"
                 app:cardElevation="0dp"
+                android:onClick="@{() -> viewmodel.goToMedia()}"
                 app:cardPreventCornerOverlap="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,19 +45,19 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:layout_margin="0dp"
+                    app:set_image_resource="@{viewmodel.userInfo.profileImageUrl}"
                     android:contentDescription="@string/user_image"
                     android:scaleType="centerCrop"
-                    app:set_image_resource="@{viewmodel.userInfo.profileImageUrl}"
                     tools:src="@drawable/ic_baseline_person_24" />
             </androidx.cardview.widget.CardView>
 
             <View
                 android:id="@+id/onlineView"
                 android:layout_width="11dp"
+                android:visibility="@{viewmodel.userInfo.online == true? View.VISIBLE : View.INVISIBLE}"
                 android:layout_height="11dp"
                 android:layout_marginStart="35dp"
                 android:background="@drawable/round_circle_online_green"
-                android:visibility="@{viewmodel.userInfo.online == true? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/imageCardView"
                 app:layout_constraintRight_toRightOf="@id/imageCardView"
                 tools:visibility="visible" />
@@ -76,9 +77,9 @@
             <TextView
                 android:id="@+id/otherUserNameText"
                 android:layout_width="wrap_content"
+                android:text="@{viewmodel.userInfo.displayName}"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="@{viewmodel.userInfo.displayName}"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 tools:text="John" />
@@ -97,5 +98,76 @@
 
 
     </RelativeLayout>
+<!--
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        tools:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/userProfileImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_margin="0dp"
+            android:contentDescription="@string/user_image"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:set_image_resource="@{viewmodel.userInfo.profileImageUrl}"
+            tools:src="@drawable/ic_baseline_person_24" />
+
+        <View
+            android:id="@+id/onlineView"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/round_circle_online_green"
+            android:visibility="@{viewmodel.userInfo.online == true? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/userProfileImage"
+            app:layout_constraintStart_toEndOf="@+id/userProfileImage"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/otherUserNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:maxLines="1"
+            android:text="@{viewmodel.userInfo.displayName}"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/userProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/userProfileImage"
+            tools:text="John" />
+
+        <TextView
+            android:id="@+id/onlineStatusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".7"
+            android:maxLines="1"
+            android:text="@{viewmodel.userInfo.online == true? `Online` : `Offline`}"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/otherUserNameText"
+            app:layout_constraintStart_toStartOf="@+id/otherUserNameText"
+            app:layout_constraintTop_toBottomOf="@+id/otherUserNameText"
+            tools:text="Online" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/media"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> viewmodel.goToMedia()}"
+            android:layout_toEndOf="@+id/otherUserNameText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_media" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+-->
 </layout>

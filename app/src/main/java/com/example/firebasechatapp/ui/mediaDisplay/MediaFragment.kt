@@ -1,42 +1,30 @@
 package com.example.firebasechatapp.ui.mediaDisplay
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.MediaController
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentMediaBinding
-import com.example.firebasechatapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MediaFragment : DialogFragment(R.layout.fragment_media) {
+class MediaFragment : Fragment(R.layout.fragment_media) {
 
     private var _binding: FragmentMediaBinding? = null
     private val binding: FragmentMediaBinding get() = _binding!!
+    private val model: MediaViewModel by viewModels()
     private val args: MediaFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMediaBinding.bind(view)
-        if (args.type == Constants.TYPE_VIDEO){
-            binding.image.visibility = View.GONE
-            val uri = Uri.parse(args.mediaUri)
-            binding.video.setVideoURI(uri)
-            val controller = MediaController(requireActivity())
-            controller.setAnchorView(binding.video)
-            controller.setMediaPlayer(binding.video)
-            binding.video.setMediaController(controller)
-            binding.video.start()
-        }else{
-            binding.video.visibility = View.GONE
-            Glide.with(this)
-                .load(args.mediaUri)
-                .into(binding.image)
-        }
+        model.type = args.type
+        model.channelId = args.channelId
+        model.media = args.mediaUri
+        binding.model = model
+        binding.executePendingBindings()
     }
 
     override fun onDestroyView() {

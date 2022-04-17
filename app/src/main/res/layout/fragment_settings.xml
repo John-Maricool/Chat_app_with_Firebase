@@ -23,7 +23,6 @@
             android:id="@+id/user_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:onClick="@{() -> viewmodel.navigateToChangeImage()}"
             android:layout_marginStart="16dp"
             app:set_image_resource="@{user.profileImageUrl}"
             android:layout_marginTop="16dp"
@@ -94,23 +93,6 @@
             app:layout_constraintEnd_toEndOf="@+id/edit"
             app:layout_constraintTop_toTopOf="@+id/dark" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/invite"
-            android:layout_width="0dp"
-            android:onClick="@{() -> viewmodel.goToSavedMedia()}"
-            android:drawablePadding="8dp"
-            android:gravity="start|center"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/backgroundColor"
-            android:drawableStart="@drawable/ic_media"
-            android:text="@string/saved_media"
-            android:textColor="@color/textColor"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/toggle_mode"
-            app:layout_constraintStart_toStartOf="@+id/dark"
-            app:layout_constraintTop_toBottomOf="@+id/dark" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/logout"
             android:layout_width="wrap_content"
@@ -121,8 +103,8 @@
             android:text="@string/logout"
             android:textColor="#FD0303"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/invite"
-            app:layout_constraintTop_toBottomOf="@+id/invite" />
+            app:layout_constraintEnd_toEndOf="@+id/dark"
+            app:layout_constraintTop_toBottomOf="@+id/dark" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

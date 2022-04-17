@@ -11,4 +11,7 @@ object Constants {
     const val TYPE_TEXT: Int = 0
     const val TYPE_IMAGE: Int = 1
     const val TYPE_VIDEO: Int = 2
+     fun randomID(): String = List(16) {
+        (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
+    }.joinToString("")
 }

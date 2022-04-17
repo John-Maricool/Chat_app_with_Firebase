@@ -7,6 +7,7 @@ import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Constants
+import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isTextValid
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +24,9 @@ class ChatViewModel
 ) : ViewModel() {
 
     val messageText = MutableLiveData<String?>()
-
     var otherUserId: String? = null
     var channelId: String? = null
+
     private val _messages = MediatorLiveData<List<Message>?>()
     val messages: LiveData<List<Message>?> get() = _messages
 
@@ -34,6 +35,9 @@ class ChatViewModel
 
     private var isOpened = MutableLiveData(false)
     val opened: LiveData<Boolean> get() = isOpened
+
+    private val _media = MutableLiveData<Event<Boolean>>()
+    val media: LiveData<Event<Boolean>> get() = _media
 
     fun getAllMessages() {
         cloud.getAllMessages(auth.getUserID(), channelId!!) { res ->
@@ -64,6 +68,9 @@ class ChatViewModel
         }
     }
 
+    fun goToMedia(){
+        _media.value = Event(true)
+    }
     fun getUserInfo(otherUserId: String) {
         cloud.getChangedUserInfo(otherUserId) {
             defaultRepo.onResult(null, it)

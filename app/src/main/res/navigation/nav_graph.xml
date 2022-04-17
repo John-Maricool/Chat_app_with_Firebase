@@ -36,14 +36,6 @@
             android:id="@+id/action_usersFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.firebasechatapp.ui.profile.ProfileFragment"
-        android:label="ProfileFragment">
-        <action
-            android:id="@+id/action_profileFragment_to_changeNameFragment"
-            app:destination="@id/changeNameFragment" />
-    </fragment>
     <dialog
         android:id="@+id/messageFragment"
         android:name="com.example.firebasechatapp.ui.firstmessage.MessageFragment"
@@ -76,6 +68,9 @@
             app:destination="@id/chatsFragment"
             app:popUpTo="@id/chatsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_chatFragment_to_savedMediaFragment"
+            app:destination="@id/savedMediaFragment" />
     </fragment>
     <fragment
         android:id="@+id/mediaDisplayFragment"
@@ -84,23 +79,28 @@
         tools:layout="@layout/fragment_media_display">
         <argument
             android:name="type"
-            app:argType="string" />
+            app:argType="integer" />
         <argument
             android:name="channelId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="uri"
-            app:argType="string" />
-        <argument android:name="receiverId" />
+            app:argType="string"
+            app:nullable="true" />
+        <argument android:name="receiverId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="savedMedia"
+            app:argType="com.example.firebasechatapp.data.models.SavedMedia"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.firebasechatapp.ui.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_settingsFragment_to_changeNameFragment"
             app:destination="@id/changeNameFragment" />
@@ -117,7 +117,7 @@
             android:name="userInfo"
             app:argType="com.example.firebasechatapp.data.models.UserInfo" />
     </dialog>
-    <dialog
+    <fragment
         android:id="@+id/mediaFragment"
         android:name="com.example.firebasechatapp.ui.mediaDisplay.MediaFragment"
         android:label="MediaFragment" >
@@ -127,5 +127,19 @@
         <argument
             android:name="mediaUri"
             app:argType="string" />
-    </dialog>
+        <argument
+            android:name="channelId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedMediaFragment"
+        android:name="com.example.firebasechatapp.ui.saved_media_list.SavedMediaFragment"
+        android:label="SavedMediaFragment" >
+        <argument
+            android:name="channelId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_savedMediaFragment_to_mediaDisplayFragment"
+            app:destination="@id/mediaDisplayFragment" />
+    </fragment>
 </navigation>

@@ -36,9 +36,6 @@ class SettingsViewModel
     private val _activateMode = MutableLiveData<Event<Boolean>>()
     val activateMode: LiveData<Event<Boolean>> get() = _activateMode
 
-    private val _navigateToChangeImage = MutableLiveData<Event<Unit>>()
-    val navigateToChangeImage: LiveData<Event<Unit>> get() = _navigateToChangeImage
-
     init {
         getUserInfo()
     }
@@ -57,10 +54,6 @@ class SettingsViewModel
 
     fun navigateToChangeName() {
         _navigateToChangeName.value = Event(true)
-    }
-
-    fun navigateToChangeImage() {
-        _navigateToChangeImage.value = Event(Unit)
     }
 
     fun goToSavedMedia() {

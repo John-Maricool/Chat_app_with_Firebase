@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="media"
+            type="com.example.firebasechatapp.data.models.SavedMedia" />
+
+        <variable
+            name="listener"
+            type="com.example.firebasechatapp.data.interfaces.OnSavedMediaItemClickedListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="4dp"
+            android:onClick="@{() -> listener.onSavedItemClicked(media)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:clickable="@{media.type == 1 ? true : false}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:set_image_resource_normal="@{media.media}"
+            tools:src="@drawable/pic_placeholder" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="@{media.type == 2 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            android:onClick="@{() -> listener.onSavedItemClicked(media)}"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:srcCompat="@drawable/ic_play_arrow" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

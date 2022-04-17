@@ -7,10 +7,8 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,6 +19,9 @@ import com.example.firebasechatapp.data.adapter.ChatMessagesAdapter
 import com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener
 import com.example.firebasechatapp.databinding.ChatToolbarBinding
 import com.example.firebasechatapp.databinding.FragmentChatBinding
+import com.example.firebasechatapp.ui.app_components.MainActivity
+import com.example.firebasechatapp.utils.Constants
+import com.example.firebasechatapp.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -45,21 +46,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val dataUri = result.data?.data.toString()
-                    val type = if (dataUri.contains("video")) "video" else "image"
+                    val type =
+                        if (dataUri.contains("video")) Constants.TYPE_VIDEO else Constants.TYPE_IMAGE
                     val action = ChatFragmentDirections.actionChatFragmentToMediaDisplayFragment(
-                        type, args.channelId, dataUri, args.otherUserId
+                        type, args.channelId, dataUri, args.otherUserId, null
                     )
                     findNavController().navigate(action)
                 }
             }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    val action = ChatFragmentDirections.actionChatFragmentToChatsFragment()
-                    findNavController().navigate(action)
-                }
-            })
     }
 
     override fun onCreateView(
@@ -72,6 +66,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         _bindingToolbar =
             ChatToolbarBinding.inflate(inflater, container, false)
         setupCustomToolbar()
+
         return binding.root
     }
 
@@ -90,18 +85,26 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         _bindingToolbar!!.viewmodel = model
         binding.executePendingBindings()
         setupListAdapter()
+
+        model.media.observe(viewLifecycleOwner, EventObserver {
+            if (it) {
+                val action =
+                    ChatFragmentDirections.actionChatFragmentToSavedMediaFragment(args.channelId)
+                findNavController().navigate(action)
+            }
+        })
     }
 
     private fun setupCustomToolbar() {
-        val supportActionBar = (activity as AppCompatActivity?)!!.supportActionBar
-        supportActionBar!!.setDisplayShowCustomEnabled(true)
-        supportActionBar.customView = _bindingToolbar?.root
+        val supportActionBar = (activity as MainActivity).supportActionBar
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.customView = _bindingToolbar?.root
     }
 
     private fun removeCustomToolbar() {
-        val supportActionBar = (activity as AppCompatActivity?)!!.supportActionBar
-        supportActionBar!!.setDisplayShowCustomEnabled(false)
-        supportActionBar.customView = null
+        val supportActionBar = (activity as MainActivity).supportActionBar
+        supportActionBar?.setDisplayShowCustomEnabled(false)
+        supportActionBar?.customView = null
     }
 
     private fun setupListAdapter() {
@@ -122,7 +125,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     }
 
     fun openGallery() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        val intent =
+            Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         intent.type = "image/*"
         resultLauncher.launch(intent)
     }
@@ -135,7 +139,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     }
 
     override fun onMediaItemClick(type: Int, mediaLink: String) {
-        val action = ChatFragmentDirections.actionChatFragmentToMediaFragment(type, mediaLink)
+        val action = ChatFragmentDirections.actionChatFragmentToMediaFragment(
+            type,
+            mediaLink,
+            args.channelId
+        )
         findNavController().navigate(action)
     }
 }

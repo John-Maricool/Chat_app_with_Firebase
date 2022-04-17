@@ -5,32 +5,50 @@
 
     <data>
 
+        <variable
+            name="model"
+            type="com.example.firebasechatapp.ui.mediaDisplay.MediaViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         tools:context=".ui.mediaDisplay.MediaFragment">
 
         <VideoView
-            android:layout_margin="32dp"
             android:id="@+id/video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:set_media_uri="@{model.media}"
+            app:set_type="@{model.type}" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:layout_margin="32dp"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:set_media_uri="@{model.media}"
+            app:set_type="@{model.type}" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/backgroundColor"
+            android:onClick="@{() -> model.download()}"
+            android:src="@drawable/ic_download"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
