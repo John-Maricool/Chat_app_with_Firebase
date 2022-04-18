@@ -31,4 +31,7 @@ Unadded Features
 - Search functionality for users and chats. 
 - Ability to send voice messages.
 
+Special thanks to 
+[Dwege](https://github.com/dgewe/Movie-App-Android)
+
 
