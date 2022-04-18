@@ -1,4 +1,4 @@
-# Chat_app_with_Firebase
+# Chat Application With Firebase
 Chat Appliation
 This application is a Chat Application with Firebase Backend.
 ## The Features are
