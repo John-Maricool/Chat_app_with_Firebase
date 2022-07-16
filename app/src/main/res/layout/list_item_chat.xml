@@ -114,7 +114,7 @@
                     android:id="@+id/notSeenView"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:visibility="@{userEntity.seen == true ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{userEntity.seen == true ? View.GONE : View.VISIBLE}"
                     android:background="@drawable/round_circle_primary"
                     tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"

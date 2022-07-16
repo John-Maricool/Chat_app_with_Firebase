@@ -1,5 +1,7 @@
 package com.example.firebasechatapp.utils
 
+import com.google.firebase.firestore.DocumentSnapshot
+
 object Constants {
     val check_internet: String = "No Internet"
     const val chatChannels: String = "Chat Channels"
@@ -14,4 +16,7 @@ object Constants {
      fun randomID(): String = List(16) {
         (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
     }.joinToString("")
+
+    var CURRENT_SNAP: DocumentSnapshot? = null
+    var currentPage = 1
 }

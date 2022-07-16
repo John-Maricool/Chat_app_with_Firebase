@@ -31,7 +31,7 @@ class ChatMessagesAdapter
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Message) {
-            when (data.type){
+            when (data.type) {
                 Constants.TYPE_TEXT -> {
                     val inst = ConstraintInstructions.ConnectConstraint(
                         R.id.message_time,
@@ -104,7 +104,7 @@ class ChatMessagesAdapter
         }
     }
 
-    fun setOnItemClickListener(mListener: OnMediaItemClickListener){
+    fun setOnItemClickListener(mListener: OnMediaItemClickListener) {
         listener = mListener
     }
 
@@ -130,11 +130,12 @@ class ChatMessagesAdapter
     }
 
     fun getMessages(mMessages: List<Message>) {
-        val diffCallback = CoursesCallback(messages, mMessages)
-        val diffCourses = DiffUtil.calculateDiff(diffCallback)
-        messages.clear()
-        messages.addAll(mMessages)
-        diffCourses.dispatchUpdatesTo(this)
+        //val diffCallback = CoursesCallback(messages, mMessages)
+        // val diffCourses = DiffUtil.calculateDiff(diffCallback)
+        messages.addAll(0, mMessages)
+        messages = messages.distinct().toMutableList()
+        notifyItemRangeChanged(0, messages.size)
+        //diffCourses.dispatchUpdatesTo(this)
     }
 }
 

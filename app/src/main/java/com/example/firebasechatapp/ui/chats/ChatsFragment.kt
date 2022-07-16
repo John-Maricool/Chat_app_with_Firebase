@@ -39,6 +39,7 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentChatsBinding.bind(view)
+        model.initialize()
         binding.chatsRecyclerView.apply {
             setHasFixedSize(true)
         }
@@ -51,9 +52,7 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     }
 
     private fun observeLiveData() {
-        /*model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
-            (activity as MainActivity).showGlobalProgressBar(it)})
-        */model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
+        model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
     }
@@ -71,8 +70,8 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
 
     override fun onListItemClick(id: String) {
         model.getChannelId(id)
-        model.channelId.observe(viewLifecycleOwner){
-            if (it != null){
+        model.channelId.observe(viewLifecycleOwner) {
+            if (it != null) {
                 val action = ChatsFragmentDirections.actionChatsFragmentToChatFragment(id, it)
                 findNavController().navigate(action)
             }

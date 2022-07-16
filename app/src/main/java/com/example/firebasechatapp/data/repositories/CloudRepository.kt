@@ -1,8 +1,12 @@
 package com.example.firebasechatapp.data.repositories
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
+import com.example.firebasechatapp.utils.Constants.CURRENT_SNAP
+import com.example.firebasechatapp.utils.Constants.currentPage
 import com.example.firebasechatapp.utils.Result
 import javax.inject.Inject
 
@@ -35,19 +39,70 @@ class CloudRepository
         return res
     }
 
-    fun getAllMessages(userId: String, channelId: String, b: (Result<List<Message>>) -> Unit) {
-        cloudSource.getAllMessages(channelId).addSnapshotListener { value, error ->
-            if (error == null && value != null) {
+  /*  fun getAllMessages(
+        userId: String,
+        channelId: String,
+        b: (Result<List<Message>>) -> Unit
+    ) {
+
+        cloudSource.getAllMessages(channelId).get().addOnSuccessListener { value ->
+            if (value != null) {
                 value.documents.forEach { doc ->
+                    Log.d("mess", doc.toString())
+                    CURRENT_SNAP = doc
                     if (doc["receiverId"] == userId && doc["seen"] == false)
                         doc.reference.update("seen", true)
                 }
-                b.invoke(Result.Success(value.toObjects(Message::class.java).distinct()))
+                b.invoke(
+                    Result.Success(
+                        value.toObjects(Message::class.java).distinct().reversed()
+                    )
+                )
+            } else {
+                b.invoke(Result.Error("Error"))
+            }
+        }
+    }*/
+
+    fun getAllMessages(
+        userId: String,
+        channelId: String,
+        b: (Result<List<Message>>) -> Unit
+    ) {
+
+        cloudSource.getAllMessages(channelId).addSnapshotListener { value, error ->
+            if (error == null && value != null) {
+                value.documents.forEach { doc ->
+                    Log.d("mess", doc.toString())
+                    CURRENT_SNAP = doc
+                    if (doc["receiverId"] == userId && doc["seen"] == false)
+                        doc.reference.update("seen", true)
+                }
+                b.invoke(
+                    Result.Success(
+                        value.toObjects(Message::class.java).distinct().reversed()
+                    )
+                )
             } else {
                 b.invoke(Result.Error(error.toString()))
             }
         }
     }
+
+    suspend fun reloadNewPageOfMessages(
+        channelId: String, b: (Result<List<Message>>) -> Unit
+    ) {
+        currentPage++
+        val result = cloudSource.getReloadedMessages(channelId)
+        val ans = result?.toObjects(Message::class.java)
+        Log.d("mess", ans.toString())
+        b.invoke(
+            Result.Success(
+                result?.toObjects(Message::class.java)?.distinct()?.reversed()
+            )
+        )
+    }
+
 
     fun getAllUsers(userId: String, b: (Result<List<UserInfo>>) -> Unit) {
         b.invoke(Result.Loading)
@@ -150,5 +205,9 @@ class CloudRepository
         }.addOnFailureListener {
             b.invoke(Result.Error(it.toString()))
         }
+    }
+
+    fun checkIfUserHasNewMessages(userId: String): LiveData<Boolean> {
+        return cloudSource.checkIfUserHasNewMessages(userId)
     }
 }

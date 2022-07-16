@@ -64,6 +64,13 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                     )
             }
         })
+        model.checkIfNewMessageReceived().observeForever {
+            if (it != null && it) {
+                nav_view.getOrCreateBadge(R.id.chatsFragment)
+            } else {
+                nav_view.removeBadge(R.id.chatsFragment)
+            }
+        }
     }
 
     fun showGlobalProgressBar(show: Boolean) {
@@ -82,8 +89,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        //onBackPressed()
-        return navController.navigateUp()|| super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     override fun onDestinationChanged(
@@ -113,5 +119,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 nav_view.visibility = View.GONE
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        model.checkIfNewMessageReceived().removeObservers(this)
     }
 }

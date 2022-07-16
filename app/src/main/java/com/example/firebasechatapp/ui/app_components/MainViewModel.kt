@@ -23,6 +23,14 @@ class MainViewModel
     private val _activateMode = MutableLiveData<Event<Boolean>>()
     val activateMode: LiveData<Event<Boolean>> get() = _activateMode
 
+    fun checkIfNewMessageReceived(): LiveData<Boolean> {
+        return if (auth.currentUser != null) {
+            cloud.checkIfUserHasNewMessages(auth.currentUser!!.uid)
+        }else{
+            MutableLiveData(false)
+        }
+    }
+
     fun goOnline() {
         if (auth.currentUser != null) {
             viewModelScope.launch {

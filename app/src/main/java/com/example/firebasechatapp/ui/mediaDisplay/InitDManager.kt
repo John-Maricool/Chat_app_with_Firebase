@@ -56,6 +56,7 @@ fun getAll(context: Context, id: String, b: (Result<List<SavedMedia>>) -> Unit){
                         val media = SavedMedia(Constants.TYPE_IMAGE, it)
                         medias.add(media)
                     } else {
+                        Log.d("mediamjjj", i.absolutePath)
                         val thumb = ThumbnailUtils.createVideoThumbnail(
                             i.absolutePath,
                             MediaStore.Video.Thumbnails.MINI_KIND

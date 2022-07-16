@@ -25,6 +25,7 @@ class ChatViewModel
 
     val messageText = MutableLiveData<String?>()
     var otherUserId: String? = null
+    var CURRENT_SCROLL_POSITION: MutableLiveData<Int> = MutableLiveData(0)
     var channelId: String? = null
 
     private val _messages = MediatorLiveData<List<Message>?>()
@@ -42,8 +43,21 @@ class ChatViewModel
     fun getAllMessages() {
         cloud.getAllMessages(auth.getUserID(), channelId!!) { res ->
             defaultRepo.onResult(null, res)
-            if (res is Result.Success)
+            if (res is Result.Success) {
                 _messages.postValue(res.data)
+                CURRENT_SCROLL_POSITION.value = res.data?.size!! - 1
+            }
+        }
+    }
+
+    fun loadNewPage() {
+        viewModelScope.launch {
+            cloud.reloadNewPageOfMessages(channelId!!) { res ->
+                if (res is Result.Success) {
+                    _messages.postValue(res.data)
+                    CURRENT_SCROLL_POSITION.value = res.data!!.size.minus(messages.value!!.size)
+                }
+            }
         }
     }
 
@@ -51,7 +65,7 @@ class ChatViewModel
         isOpened.value = !isOpened.value!!
     }
 
-    fun sendMessage() {
+    fun sendMessage(): Message? {
         if (isTextValid(1, messageText.value)) {
             val message = Message(
                 auth.getUserID(), otherUserId!!,
@@ -63,14 +77,16 @@ class ChatViewModel
                 }
             }
             messageText.value = null
+            return message
         } else {
-            return
+            return null
         }
     }
 
-    fun goToMedia(){
+    fun goToMedia() {
         _media.value = Event(true)
     }
+
     fun getUserInfo(otherUserId: String) {
         cloud.getChangedUserInfo(otherUserId) {
             defaultRepo.onResult(null, it)

@@ -11,6 +11,7 @@
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/blue_background.xml" value="0.1485" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/blue_border.xml" value="0.153" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/grey_border.xml" value="0.2015" />
+        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_account_circle.xml" value="0.174" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_attach_file.xml" value="0.2015" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_baseline_chat_bubble_24.xml" value="0.1" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/drawable/ic_baseline_error_24.xml" value="0.1485" />
@@ -34,7 +35,7 @@
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/chat_right.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/chat_toolbar.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_change_name.xml" value="0.21927083333333333" />
-        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.22" />
+        <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.18" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_chats.xml" value="0.1" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_first.xml" value="0.22" />
         <entry key="..\:/Users/JOHN BATISTA/AndroidStudioProjects/FirebaseChatApp/app/src/main/res/layout/fragment_login.xml" value="0.17999144933732364" />

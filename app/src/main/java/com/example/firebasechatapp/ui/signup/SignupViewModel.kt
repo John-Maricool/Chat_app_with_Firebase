@@ -3,22 +3,21 @@ package com.example.firebasechatapp.ui.signup
 import android.content.Intent
 import android.provider.MediaStore
 import androidx.activity.result.ActivityResultLauncher
-import androidx.databinding.Observable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.firebasechatapp.data.models.CreateUser
+import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.AuthRepository
+import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
+import com.example.firebasechatapp.data.repositories.StorageRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isEmailValid
 import com.example.firebasechatapp.utils.isTextValid
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.example.firebasechatapp.data.models.CreateUser
-import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.CloudRepository
-import com.example.firebasechatapp.data.repositories.StorageRepository
 import java.util.*
 import javax.inject.Inject
 
@@ -100,12 +99,15 @@ class SignupViewModel
             return
         }
 
-        if (!isTextValid(6, passwordText.value) && passwordText.value != secondPassword.value) {
+        if (!isTextValid(6, passwordText.value) ||
+            passwordText.value != secondPassword.value ||
+            !isTextValid(6, passwordText.value)
+        ) {
             defaultRepo.mSnackBarText.value = Event("Error with your password")
             return
         }
 
-        if (imageUri.value == null){
+        if (imageUri.value == null) {
             defaultRepo.mSnackBarText.value = Event("Please select an image")
             return
         }

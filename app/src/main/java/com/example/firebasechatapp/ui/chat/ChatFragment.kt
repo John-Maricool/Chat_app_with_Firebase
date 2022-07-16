@@ -66,7 +66,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         _bindingToolbar =
             ChatToolbarBinding.inflate(inflater, container, false)
         setupCustomToolbar()
-
         return binding.root
     }
 
@@ -86,6 +85,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         binding.executePendingBindings()
         setupListAdapter()
 
+        binding.refresh.setOnRefreshListener {
+            model.loadNewPage()
+            binding.refresh.isRefreshing = false
+        }
+
         model.media.observe(viewLifecycleOwner, EventObserver {
             if (it) {
                 val action =
@@ -93,6 +97,20 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
                 findNavController().navigate(action)
             }
         })
+
+        model.messages.observe(viewLifecycleOwner) {
+            if (it != null) {
+                adapter.getMessages(it)
+                model.CURRENT_SCROLL_POSITION.value?.let { scr ->
+                    binding.recyclerView.scrollToPosition(scr)
+                }
+            }
+        }
+
+        model.CURRENT_SCROLL_POSITION.observe(viewLifecycleOwner) {
+            if (it != null)
+                binding.recyclerView.scrollToPosition(it)
+        }
     }
 
     private fun setupCustomToolbar() {

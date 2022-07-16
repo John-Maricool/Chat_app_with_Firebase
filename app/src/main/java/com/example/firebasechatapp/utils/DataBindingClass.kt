@@ -25,7 +25,8 @@ fun ImageView.setImageResource(uri: String?): String? {
     return if (uri != null) {
         Glide.with(context)
             .load(uri)
-            .placeholder(R.drawable.pic_placeholder)
+            .placeholder(R.drawable.ic_account_circle)
+            .error(R.drawable.ic_account_circle)
             .circleCrop()
             .into(this)
         uri
@@ -38,7 +39,8 @@ fun ImageView.setImageResource(uri: String?): String? {
 fun ImageView.setImageResourceNormal(uri: Bitmap) {
     Glide.with(context)
         .load(uri)
-        .placeholder(R.drawable.pic_placeholder)
+        .placeholder(R.drawable.ic_account_circle)
+        .error(R.drawable.ic_account_circle)
         .into(this)
 }
 

@@ -1,10 +1,13 @@
 package com.example.firebasechatapp.data.db.remote
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.firebasechatapp.data.models.ChatInfo
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UId
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Constants
+import com.example.firebasechatapp.utils.Constants.currentPage
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.tasks.await
@@ -61,7 +64,28 @@ class FirebaseFirestoreSource @Inject constructor(
 
     fun getAllMessages(channelId: String): Query {
         return cloud.collection(Constants.chatChannels)
-            .document(channelId).collection(Constants.messages).orderBy("sentTime")
+            .document(channelId).collection(Constants.messages).limit(10)
+            .orderBy("sentTime", Query.Direction.DESCENDING)
+    }
+
+    /*fun getReceivedMessagesUpdate(
+        channelId: String,
+        userId: String,
+        listener: EventListener<QuerySnapshot>
+    ): ListenerRegistration {
+        return cloud.collection(Constants.chatChannels)
+            .document(channelId).collection(Constants.messages).whereEqualTo("receiverId", userId)
+            .addSnapshotListener(listener)
+    }*/
+
+    suspend fun getReloadedMessages(
+        channelId: String,
+    ): QuerySnapshot? {
+        return cloud.collection(Constants.chatChannels)
+            .document(channelId).collection(Constants.messages)
+            .limit((10 * currentPage).toLong())
+            .orderBy("sentTime", Query.Direction.DESCENDING)
+            .get().await()
     }
 
     suspend fun getChatChannelId(userId: String, chatId: String): DocumentSnapshot? {
@@ -152,5 +176,37 @@ class FirebaseFirestoreSource @Inject constructor(
      */
     fun changeName(userId: String, name: String): Task<Void> {
         return cloud.collection(Constants.user).document(userId).update("displayName", name)
+    }
+
+    fun checkIfUserHasNewMessages(userId: String): MutableLiveData<Boolean> {
+        val state = MutableLiveData<Boolean>()
+        cloud.collection(Constants.user).document(userId).collection(Constants.chatChannels)
+            .addSnapshotListener { value, error ->
+                val chats = value?.toObjects(ChatInfo::class.java)
+                chats?.forEach {
+                    cloud.collection(Constants.chatChannels).document(it.id)
+                        .collection(Constants.messages)
+                        .document(Constants.lastMessage)
+                        .addSnapshotListener { value, error ->
+                            val seen = value?.get("seen")
+                            val receiver = value?.get("receiverId")
+                            if (seen == false && receiver == userId) {
+                                state.value = !(seen as Boolean?)!!
+                                Log.d("testTag", state.value.toString())
+                                Log.d("testTag", seen.toString())
+                                //  values.add(true)
+                            } else {
+                                if (state.value == true) {
+                                    state.value = true
+                                } else {
+                                    Log.d("testTag", seen.toString())
+                                    Log.d("testTag", state.value.toString())
+                                    state.value = false
+                                }
+                            }
+                        }
+                }
+            }
+        return state
     }
 }

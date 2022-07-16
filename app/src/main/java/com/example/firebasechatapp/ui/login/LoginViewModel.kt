@@ -28,7 +28,6 @@ class LoginViewModel
     val passwordText = MutableLiveData<String>() // Two way
     val isLoggingIn = MutableLiveData<Boolean>() // Two way
 
-
     private fun login() {
         isLoggingIn.value = true
         val login =
