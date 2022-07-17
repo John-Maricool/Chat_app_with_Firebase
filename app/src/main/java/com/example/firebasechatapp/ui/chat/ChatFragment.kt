@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,17 +80,15 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.adapter = adapter
         binding.model = model
-        binding.frag = this
         _bindingToolbar!!.lifecycleOwner = viewLifecycleOwner
         _bindingToolbar!!.viewmodel = model
         binding.executePendingBindings()
         setupListAdapter()
+        setClickListeners()
+        observeLiveData()
+    }
 
-        binding.refresh.setOnRefreshListener {
-            model.loadNewPage()
-            binding.refresh.isRefreshing = false
-        }
-
+    private fun observeLiveData() {
         model.media.observe(viewLifecycleOwner, EventObserver {
             if (it) {
                 val action =
@@ -101,15 +100,26 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         model.messages.observe(viewLifecycleOwner) {
             if (it != null) {
                 adapter.getMessages(it)
+                binding.recyclerView.scrollToPosition(it.size - 1)
+            }
+        }
+
+        model.olderMessages.observe(viewLifecycleOwner) {
+            if (it != null) {
+                adapter.addNewMessages(it)
                 model.CURRENT_SCROLL_POSITION.value?.let { scr ->
                     binding.recyclerView.scrollToPosition(scr)
                 }
             }
         }
+    }
 
-        model.CURRENT_SCROLL_POSITION.observe(viewLifecycleOwner) {
-            if (it != null)
-                binding.recyclerView.scrollToPosition(it)
+    private fun setClickListeners() {
+        binding.gallery.setOnClickListener { openGallery() }
+        binding.camera.setOnClickListener { openVideo() }
+        binding.refresh.setOnRefreshListener {
+            model.loadNewPage()
+            binding.refresh.isRefreshing = false
         }
     }
 
@@ -142,14 +152,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         _bindingToolbar = null
     }
 
-    fun openGallery() {
+    private fun openGallery() {
         val intent =
             Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         intent.type = "image/*"
         resultLauncher.launch(intent)
     }
 
-    fun openVideo() {
+    private fun openVideo() {
         val intent =
             Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Video.Media.INTERNAL_CONTENT_URI)
         intent.type = "video/*"

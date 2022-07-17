@@ -68,24 +68,24 @@ class FirebaseFirestoreSource @Inject constructor(
             .orderBy("sentTime", Query.Direction.DESCENDING)
     }
 
-    /*fun getReceivedMessagesUpdate(
+    fun getReceivedMessagesUpdate(
         channelId: String,
-        userId: String,
-        listener: EventListener<QuerySnapshot>
-    ): ListenerRegistration {
+        userId: String
+    ): Query {
         return cloud.collection(Constants.chatChannels)
-            .document(channelId).collection(Constants.messages).whereEqualTo("receiverId", userId)
-            .addSnapshotListener(listener)
-    }*/
+            .document(channelId).collection(Constants.messages)
+            .whereEqualTo("receiverId", userId)
+            .orderBy("sentTime", Query.Direction.DESCENDING)
 
-    suspend fun getReloadedMessages(
+    }
+
+    fun getReloadedMessages(
         channelId: String,
-    ): QuerySnapshot? {
+    ): Query {
         return cloud.collection(Constants.chatChannels)
             .document(channelId).collection(Constants.messages)
             .limit((10 * currentPage).toLong())
             .orderBy("sentTime", Query.Direction.DESCENDING)
-            .get().await()
     }
 
     suspend fun getChatChannelId(userId: String, chatId: String): DocumentSnapshot? {

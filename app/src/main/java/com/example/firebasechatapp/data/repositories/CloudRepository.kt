@@ -2,12 +2,14 @@ package com.example.firebasechatapp.data.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Constants.CURRENT_SNAP
 import com.example.firebasechatapp.utils.Constants.currentPage
 import com.example.firebasechatapp.utils.Result
+import com.google.firebase.firestore.DocumentChange
 import javax.inject.Inject
 
 class CloudRepository
@@ -39,13 +41,14 @@ class CloudRepository
         return res
     }
 
-  /*  fun getAllMessages(
+
+    fun getAllMessages(
         userId: String,
         channelId: String,
         b: (Result<List<Message>>) -> Unit
     ) {
 
-        cloudSource.getAllMessages(channelId).get().addOnSuccessListener { value ->
+        cloudSource.getAllMessages(channelId).addSnapshotListener { value, error ->
             if (value != null) {
                 value.documents.forEach { doc ->
                     Log.d("mess", doc.toString())
@@ -59,48 +62,45 @@ class CloudRepository
                     )
                 )
             } else {
-                b.invoke(Result.Error("Error"))
-            }
-        }
-    }*/
-
-    fun getAllMessages(
-        userId: String,
-        channelId: String,
-        b: (Result<List<Message>>) -> Unit
-    ) {
-
-        cloudSource.getAllMessages(channelId).addSnapshotListener { value, error ->
-            if (error == null && value != null) {
-                value.documents.forEach { doc ->
-                    Log.d("mess", doc.toString())
-                    CURRENT_SNAP = doc
-                    if (doc["receiverId"] == userId && doc["seen"] == false)
-                        doc.reference.update("seen", true)
-                }
-                b.invoke(
-                    Result.Success(
-                        value.toObjects(Message::class.java).distinct().reversed()
-                    )
-                )
-            } else {
-                b.invoke(Result.Error(error.toString()))
+                b.invoke(Result.Error("Error loading Data"))
             }
         }
     }
 
-    suspend fun reloadNewPageOfMessages(
+    fun getReceivedMessageUpdate(
+        channelId: String,
+        userId: String
+    ): MutableLiveData<List<Message>> {
+        val updatedMessges = MutableLiveData<List<Message>>()
+        val updatedMessgesList = mutableListOf<Message>()
+        cloudSource.getReceivedMessagesUpdate(channelId, userId)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                for (dc in value!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        updatedMessgesList.add(dc.document.toObject(Message::class.java))
+                    }
+                }
+                updatedMessges.postValue(updatedMessgesList)
+            }
+        return updatedMessges
+    }
+
+
+    fun reloadNewPageOfMessages(
         channelId: String, b: (Result<List<Message>>) -> Unit
     ) {
         currentPage++
-        val result = cloudSource.getReloadedMessages(channelId)
-        val ans = result?.toObjects(Message::class.java)
-        Log.d("mess", ans.toString())
-        b.invoke(
-            Result.Success(
-                result?.toObjects(Message::class.java)?.distinct()?.reversed()
+        cloudSource.getReloadedMessages(channelId).addSnapshotListener { value, error ->
+            b.invoke(
+                Result.Success(
+                    value?.toObjects(Message::class.java)?.distinct()?.reversed()
+                )
             )
-        )
+        }
+
     }
 
 
@@ -211,3 +211,7 @@ class CloudRepository
         return cloudSource.checkIfUserHasNewMessages(userId)
     }
 }
+
+
+
+

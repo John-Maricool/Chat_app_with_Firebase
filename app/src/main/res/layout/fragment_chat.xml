@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+<!--
         <variable
             name="frag"
-            type="com.example.firebasechatapp.ui.chat.ChatFragment" />
+            type="com.example.firebasechatapp.ui.chat.ChatFragment" />-->
 
         <variable
             name="model"
@@ -96,7 +96,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/blue_border"
-            android:onClick="@{() -> frag.openVideo()}"
             android:src="@drawable/ic_video"
             app:layout_constraintBottom_toBottomOf="@+id/gallery"
             app:layout_constraintEnd_toStartOf="@+id/gallery"
@@ -112,7 +111,6 @@
             android:layout_height="60dp"
             android:layout_marginStart="24dp"
             android:background="@drawable/red_border"
-            android:onClick="@{() -> frag.openGallery()}"
             android:src="@drawable/ic_image"
             app:layout_constraintBottom_toBottomOf="@+id/refresh"
             app:layout_constraintEnd_toEndOf="parent"

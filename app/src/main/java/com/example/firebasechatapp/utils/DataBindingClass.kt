@@ -16,6 +16,7 @@ import com.example.firebasechatapp.cache_source.UserEntity
 import com.example.firebasechatapp.data.adapter.ChatsListAdapter
 import com.example.firebasechatapp.data.adapter.SavedMediaAdapter
 import com.example.firebasechatapp.data.adapter.UsersListAdapter
+import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.SavedMedia
 import com.example.firebasechatapp.data.models.UserInfo
 import com.google.android.material.tabs.TabLayout
@@ -42,6 +43,16 @@ fun ImageView.setImageResourceNormal(uri: Bitmap) {
         .placeholder(R.drawable.ic_account_circle)
         .error(R.drawable.ic_account_circle)
         .into(this)
+}
+
+@BindingAdapter("set_video_play_button_visible")
+fun ImageView.setVideoPlayVisible(message: Message){
+    if(message.type == 2){
+        visibility = View.VISIBLE
+        setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_play_circle, null))
+    }else{
+        visibility = View.GONE
+    }
 }
 
 @BindingAdapter("submitList")

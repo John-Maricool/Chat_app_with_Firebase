@@ -31,6 +31,9 @@ class ChatViewModel
     private val _messages = MediatorLiveData<List<Message>?>()
     val messages: LiveData<List<Message>?> get() = _messages
 
+    private val _olderMessages = MediatorLiveData<List<Message>?>()
+    val olderMessages: LiveData<List<Message>?> get() = _olderMessages
+
     private val _userInfo = MutableLiveData<UserInfo?>()
     val userInfo: LiveData<UserInfo?> get() = _userInfo
 
@@ -54,7 +57,7 @@ class ChatViewModel
         viewModelScope.launch {
             cloud.reloadNewPageOfMessages(channelId!!) { res ->
                 if (res is Result.Success) {
-                    _messages.postValue(res.data)
+                    _olderMessages.postValue(res.data)
                     CURRENT_SCROLL_POSITION.value = res.data!!.size.minus(messages.value!!.size)
                 }
             }
@@ -66,7 +69,7 @@ class ChatViewModel
     }
 
     fun sendMessage(): Message? {
-        if (isTextValid(1, messageText.value)) {
+        return if (isTextValid(1, messageText.value)) {
             val message = Message(
                 auth.getUserID(), otherUserId!!,
                 messageText.value!!, false, Date().time, Constants.TYPE_TEXT
@@ -77,9 +80,9 @@ class ChatViewModel
                 }
             }
             messageText.value = null
-            return message
+            message
         } else {
-            return null
+            null
         }
     }
 

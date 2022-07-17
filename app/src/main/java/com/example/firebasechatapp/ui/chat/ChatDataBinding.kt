@@ -7,12 +7,14 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.Group
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.data.adapter.ChatMessagesAdapter
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.utils.Constants
 import java.text.SimpleDateFormat
+
 
 @BindingAdapter("setMessageText")
 fun setMessageText(view: TextView, message: Message) {
@@ -42,11 +44,11 @@ fun setVideoRes(view: ImageView, message: Message) {
 }
 
 @BindingAdapter("setMessageSeen")
-fun setMessageSeenText(view: TextView, message: Message) {
+fun ImageView.setMessageSeenText(message: Message) {
     if (message.seen == true) {
-        view.text = "seen"
+        setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_seen, null))
     } else {
-        view.text = "Not seen"
+        setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_not_seen, null))
     }
 }
 
@@ -71,6 +73,14 @@ fun setAdapter(
     recyclerView: RecyclerView,
     adapter: ChatMessagesAdapter
 ) {
+   /* val animator = recyclerView.itemAnimator
+    if (animator is SimpleItemAnimator) {
+        animator.supportsChangeAnimations = false
+        animator.endAnimations()
+    }
+
+*/
+    recyclerView.itemAnimator = null
     adapter.let {
         recyclerView.adapter = it
     }

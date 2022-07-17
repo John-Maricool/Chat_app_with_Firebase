@@ -86,6 +86,7 @@ class ChatMessagesAdapter
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == USER_OTHER) {
             val binding = ChatItemLeftBinding.inflate(
@@ -130,12 +131,20 @@ class ChatMessagesAdapter
     }
 
     fun getMessages(mMessages: List<Message>) {
-        //val diffCallback = CoursesCallback(messages, mMessages)
-        // val diffCourses = DiffUtil.calculateDiff(diffCallback)
-        messages.addAll(0, mMessages)
-        messages = messages.distinct().toMutableList()
-        notifyItemRangeChanged(0, messages.size)
-        //diffCourses.dispatchUpdatesTo(this)
+        messages = mMessages as MutableList<Message>
+        notifyDataSetChanged()
+    }
+
+    fun addNewMessages(mMessages: List<Message>) {
+        val diffCallback = CoursesCallback(messages, mMessages)
+        val diffCourses = DiffUtil.calculateDiff(diffCallback)
+         messages.clear()
+        messages = mMessages as MutableList<Message>
+
+        diffCourses.dispatchUpdatesTo(this)
+       // notifyItemRangeChanged(0, messages.size)
+        notifyItemInserted(0)
+
     }
 }
 
@@ -144,7 +153,6 @@ class CoursesCallback(private val oldList: List<Message>, private val newList: L
     override fun getOldListSize(): Int {
         return oldList.size
     }
-
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

@@ -1,6 +1,7 @@
 package com.example.firebasechatapp.data.repositories
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import com.example.firebasechatapp.cache_source.UserDao
 import com.example.firebasechatapp.cache_source.UserEntity
@@ -43,7 +44,7 @@ class ChatsListRepository
             dao.deleteAll()
             dao.addAllUsersToDd(cacheChats)
         } catch (e: Exception) {
-            throw FirebaseException(e.toString())
+            TODO()
         }
     }
 
