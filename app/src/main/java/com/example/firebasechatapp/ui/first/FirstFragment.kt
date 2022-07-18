@@ -1,16 +1,13 @@
 package com.example.firebasechatapp.ui.first
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentFirstBinding
-import com.example.firebasechatapp.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,14 +32,14 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         binding.viewmodel = model
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        if(model.user != null){
+        if (model.user != null) {
             navigateToChats()
         }
         navigate()
     }
 
     private fun navigateToChats() {
-       findNavController().navigate(R.id.chatsFragment)
+        findNavController().navigate(R.id.chatsFragment)
     }
 
     private fun navigate() {

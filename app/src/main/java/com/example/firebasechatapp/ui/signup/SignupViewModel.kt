@@ -3,31 +3,22 @@ package com.example.firebasechatapp.ui.signup
 import android.content.Intent
 import android.provider.MediaStore
 import androidx.activity.result.ActivityResultLauncher
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.CreateUser
-import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.AuthRepository
-import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.data.repositories.StorageRepository
+import com.example.firebasechatapp.data.repositories.SignUpRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isEmailValid
 import com.example.firebasechatapp.utils.isTextValid
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SignupViewModel
 @Inject constructor(
-    val authRepository: AuthRepository,
-    val defaultRepo: DefaultRepository,
-    private val cloud: CloudRepository,
-    private val storage: StorageRepository
+    val repo: SignUpRepository,
+    val defaultRepo: DefaultRepository
 ) : ViewModel() {
 
     private val mIsCreatedEvent = MutableLiveData<Event<Boolean>>()
@@ -50,42 +41,17 @@ class SignupViewModel
                 passwordText.value!!.trim(),
                 emailText.value!!.trim()
             )
-        authRepository.createUser(createUser) { result: Result<FirebaseUser> ->
-            //the result is passed here.
-            defaultRepo.onResult(null, result)
-            if (result is Result.Success) {
-                getAuthStateListener()
+
+        repo.createAccount(createUser, imageUri.value!!, viewModelScope) {
+            defaultRepo.onResult(null, it)
+            if (it is Result.Success){
+                mIsCreatedEvent.postValue(Event(true))
             }
-            if (result is Result.Success || result is Result.Error) isCreatingAccount.value = false
         }
     }
 
-    private fun getAuthStateListener() {
-        authRepository.getUser().observeForever {
-            if (it != null) {
-                val uid = it.uid
-                storage.putUserImage(uid, imageUri.value!!) { result ->
-                    defaultRepo.onResult(null, result)
-                    if (result is Result.Success) {
-                        storage.getUserImageDownloadString(uid, imageUri.value!!) { upload ->
-                            defaultRepo.onResult(null, result)
-                            if (upload is Result.Success) {
-                                val user = UserInfo(
-                                    uid, displayNameText.value!!, emailText.value!!, Date().time,
-                                    upload.data!!, true
-                                )
-                                cloud.saveUserDetailsToDb(user) { res ->
-                                    defaultRepo.onResult(null, res)
-                                    if (res is Result.Success) {
-                                        mIsCreatedEvent.value = Event(true)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    fun removeListener(owner: LifecycleOwner) {
+        return repo.unListenForAuthChanges(owner)
     }
 
     fun createAccountPressed() {

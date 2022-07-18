@@ -1,6 +1,5 @@
 package com.example.firebasechatapp.ui.settings
 
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +10,7 @@ import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
+import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class SettingsViewModel
     val defaultRepo: DefaultRepository,
     val cloud: CloudRepository,
     val auth: AuthRepository,
-    val prefs: SharedPreferences
+    val prefs: SharedPrefsCalls
 ) : ViewModel() {
 
     private val _result = MutableLiveData<UserInfo?>()
@@ -40,15 +40,9 @@ class SettingsViewModel
         getUserInfo()
     }
 
-    private fun isNightModeActivated(): Boolean {
-        return prefs
-            .getBoolean(
-                "isDarkModeOn", false
-            )
-    }
-
     fun signOutUser() {
         auth.signOut()
+        prefs.resetUserUid()
         _isSignOut.value = Event(true)
     }
 
@@ -56,26 +50,24 @@ class SettingsViewModel
         _navigateToChangeName.value = Event(true)
     }
 
-    fun goToSavedMedia() {
-        TODO()
-    }
-
     fun toggleMode() {
-        if (isNightModeActivated()) {
+        if (prefs.isNightModeOn()) {
             _activateMode.value = Event(true)
-            prefs.edit().putBoolean("isDarkModeOn", false).apply()
+            prefs.changeNightMode(false)
         } else {
             _activateMode.value = Event(false)
-            prefs.edit().putBoolean("isDarkModeOn", true).apply()
+            prefs.changeNightMode(true)
         }
     }
 
     private fun getUserInfo() {
         viewModelScope.launch {
-            cloud.getUserInfo(auth.getUserID()) {
-                defaultRepo.onResult(null, it)
-                if (it is Result.Success) {
-                    _result.value = it.data
+            prefs.getUserUid()?.let { uid ->
+                cloud.getUserInfo(uid) {
+                    defaultRepo.onResult(null, it)
+                    if (it is Result.Success) {
+                        _result.value = it.data
+                    }
                 }
             }
         }

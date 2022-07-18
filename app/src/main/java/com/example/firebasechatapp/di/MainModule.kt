@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.firebasechatapp.cache_source.CacheDatabase
 import com.example.firebasechatapp.cache_source.UserDao
+import com.example.firebasechatapp.utils.Constants.PREFS_NAME
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -29,6 +30,12 @@ object MainModule {
 
     @Singleton
     @Provides
+    fun provideSharredPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
+
+    @Singleton
+    @Provides
     fun provideCoroutineScope(): CoroutineScope {
         return CoroutineScope(SupervisorJob())
     }
@@ -37,13 +44,6 @@ object MainModule {
     @Provides
     fun provideFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
-    }
-
-    @Singleton
-    @Provides
-    fun getSavedSharedPrefs(@ApplicationContext context: Context): SharedPreferences {
-        val prefs = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        return prefs
     }
 
     @Singleton
@@ -68,5 +68,4 @@ object MainModule {
     fun provideDao(database: CacheDatabase): UserDao {
         return database.userDao()
     }
-
 }

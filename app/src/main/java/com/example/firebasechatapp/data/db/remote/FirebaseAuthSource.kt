@@ -1,15 +1,18 @@
 package com.example.firebasechatapp.data.db.remote
 
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.Task
 import com.example.firebasechatapp.data.models.CreateUser
 import com.example.firebasechatapp.data.models.Login
-import com.example.firebasechatapp.utils.Event
-import com.google.firebase.auth.*
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FirebaseAuthSource
-@Inject constructor( val auth: FirebaseAuth) {
+@Inject constructor(val auth: FirebaseAuth) {
 
     val user = auth.currentUser
 

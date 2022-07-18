@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewmodel"
             type="com.example.firebasechatapp.ui.first.FirstViewModel" />
@@ -12,56 +12,58 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/backgroundColor"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#EDF4F1F1">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="56dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/textColor"
             android:text="@string/welcome_to_quick_chat"
+            android:textColor="@color/textColor"
             android:textSize="36sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginButton"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="20dp"
-            android:textColor="@color/colorOnPrimary"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp"
+            android:background="@drawable/login_background"
+            android:elevation="8dp"
             android:onClick="@{() -> viewmodel.goToLoginPressed()}"
+            android:padding="20dp"
             android:text="@string/login"
-            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline50" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/createAccountButton"
             android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/colorOnPrimary"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/sign_up_background"
+            android:elevation="8dp"
             android:onClick="@{() -> viewmodel.goToCreateAccountPressed()}"
+            android:padding="20dp"
             android:text="@string/create_account"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginButton" />
+            android:textAllCaps="false"
+            android:textColor="@color/colorOnPrimary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/loginButton"
+            app:layout_constraintEnd_toEndOf="@+id/loginButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/loginButton" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline50"
@@ -72,16 +74,17 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="72dp"
+            android:contentDescription="chat_icon"
             android:src="@drawable/chat_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteY="73dp"
-            android:contentDescription="chat_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView"
@@ -91,12 +94,13 @@
             android:alpha=".8"
             android:gravity="center"
             android:text="@string/login_or_create_an_account_to_get_started"
-            android:textSize="16sp"
-            android:textStyle="italic"
             android:textColor="@color/textColor"
+            android:textSize="16sp"
+            android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/createAccountButton" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C36819</color>
-    <color name="colorPrimaryDark">#EC7139</color>
+    <color name="colorPrimary">#3760F1</color>
+    <color name="colorPrimaryDark">#1040EA</color>
     <color name="colorAccent">#DA9D03</color>
     <color name="backgroundColor">#2B2A2A</color>
-    <color name="chat_left">#D2035083</color>
+    <color name="chatBackground">#1B1A1A</color>
+    <color name="chatText">#EDEFE6E6</color>
+    <color name="chat_left">#000000</color>
+    <color name="chatTextLight">#ED8C8282</color>
+    <color name="chat_right">#3760F1</color>
+    <color name="chatTextDark">#ED2C2B2B</color>
     <color name="colorOnPrimary">#9EFFFFFF</color>
     <color name="textColor">#EDFFFFFF</color>
 </resources>

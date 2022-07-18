@@ -2,26 +2,24 @@ package com.example.firebasechatapp.data.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Constants.CURRENT_SNAP
 import com.example.firebasechatapp.utils.Constants.currentPage
 import com.example.firebasechatapp.utils.Result
-import com.google.firebase.firestore.DocumentChange
 import javax.inject.Inject
 
 class CloudRepository
 @Inject constructor(var cloudSource: FirebaseFirestoreSource) {
 
-    fun uploadUsers(userInfo: UserInfo, b: ((Result<Unit>) -> Unit)) {
+    /*fun uploadUsers(userInfo: UserInfo, b: ((Result<Unit>) -> Unit)) {
         cloudSource.uploadUserDetailsToDb(userInfo).addOnSuccessListener {
             b.invoke(Result.Success(Unit))
         }.addOnFailureListener {
             b.invoke(Result.Error(it.toString()))
         }
-    }
+    }*/
 
     suspend fun getChatsIds(id: String): List<String> {
         val ids = mutableListOf<String>()
@@ -40,7 +38,6 @@ class CloudRepository
         val res = cloudSource.getLastMessageFromChat(channelId)?.toObject(Message::class.java)
         return res
     }
-
 
     fun getAllMessages(
         userId: String,
@@ -67,28 +64,6 @@ class CloudRepository
         }
     }
 
-    fun getReceivedMessageUpdate(
-        channelId: String,
-        userId: String
-    ): MutableLiveData<List<Message>> {
-        val updatedMessges = MutableLiveData<List<Message>>()
-        val updatedMessgesList = mutableListOf<Message>()
-        cloudSource.getReceivedMessagesUpdate(channelId, userId)
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    return@addSnapshotListener
-                }
-                for (dc in value!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        updatedMessgesList.add(dc.document.toObject(Message::class.java))
-                    }
-                }
-                updatedMessges.postValue(updatedMessgesList)
-            }
-        return updatedMessges
-    }
-
-
     fun reloadNewPageOfMessages(
         channelId: String, b: (Result<List<Message>>) -> Unit
     ) {
@@ -100,7 +75,6 @@ class CloudRepository
                 )
             )
         }
-
     }
 
 
@@ -146,14 +120,14 @@ class CloudRepository
         cloudSource.toggleOnline(id, online)
     }
 
-    fun saveUserDetailsToDb(userInfo: UserInfo, b: ((Result<Boolean>) -> Unit)) {
+/*    fun saveUserDetailsToDb(userInfo: UserInfo, b: ((Result<Boolean>) -> Unit)) {
         b.invoke(Result.Loading)
         cloudSource.saveUserDetailsToDb(userInfo).addOnSuccessListener {
             b.invoke(Result.Success(true))
         }.addOnFailureListener {
             b.invoke(Result.Error(it.toString()))
         }
-    }
+    }*/
 
     suspend fun createChatChannel(
         user: String,

@@ -71,7 +71,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
     override fun onDestroy() {
         super.onDestroy()
-        model.authRepository.getUser().removeObservers(this)
+        model.removeListener(this)
         _binding = null
     }
 }

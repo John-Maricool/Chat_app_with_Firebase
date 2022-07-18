@@ -11,14 +11,14 @@ import javax.inject.Inject
 class FirebaseStorageSource
 @Inject constructor(val source: FirebaseStorage){
 
-    fun putFileInUserStorage(userID: String, file: String): UploadTask {
+    suspend fun putFileInUserStorage(userID: String, file: String): UploadTask.TaskSnapshot? {
         val ref = source.reference.child("images/$userID")
-        return ref.putFile(file.toUri())
+        return ref.putFile(file.toUri()).await()
     }
 
-    fun getDownloadUriOfUserImage(userID: String, file: String): Task<Uri> {
+    suspend fun getDownloadUriOfUserImage(userID: String): Uri? {
         val ref = source.reference.child("images/$userID")
-        return ref.downloadUrl
+        return ref.downloadUrl.await()
     }
 
     suspend fun putMediaInChatStorage(channelId: String, media: String): UploadTask.TaskSnapshot? {

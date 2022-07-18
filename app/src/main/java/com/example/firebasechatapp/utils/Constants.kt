@@ -19,4 +19,11 @@ object Constants {
 
     var CURRENT_SNAP: DocumentSnapshot? = null
     var currentPage = 1
+
+    const val PREFS_NAME = "PREFERENCES"
+    var USER_UID = "USER ID"
+    var DARK_MODE = "isDarkModeOn"
+    var USERNAME = "USERNAME"
+    var USER_MAIL = "USER_EMAIL"
+    var USER_PHOTOT = "USER_PHOTO"
 }

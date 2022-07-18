@@ -21,12 +21,12 @@ class LoginViewModel
     val defaultRepo: DefaultRepository
 ) : ViewModel() {
 
-     val mSnackBarText = MutableLiveData<Event<String>>()
+    val mSnackBarText = MutableLiveData<Event<String>>()
     private val _isLoggedInEvent = MutableLiveData<Event<FirebaseUser>>()
     val isLoggedInEvent: LiveData<Event<FirebaseUser>> = _isLoggedInEvent
     val emailText = MutableLiveData<String>() // Two way
     val passwordText = MutableLiveData<String>() // Two way
-    val isLoggingIn = MutableLiveData<Boolean>() // Two way
+    val isLoggingIn = MutableLiveData<Boolean>()
 
     private fun login() {
         isLoggingIn.value = true
@@ -43,7 +43,7 @@ class LoginViewModel
     }
 
     fun loginPressed() {
-        if (!isEmailValid(emailText.value.toString().trim())){
+        if (!isEmailValid(emailText.value.toString().trim())) {
             mSnackBarText.value = Event("Invalid email format")
             return
         }

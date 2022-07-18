@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
+class DefaultRepository @Inject constructor() {
 
-class DefaultRepository @Inject constructor(){
-
-     val mSnackBarText = MutableLiveData<Event<String>>()
+    val mSnackBarText = MutableLiveData<Event<String>>()
     val snackBarText: LiveData<Event<String>> = mSnackBarText
 
     private val mDataLoading = MutableLiveData<Event<Boolean>>()
@@ -26,7 +27,7 @@ class DefaultRepository @Inject constructor(){
 
             is Result.Success -> {
                 mDataLoading.value = Event(false)
-               // result.data?.let { mutableLiveData?.value = it }
+                // result.data?.let { mutableLiveData?.value = it }
                 result.msg?.let { mSnackBarText.postValue(Event(it)) }
             }
         }

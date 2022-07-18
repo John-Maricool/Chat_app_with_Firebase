@@ -16,7 +16,6 @@ import javax.inject.Inject
 class FirebaseFirestoreSource @Inject constructor(
     var cloud: FirebaseFirestore
 ) {
-
     /**
      * This function is used to upload a registered user details to the database
      */
@@ -35,14 +34,13 @@ class FirebaseFirestoreSource @Inject constructor(
     /**
      * This function is used to get the user info of a user given tbe id
      */
-    suspend fun getUserInfo(id: String): DocumentSnapshot? {
+    suspend fun getUserInfo(id: String): DocumentSnapshot {
         return cloud.collection(Constants.user).document(id)
             .get(Source.SERVER).await()
     }
 
     fun getChangedUserInfo(id: String): DocumentReference {
         return cloud.collection(Constants.user).document(id)
-
     }
 
     /**

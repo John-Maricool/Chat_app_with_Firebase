@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.firebasechatapp.utils.Event
-import com.google.firebase.auth.FirebaseAuth
+import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FirstViewModel
-    @Inject constructor(auth: FirebaseAuth): ViewModel() {
+@Inject constructor(prefs: SharedPrefsCalls) : ViewModel() {
 
-    val user = auth.currentUser
+    val user = prefs.getUserUid()
 
     private val _loginEvent = MutableLiveData<Event<Unit>>()
     private val _createAccountEvent = MutableLiveData<Event<Unit>>()
