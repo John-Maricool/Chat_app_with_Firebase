@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.firebasechatapp.cache_source.UserDao
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.CloudRepository
@@ -12,6 +13,7 @@ import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +23,8 @@ class SettingsViewModel
     val defaultRepo: DefaultRepository,
     val cloud: CloudRepository,
     val auth: AuthRepository,
-    val prefs: SharedPrefsCalls
+    val prefs: SharedPrefsCalls,
+    val dao: UserDao
 ) : ViewModel() {
 
     private val _result = MutableLiveData<UserInfo?>()
@@ -41,9 +44,16 @@ class SettingsViewModel
     }
 
     fun signOutUser() {
-        auth.signOut()
-        prefs.resetUserUid()
-        _isSignOut.value = Event(true)
+        viewModelScope.launch {
+            val job = viewModelScope.launch {
+                auth.signOut()
+                prefs.resetUserUid()
+                dao.deleteAll()
+            }
+            job.join()
+            if (job.isCompleted)
+                _isSignOut.value = Event(true)
+        }
     }
 
     fun navigateToChangeName() {

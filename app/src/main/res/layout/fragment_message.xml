@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@color/backgroundColor"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_first_message"
@@ -38,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:inputType="textMultiLine|textNoSuggestions"
             android:hint="@string/message_hint"
             android:text="@={model.messageText}"
             app:layout_constraintEnd_toEndOf="@+id/text_first_message"
@@ -50,10 +51,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/sign_up_background"
             android:onClick="@{() -> model.finishUp(frag.secUserId)}"
             android:text="@string/send"
             android:textColor="@color/colorOnPrimary"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/first_message"
             app:layout_constraintStart_toStartOf="@+id/first_message"
             app:layout_constraintTop_toBottomOf="@+id/first_message" />

@@ -19,15 +19,27 @@ class ChatsViewModel
     var repo: ChatsListRepository
 ) : ViewModel() {
 
-    var chat: LiveData<List<UserEntity>?> = MutableLiveData<List<UserEntity>?>()
+    private var _chat: MutableLiveData<List<UserEntity>?> = MutableLiveData()
+    val chat: LiveData<List<UserEntity>?> get() = _chat
+
 
     private val _channelId = MutableLiveData<String?>()
     val channelId: LiveData<String?> get() = _channelId
 
-    fun initialize(){
-        chat = repo.getAllChats()
+
+    fun initialize() {
         viewModelScope.launch {
-            repo.cacheChatList()
+            _chat.postValue(repo.getAllChats())
+        }
+    }
+
+    fun cacheList() {
+        viewModelScope.launch {
+            repo.cacheChatList {
+                defaultRepo.onResult(null, it)
+                if (it is Result.Success)
+                    _chat.postValue(it.data)
+            }
         }
     }
 

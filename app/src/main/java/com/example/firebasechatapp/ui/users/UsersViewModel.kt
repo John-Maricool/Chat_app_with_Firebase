@@ -4,37 +4,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.AuthRepository
-import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.utils.Event
+import com.example.firebasechatapp.data.repositories.UsersAndChatsRepository
+import com.example.firebasechatapp.data.repositories.UsersListRepository
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class UsersViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val cloud: CloudRepository,
+    @Named("users") val repo: UsersAndChatsRepository,
     val auth: AuthRepository
 ) : ViewModel() {
 
-    private val _chats = MutableLiveData<List<UserInfo>?>()
+    private var _chats = MutableLiveData<List<UserInfo>?>()
     val chats: LiveData<List<UserInfo>?> get() = _chats
 
     private val _added = MutableLiveData<Boolean?>()
     val added: LiveData<Boolean?> get() = _added
 
     init {
-        getAllUsers(auth.getUserID())
+        getAllUsers()
     }
 
-    private fun getAllUsers(userId: String) {
-        cloud.getAllUsers(userId) { result: Result<List<UserInfo>> ->
+    private fun getAllUsers() {
+        repo.getList { result: Result<List<UserInfo>> ->
             defaultRepo.onResult(null, result)
             if (result is Result.Success) {
                 _chats.value = result.data
@@ -44,7 +44,7 @@ class UsersViewModel
 
     fun isUserAdded(secUser: String) {
         viewModelScope.launch {
-            cloud.isUserAddedToChats(auth.getUserID(), secUser) {
+            (repo as UsersListRepository).isUserAdded(secUser) {
                 defaultRepo.onResult(null, it)
                 if (it is Result.Success) {
                     _added.value = it.data
@@ -52,6 +52,4 @@ class UsersViewModel
             }
         }
     }
-
-
 }

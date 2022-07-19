@@ -35,4 +35,6 @@
     <string name="change_email">Change Email</string>
     <string name="see_chats">See Chats</string>
     <string name="saved_media">Saved Media</string>
+    <string name="refresh">Refresh</string>
+    <string name="search">Search</string>
 </resources>

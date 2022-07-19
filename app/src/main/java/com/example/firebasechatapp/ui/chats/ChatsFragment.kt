@@ -1,6 +1,9 @@
 package com.example.firebasechatapp.ui.chats
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -39,7 +42,9 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentChatsBinding.bind(view)
+        setHasOptionsMenu(true)
         model.initialize()
+        model.cacheList()
         binding.chatsRecyclerView.apply {
             setHasFixedSize(true)
         }
@@ -54,6 +59,9 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     private fun observeLiveData() {
         model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+        })
+        model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver{
+            (activity as MainActivity).showGlobalProgressBar(it)
         })
     }
 
@@ -76,7 +84,22 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
                 findNavController().navigate(action)
             }
         }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.refresh, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+       return when (item.itemId) {
+            R.id.refresh -> {
+                model.cacheList()
+                true
+            }
+           else -> super.onOptionsItemSelected(item)
+
+       }
     }
 }
 

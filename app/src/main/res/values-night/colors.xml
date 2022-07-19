@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#1040EA</color>
     <color name="colorAccent">#DA9D03</color>
     <color name="backgroundColor">#2B2A2A</color>
-    <color name="chatBackground">#1B1A1A</color>
+    <color name="chatBackground">#2C2C2C</color>
     <color name="chatText">#EDEFE6E6</color>
     <color name="chat_left">#000000</color>
     <color name="chatTextLight">#ED8C8282</color>

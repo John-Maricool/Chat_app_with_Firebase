@@ -2,6 +2,8 @@ package com.example.firebasechatapp.data.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebasechatapp.R
@@ -12,21 +14,22 @@ import javax.inject.Inject
 
 class UsersListAdapter
 @Inject constructor() :
-    RecyclerView.Adapter<UsersListAdapter.UsersListViewHolder>() {
+    RecyclerView.Adapter<UsersListAdapter.UsersListViewHolder>(), Filterable {
 
     var chats: List<UserInfo> = listOf()
+    var ListFiltered: MutableList<UserInfo> = mutableListOf()
     lateinit var listener: OnListItemClickListener
 
     inner class UsersListViewHolder(val binding: ListItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: UserInfo){
+        fun bind(item: UserInfo) {
             binding.chatwithuserinfo = item
             binding.listener = listener
         }
     }
 
-    fun setOnItemClickListener(mListener: OnListItemClickListener){
+    fun setOnItemClickListener(mListener: OnListItemClickListener) {
         listener = mListener
     }
 
@@ -41,15 +44,44 @@ class UsersListAdapter
     }
 
     override fun onBindViewHolder(holder: UsersListViewHolder, position: Int) {
-        holder.bind(chats[position])
+        holder.bind(ListFiltered[position])
     }
 
     fun getChats(mChats: List<UserInfo>) {
         chats = mChats
+        ListFiltered = chats as MutableList<UserInfo>
         notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return chats.size
+        return ListFiltered.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                ListFiltered = if (charString.isEmpty()) chats as ArrayList<UserInfo> else {
+                    val filteredList = ArrayList<UserInfo>()
+                    chats
+                        .filter {
+                            (it.displayName.contains(constraint!!, true))
+                        }
+                        .forEach { filteredList.add(it) }
+                    filteredList
+
+                }
+                return FilterResults().apply { values = ListFiltered }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                ListFiltered = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<UserInfo>
+                notifyDataSetChanged()
+            }
+        }
     }
 }

@@ -107,7 +107,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         model.olderMessages.observe(viewLifecycleOwner) {
             if (it != null) {
                 adapter.addNewMessages(it)
-                model.CURRENT_SCROLL_POSITION.value?.let { scr ->
+                model.CURRENT_SCROLL_POSITION?.value?.let { scr ->
                     binding.recyclerView.scrollToPosition(scr)
                 }
             }

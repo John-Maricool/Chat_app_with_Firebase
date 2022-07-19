@@ -13,11 +13,11 @@ import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.databinding.ChatItemLeftBinding
 import com.example.firebasechatapp.databinding.ChatItemRightBinding
 import com.example.firebasechatapp.utils.Constants
-import com.google.firebase.auth.FirebaseAuth
+import com.example.firebasechatapp.utils.SharedPrefsCalls
 import javax.inject.Inject
 
 class ChatMessagesAdapter
-@Inject constructor(val auth: FirebaseAuth) :
+@Inject constructor(val prefs: SharedPrefsCalls) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val USER_MAIN = 1
@@ -110,7 +110,7 @@ class ChatMessagesAdapter
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].senderId == auth.currentUser?.uid.toString()) {
+        return if (messages[position].senderId == prefs.getUserUid()) {
             USER_MAIN
         } else {
             USER_OTHER
@@ -138,11 +138,11 @@ class ChatMessagesAdapter
     fun addNewMessages(mMessages: List<Message>) {
         val diffCallback = CoursesCallback(messages, mMessages)
         val diffCourses = DiffUtil.calculateDiff(diffCallback)
-         messages.clear()
+        messages.clear()
         messages = mMessages as MutableList<Message>
 
         diffCourses.dispatchUpdatesTo(this)
-       // notifyItemRangeChanged(0, messages.size)
+        // notifyItemRangeChanged(0, messages.size)
         notifyItemInserted(0)
 
     }
@@ -153,6 +153,7 @@ class CoursesCallback(private val oldList: List<Message>, private val newList: L
     override fun getOldListSize(): Int {
         return oldList.size
     }
+
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

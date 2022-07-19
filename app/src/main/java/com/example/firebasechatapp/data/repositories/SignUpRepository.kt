@@ -27,29 +27,43 @@ class SignUpRepository
         b.invoke(Result.Loading)
         try {
             auth.createUser(createUser = user)
-            listenForUserChange(user, userImg, scope)
-            b.invoke(Result.Success("Successful"))
+            listenForUserChange(user, userImg, scope) {
+                b.invoke(it)
+               /* if (it is Result.Success) {
+                    b.invoke(Result.Success("Successful"))
+                }*/
+            }
         } catch (e: Exception) {
             b.invoke(Result.Error(e.toString()))
         }
     }
 
-    private fun listenForUserChange(user: CreateUser, uri: String, scope: CoroutineScope) {
+    private fun listenForUserChange(
+        user: CreateUser,
+        uri: String, scope: CoroutineScope,
+        b: ((Result<String>) -> Unit)
+    ) {
+        b.invoke(Result.Loading)
         auth.getUser().observeForever {
             if (it != null) {
                 prefs.storeUserUid(it.uid)
                 try {
                     scope.launch {
-                        storage.putUserImage(it.uid, uri)
-                        val downloadUri = storage.getUserImageDownloadString(it.uid)
-                        val userInfo = UserInfo(
-                            it.uid, user.displayName, user.email, Date().time,
-                            downloadUri.toString(), true
-                        )
-                        remotedb.uploadUserData(userInfo)
+                        val res = scope.launch {
+                            storage.putUserImage(it.uid, uri)
+                            val downloadUri = storage.getUserImageDownloadString(it.uid)
+                            val userInfo = UserInfo(
+                                it.uid, user.displayName, user.email, Date().time,
+                                downloadUri.toString(), true
+                            )
+                            remotedb.uploadUserData(userInfo)
+                        }
+                        res.join()
+                        if (res.isCompleted)
+                            b.invoke(Result.Success("Success"))
                     }
                 } catch (e: Exception) {
-                    TODO()
+                    b.invoke(Result.Error(e.toString()))
                 }
             }
         }

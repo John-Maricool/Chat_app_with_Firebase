@@ -46,8 +46,8 @@ class FirebaseFirestoreSource @Inject constructor(
     /**
      * This function is used to get all the registeredUsers
      */
-    fun getAllUsers(userId: String): Task<QuerySnapshot> {
-        return cloud.collection(Constants.user).whereNotEqualTo("id", userId).get()
+    fun getAllUsers(userId: String): Query {
+        return cloud.collection(Constants.user).whereNotEqualTo("id", userId)
     }
 
     /**
@@ -64,17 +64,6 @@ class FirebaseFirestoreSource @Inject constructor(
         return cloud.collection(Constants.chatChannels)
             .document(channelId).collection(Constants.messages).limit(10)
             .orderBy("sentTime", Query.Direction.DESCENDING)
-    }
-
-    fun getReceivedMessagesUpdate(
-        channelId: String,
-        userId: String
-    ): Query {
-        return cloud.collection(Constants.chatChannels)
-            .document(channelId).collection(Constants.messages)
-            .whereEqualTo("receiverId", userId)
-            .orderBy("sentTime", Query.Direction.DESCENDING)
-
     }
 
     fun getReloadedMessages(
@@ -108,9 +97,9 @@ class FirebaseFirestoreSource @Inject constructor(
     /**
      * This function is used to save the user data to the database on sign up.
      */
-    fun saveUserDetailsToDb(userInfo: UserInfo): Task<Void> {
+  /*  fun saveUserDetailsToDb(userInfo: UserInfo): Task<Void> {
         return cloud.collection(Constants.user).document(userInfo.id).set(userInfo)
-    }
+    }*/
 
     /**
      * This function created chat channel with the first message in it

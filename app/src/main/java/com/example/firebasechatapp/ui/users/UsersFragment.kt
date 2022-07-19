@@ -1,9 +1,13 @@
 package com.example.firebasechatapp.ui.users
 
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +19,7 @@ import com.example.firebasechatapp.ui.app_components.MainActivity
 import com.example.firebasechatapp.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener {
@@ -39,7 +44,7 @@ class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentUsersBinding.bind(view)
-
+        setHasOptionsMenu(true)
         binding.recyclerView.apply {
             setHasFixedSize(true)
         }
@@ -87,6 +92,38 @@ class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search, menu)
+        val searchItem = menu.findItem(R.id.search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                mAdapter.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                mAdapter.filter.filter(newText)
+                return false
+            }
+        })
+    }
+
+/*
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == R.id.search) {
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }*/
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("cleared", "removed")
     }
 }
 

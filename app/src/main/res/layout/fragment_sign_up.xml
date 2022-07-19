@@ -36,7 +36,7 @@
                 android:layout_marginBottom="40dp"
                 android:gravity="center"
                 android:text="@string/create_a_new_account"
-                android:textColor="@color/textColor"
+                android:textColor="#000000"
                 android:textSize="36sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:text="@={viewmodel.displayNameText}"
-                    android:textColor="@color/textColor"
+                    android:textColor="#000000"
                     tools:background="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +92,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:text="@={viewmodel.emailText}"
-                    android:textColor="@color/textColor"
+                    android:textColor="#000000"
                     tools:background="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +117,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:text="@={viewmodel.passwordText}"
-                    android:textColor="@color/textColor"
+                    android:textColor="#000000"
                     tools:background="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +142,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:text="@={viewmodel.secondPassword}"
-                    android:textColor="@color/textColor"
+                    android:textColor="#000000"
                     tools:background="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 

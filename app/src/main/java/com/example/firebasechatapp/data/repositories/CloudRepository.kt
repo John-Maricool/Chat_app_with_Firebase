@@ -78,7 +78,7 @@ class CloudRepository
     }
 
 
-    fun getAllUsers(userId: String, b: (Result<List<UserInfo>>) -> Unit) {
+    /*fun getAllUsers(userId: String, b: (Result<List<UserInfo>>) -> Unit) {
         b.invoke(Result.Loading)
         cloudSource.getAllUsers(userId).addOnSuccessListener {
             val user = it.toObjects(UserInfo::class.java)
@@ -86,7 +86,7 @@ class CloudRepository
         }.addOnFailureListener {
             b.invoke(Result.Error(it.toString()))
         }
-    }
+    }*/
 
     suspend fun getUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
         b.invoke(Result.Loading)

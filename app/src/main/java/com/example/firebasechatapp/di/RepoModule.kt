@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -37,7 +38,19 @@ object RepoModule {
 
     @Singleton
     @Provides
-    fun provideRemoteUserRepository(source: FirebaseFirestoreSource, prefs: SharedPrefsCalls): RemoteUserRepository{
+    fun provideRemoteUserRepository(
+        source: FirebaseFirestoreSource,
+        prefs: SharedPrefsCalls
+    ): RemoteUserRepository {
         return RemoteUserRepositoryImpl(source, prefs)
+    }
+
+    @Provides
+    @Named("users")
+    fun provideUsersAndChatsRepository(
+        source: FirebaseFirestoreSource,
+        prefs: SharedPrefsCalls
+    ): UsersAndChatsRepository {
+        return UsersListRepository(prefs, source)
     }
 }

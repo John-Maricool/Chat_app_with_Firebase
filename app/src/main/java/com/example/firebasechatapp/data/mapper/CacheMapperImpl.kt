@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 class CacheMapperImpl
 @Inject constructor() : Mapper<UserEntity, ChatWithUserInfo> {
+
     override fun mapToCache(c: ChatWithUserInfo): UserEntity {
         return UserEntity(
             channelId = c.mChat.channelId,

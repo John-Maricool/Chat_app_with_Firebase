@@ -3,13 +3,9 @@ package com.example.firebasechatapp.ui.chat
 import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.utils.Constants
-import com.example.firebasechatapp.utils.Event
-import com.example.firebasechatapp.utils.Result
-import com.example.firebasechatapp.utils.isTextValid
+import com.example.firebasechatapp.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -20,12 +16,12 @@ class ChatViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
     val cloud: CloudRepository,
-    val auth: AuthRepository
+    val prefs: SharedPrefsCalls
 ) : ViewModel() {
 
     val messageText = MutableLiveData<String?>()
     var otherUserId: String? = null
-    var CURRENT_SCROLL_POSITION: MutableLiveData<Int> = MutableLiveData(0)
+    var CURRENT_SCROLL_POSITION: MutableLiveData<Int>? = MutableLiveData(0)
     var channelId: String? = null
 
     private val _messages = MediatorLiveData<List<Message>?>()
@@ -44,11 +40,11 @@ class ChatViewModel
     val media: LiveData<Event<Boolean>> get() = _media
 
     fun getAllMessages() {
-        cloud.getAllMessages(auth.getUserID(), channelId!!) { res ->
+        cloud.getAllMessages(prefs.getUserUid()!!, channelId!!) { res ->
             defaultRepo.onResult(null, res)
             if (res is Result.Success) {
                 _messages.postValue(res.data)
-                CURRENT_SCROLL_POSITION.value = res.data?.size!! - 1
+                CURRENT_SCROLL_POSITION?.value = res.data?.size!! - 1
             }
         }
     }
@@ -58,7 +54,7 @@ class ChatViewModel
             cloud.reloadNewPageOfMessages(channelId!!) { res ->
                 if (res is Result.Success) {
                     _olderMessages.postValue(res.data)
-                    CURRENT_SCROLL_POSITION.value = res.data!!.size.minus(messages.value!!.size)
+                    CURRENT_SCROLL_POSITION?.value = res.data!!.size.minus(messages.value!!.size)
                 }
             }
         }
@@ -71,7 +67,7 @@ class ChatViewModel
     fun sendMessage(): Message? {
         return if (isTextValid(1, messageText.value)) {
             val message = Message(
-                auth.getUserID(), otherUserId!!,
+                prefs.getUserUid()!!, otherUserId!!,
                 messageText.value!!, false, Date().time, Constants.TYPE_TEXT
             )
             viewModelScope.launch {

@@ -96,8 +96,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/text_seen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_below="@+id/const_inside"
                 app:layout_constraintStart_toStartOf="@+id/const_inside"
                 app:layout_constraintTop_toBottomOf="@+id/const_inside"

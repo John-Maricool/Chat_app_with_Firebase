@@ -4,15 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.firebasechatapp.data.models.Message
-import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.data.repositories.FirstMessageRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isTextValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +17,6 @@ class MessageViewModel
 @Inject constructor(
     val repo: FirstMessageRepository,
     val defRepo: DefaultRepository,
-    val auth: AuthRepository,
 ) : ViewModel() {
 
     private val _finished = MutableLiveData<String?>()
@@ -29,15 +25,13 @@ class MessageViewModel
 
     fun finishUp(secUserId: String) {
         if (isTextValid(1, messageText.value)) {
-            val message =
-                Message(auth.getUserID(), secUserId, messageText.value!!, false, Date().time)
-            send(secUserId, message)
+            send(secUserId, messageText.value!!)
         } else {
             return
         }
     }
 
-    private fun send(secUserId: String, message: Message) {
+    private fun send(secUserId: String, message: String) {
         viewModelScope.launch {
             repo.send(secUserId, message) {
                 defRepo.onResult(null, it)

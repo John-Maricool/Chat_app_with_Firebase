@@ -1,7 +1,10 @@
 package com.example.firebasechatapp.cache_source
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface UserDao {
@@ -13,7 +16,7 @@ interface UserDao {
     suspend fun addAllUsersToDd(users: List<UserEntity>)
 
     @Query("select * from UserEntity order by sentTime desc")
-    fun getAllUsers(): LiveData<List<UserEntity>?>
+    suspend fun getAllUsers(): List<UserEntity>
 
     @Query("select * from UserEntity where id = :id")
     suspend fun getUser(id: String): UserEntity

@@ -46,13 +46,12 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher"
                 app:set_image_resource="@{chatwithuserinfo.profileImageUrl}" />
-
         </androidx.cardview.widget.CardView>
 
         <View
             android:id="@+id/onlineView"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:background="@drawable/round_circle_online_green"
             android:visibility="@{chatwithuserinfo.online == true? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/imageCardView"
@@ -74,13 +73,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/textColor"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 android:ellipsize="end"
                 android:gravity="start"
                 android:singleLine="true"
                 android:text="@{chatwithuserinfo.displayName}"
+                android:textColor="@color/textColor"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatButton"
                 app:layout_constraintStart_toStartOf="parent"
