@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.CloudRepository
+import com.example.firebasechatapp.data.repositories.CloudRepositoryImpl
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Constants
 import com.example.firebasechatapp.utils.Event

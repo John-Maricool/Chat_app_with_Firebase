@@ -60,7 +60,7 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
         model.defaultRepo.snackBarText.observe(viewLifecycleOwner, EventObserver {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
-        model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver{
+        model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
             (activity as MainActivity).showGlobalProgressBar(it)
         })
     }
@@ -92,14 +92,14 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-       return when (item.itemId) {
+        return when (item.itemId) {
             R.id.refresh -> {
                 model.cacheList()
                 true
             }
-           else -> super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
 
-       }
+        }
     }
 }
 

@@ -2,13 +2,13 @@ package com.example.firebasechatapp.ui.signup
 
 import android.app.Activity
 import android.os.Bundle
-import com.example.firebasechatapp.R
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentSignUpBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
 import com.example.firebasechatapp.utils.EventObserver
@@ -33,7 +33,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             }
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.firstFragment)
+                val action = SignUpFragmentDirections.actionSignUpFragmentToFirstFragment()
+                findNavController().navigate(action)
             }
         })
     }
@@ -59,8 +60,10 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             })
 
         model.isCreatedEvent.observe(viewLifecycleOwner, EventObserver {
-            when(it){
-                true -> {navigateToChats()}
+            when (it) {
+                true -> {
+                    navigateToChats()
+                }
             }
         })
     }

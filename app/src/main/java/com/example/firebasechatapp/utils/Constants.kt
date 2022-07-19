@@ -19,6 +19,7 @@ object Constants {
 
     var CURRENT_SNAP: DocumentSnapshot? = null
     var currentPage = 1
+    var PER_PAGE: Long = 10
 
     const val PREFS_NAME = "PREFERENCES"
     var USER_UID = "USER ID"

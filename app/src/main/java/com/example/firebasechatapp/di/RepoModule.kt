@@ -45,6 +45,14 @@ object RepoModule {
         return RemoteUserRepositoryImpl(source, prefs)
     }
 
+    @Singleton
+    @Provides
+    fun provideCloudRepository(
+        source: FirebaseFirestoreSource
+    ): CloudRepository {
+        return CloudRepositoryImpl(source)
+    }
+
     @Provides
     @Named("users")
     fun provideUsersAndChatsRepository(

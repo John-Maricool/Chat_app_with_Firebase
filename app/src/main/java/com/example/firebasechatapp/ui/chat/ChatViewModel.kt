@@ -3,7 +3,7 @@ package com.example.firebasechatapp.ui.chat
 import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.CloudRepository
+import com.example.firebasechatapp.data.repositories.ChatRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,14 +15,13 @@ import javax.inject.Inject
 class ChatViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val cloud: CloudRepository,
+    val cloud: ChatRepository,
     val prefs: SharedPrefsCalls
 ) : ViewModel() {
 
     val messageText = MutableLiveData<String?>()
     var otherUserId: String? = null
-    var CURRENT_SCROLL_POSITION: MutableLiveData<Int>? = MutableLiveData(0)
-    var channelId: String? = null
+    var currentScrollPos: Int? = null
 
     private val _messages = MediatorLiveData<List<Message>?>()
     val messages: LiveData<List<Message>?> get() = _messages
@@ -39,22 +38,22 @@ class ChatViewModel
     private val _media = MutableLiveData<Event<Boolean>>()
     val media: LiveData<Event<Boolean>> get() = _media
 
-    fun getAllMessages() {
-        cloud.getAllMessages(prefs.getUserUid()!!, channelId!!) { res ->
+    fun getAllMessages(channelId: String) {
+        cloud.getAllMessages(channelId) { res ->
             defaultRepo.onResult(null, res)
             if (res is Result.Success) {
                 _messages.postValue(res.data)
-                CURRENT_SCROLL_POSITION?.value = res.data?.size!! - 1
+                currentScrollPos = res.data?.size!! - 1
             }
         }
     }
 
-    fun loadNewPage() {
+    fun loadNewPage(channelId: String) {
         viewModelScope.launch {
-            cloud.reloadNewPageOfMessages(channelId!!) { res ->
+            cloud.loadOldMessages(channelId) { res ->
                 if (res is Result.Success) {
                     _olderMessages.postValue(res.data)
-                    CURRENT_SCROLL_POSITION?.value = res.data!!.size.minus(messages.value!!.size)
+                    currentScrollPos = res.data!!.size.minus(messages.value!!.size)
                 }
             }
         }
@@ -64,21 +63,18 @@ class ChatViewModel
         isOpened.value = !isOpened.value!!
     }
 
-    fun sendMessage(): Message? {
-        return if (isTextValid(1, messageText.value)) {
+    fun sendMessage(channelId: String) {
+        if (isTextValid(1, messageText.value)) {
             val message = Message(
                 prefs.getUserUid()!!, otherUserId!!,
                 messageText.value!!, false, Date().time, Constants.TYPE_TEXT
             )
             viewModelScope.launch {
-                cloud.sendMessage(channelId!!, message) {
+                cloud.sendMessage(channelId, message) {
                     defaultRepo.onResult(null, it)
                 }
             }
             messageText.value = null
-            message
-        } else {
-            null
         }
     }
 
@@ -87,11 +83,16 @@ class ChatViewModel
     }
 
     fun getUserInfo(otherUserId: String) {
-        cloud.getChangedUserInfo(otherUserId) {
+        cloud.getUserInfo(otherUserId) {
             defaultRepo.onResult(null, it)
             if (it is Result.Success) {
                 _userInfo.value = it.data
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        currentScrollPos = null
     }
 }

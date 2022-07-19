@@ -35,7 +35,7 @@ class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                requireActivity().finish()
+                findNavController().navigate(R.id.chatsFragment)
             }
         })
     }
@@ -111,15 +111,6 @@ class UsersFragment : Fragment(R.layout.fragment_users), OnListItemClickListener
             }
         })
     }
-
-/*
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == R.id.search) {
-            true
-        } else {
-            super.onOptionsItemSelected(item)
-        }
-    }*/
 
     override fun onDestroy() {
         super.onDestroy()

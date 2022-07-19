@@ -7,6 +7,7 @@ import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UId
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Constants
+import com.example.firebasechatapp.utils.Constants.PER_PAGE
 import com.example.firebasechatapp.utils.Constants.currentPage
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
@@ -62,7 +63,7 @@ class FirebaseFirestoreSource @Inject constructor(
 
     fun getAllMessages(channelId: String): Query {
         return cloud.collection(Constants.chatChannels)
-            .document(channelId).collection(Constants.messages).limit(10)
+            .document(channelId).collection(Constants.messages).limit(PER_PAGE)
             .orderBy("sentTime", Query.Direction.DESCENDING)
     }
 
@@ -71,7 +72,7 @@ class FirebaseFirestoreSource @Inject constructor(
     ): Query {
         return cloud.collection(Constants.chatChannels)
             .document(channelId).collection(Constants.messages)
-            .limit((10 * currentPage).toLong())
+            .limit((PER_PAGE * currentPage).toLong())
             .orderBy("sentTime", Query.Direction.DESCENDING)
     }
 

@@ -1,5 +1,6 @@
 package com.example.firebasechatapp.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -52,5 +53,10 @@ class LoginViewModel
             return
         }
         login()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("clear", "AllCleared")
     }
 }

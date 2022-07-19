@@ -8,12 +8,12 @@ import com.example.firebasechatapp.cache_source.UserDao
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.AuthRepository
 import com.example.firebasechatapp.data.repositories.CloudRepository
+import com.example.firebasechatapp.data.repositories.CloudRepositoryImpl
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

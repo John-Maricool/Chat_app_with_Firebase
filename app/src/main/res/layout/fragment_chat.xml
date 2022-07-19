@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<!--
-        <variable
-            name="frag"
-            type="com.example.firebasechatapp.ui.chat.ChatFragment" />-->
 
         <variable
             name="model"
@@ -85,7 +81,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="6dp"
-            android:onClick="@{() -> model.sendMessage()}"
             app:layout_constraintBottom_toBottomOf="@+id/edit_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edit_text"

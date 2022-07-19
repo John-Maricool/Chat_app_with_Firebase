@@ -41,7 +41,7 @@ class ChatsListRepository
             Log.d("chats", cacheChats.toString())
             dao.deleteAll()
             dao.addAllUsersToDd(cacheChats)
-            b.invoke(Result.Success(cacheChats))
+            b.invoke(Result.Success(dao.getAllUsers()))
         } catch (e: Exception) {
             Log.d("error", e.toString())
             b.invoke(Result.Error(e.toString()))

@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -43,6 +43,12 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val action = ChatFragmentDirections.actionChatFragmentToChatsFragment()
+                findNavController().navigate(action)
+            }
+        })
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -73,9 +79,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model.otherUserId = args.otherUserId
-        model.channelId = args.channelId
         model.getUserInfo(args.otherUserId)
-        model.getAllMessages()
+        model.getAllMessages(args.channelId)
         adapter.setOnItemClickListener(this)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.adapter = adapter
@@ -107,7 +112,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         model.olderMessages.observe(viewLifecycleOwner) {
             if (it != null) {
                 adapter.addNewMessages(it)
-                model.CURRENT_SCROLL_POSITION?.value?.let { scr ->
+                model.currentScrollPos?.let { scr ->
                     binding.recyclerView.scrollToPosition(scr)
                 }
             }
@@ -118,8 +123,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         binding.gallery.setOnClickListener { openGallery() }
         binding.camera.setOnClickListener { openVideo() }
         binding.refresh.setOnRefreshListener {
-            model.loadNewPage()
+            model.loadNewPage(args.channelId)
             binding.refresh.isRefreshing = false
+        }
+        binding.sendMessage.setOnClickListener {
+            model.sendMessage(args.channelId)
         }
     }
 

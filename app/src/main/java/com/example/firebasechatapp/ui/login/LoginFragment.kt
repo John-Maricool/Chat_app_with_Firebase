@@ -1,12 +1,12 @@
 package com.example.firebasechatapp.ui.login
 
 import android.os.Bundle
-import com.example.firebasechatapp.R
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentLoginBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
 import com.example.firebasechatapp.utils.EventObserver
@@ -25,7 +25,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.firstFragment)
+                val action = LoginFragmentDirections.actionLoginFragmentToFirstFragment()
+                findNavController().navigate(action)
+
             }
         })
     }
@@ -61,7 +63,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToChats() {
-        findNavController().navigate(R.id.chatsFragment)
+        val action = LoginFragmentDirections.actionLoginFragmentToChatsFragment()
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {
