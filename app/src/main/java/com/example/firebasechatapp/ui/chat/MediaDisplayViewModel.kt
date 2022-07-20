@@ -1,11 +1,14 @@
 package com.example.firebasechatapp.ui.chat
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.models.Message
-import com.example.firebasechatapp.data.repositories.*
+import com.example.firebasechatapp.data.repositories.DefaultRepository
+import com.example.firebasechatapp.data.repositories.MediaDisplayRepository
+import com.example.firebasechatapp.utils.Constants.TYPE_IMAGE
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,14 +20,11 @@ import javax.inject.Inject
 class MediaDisplayViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val cloud: CloudRepository,
-    val repo: MediaDisplayRepository,
-    val auth: AuthRepository
+    val repo: MediaDisplayRepository
 ) : ViewModel() {
 
     lateinit var channelId: String
-    lateinit var media: String
-    var type: Int = 1
+    lateinit var media: Bitmap
     lateinit var otherUserId: String
 
     private val _done = MutableLiveData<Event<Boolean>>()
@@ -35,17 +35,17 @@ class MediaDisplayViewModel
             repo.storeMedia(media, channelId) {
                 defaultRepo.onResult(null, it)
                 if (it is Result.Success) {
-                    sendToDb(it.data)
+                    sendToDb(it.data!!)
                 }
             }
         }
     }
 
-    private fun sendToDb(data: String?){
+    private fun sendToDb(data: String) {
         val message =
-            Message(auth.getUserID(), otherUserId, data!!, false, Date().time, type)
+            Message(repo.uid!!, otherUserId, data, false, Date().time, TYPE_IMAGE)
         viewModelScope.launch {
-            cloud.sendMessage(channelId, message) {
+            repo.sendMessage(channelId, message) {
                 defaultRepo.onResult(null, it)
                 if (it is Result.Success)
                     _done.postValue(Event(true))

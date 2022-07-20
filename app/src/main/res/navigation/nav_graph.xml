@@ -77,9 +77,6 @@
             android:id="@+id/action_chatFragment_to_mediaDisplayFragment"
             app:destination="@id/mediaDisplayFragment" />
         <action
-            android:id="@+id/action_chatFragment_to_mediaFragment"
-            app:destination="@id/mediaFragment" />
-        <action
             android:id="@+id/action_chatFragment_to_chatsFragment"
             app:destination="@id/chatsFragment"
             app:launchSingleTop="false"
@@ -95,9 +92,6 @@
         android:label="Media"
         tools:layout="@layout/fragment_media_display">
         <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
             android:name="channelId"
             app:argType="string"
             app:nullable="true" />
@@ -107,10 +101,6 @@
             app:nullable="true" />
         <argument android:name="receiverId"
             app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="savedMedia"
-            app:argType="com.example.firebasechatapp.data.models.SavedMedia"
             app:nullable="true" />
     </fragment>
     <fragment
@@ -141,10 +131,10 @@
         android:name="com.example.firebasechatapp.ui.mediaDisplay.MediaFragment"
         android:label="MediaFragment" >
         <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
             android:name="mediaUri"
+            app:argType="string" />
+        <argument
+            android:name="otherUserId"
             app:argType="string" />
         <argument
             android:name="channelId"

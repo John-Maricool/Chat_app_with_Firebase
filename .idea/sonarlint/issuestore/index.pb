@@ -9,21 +9,11 @@ Tapp/src/main/java/com/example/firebasechatapp/ui/changeDetails/ChangeNameFragme
 gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
 7
 gradlew,5\b\5bbfa66edb4db3c7c33c5181f43510990d3307f9
-?
-settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-A
-gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
 F
 app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
-X
-(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
-<
-build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 l
 <app/src/main/java/com/example/firebasechatapp/utils/Event.kt,a\1\a116722d9a8407dcd95c59852b3f276c7f05367b
 n
@@ -36,10 +26,6 @@ Napp/src/main/java/com/example/firebasechatapp/data/adapter/ChatsListAdapter.kt
 Mapp/src/main/java/com/example/firebasechatapp/data/models/ChatWithUserInfo.kt,0\5\0555f7442d88944c9ec5af0fd9788c62e4342f7e
 x
 Happ/src/main/java/com/example/firebasechatapp/cache_source/UserEntity.kt,9\8\98be72e51c7b072312371a07dac450117082a1c1
-}
-Mapp/src/main/java/com/example/firebasechatapp/ui/chat/MediaDisplayFragment.kt,4\2\427a47562d9f4d618c3c7870d7520ec1a732ac2b
-}
-Mapp/src/main/java/com/example/firebasechatapp/ui/mediaDisplay/InitDManager.kt,c\7\c71e93b5363bc0a0e619ffedaaa4485ba8263f2b
 x
 Happ/src/main/java/com/example/firebasechatapp/ui/chat/ChatDataBinding.kt,a\1\a1a9432d323f2a9673dcb71b6b188eaa995eebc6
 â
@@ -54,16 +40,12 @@ w
 Gapp/src/main/java/com/example/firebasechatapp/utils/DataBindingClass.kt,6\4\6464374a138cfdfeb63d557b29a77a851acf9688
 w
 Gapp/src/main/java/com/example/firebasechatapp/data/models/CreateUser.kt,c\5\c5c697c91574d33ef99b195f00386bfaa7b8df9a
-Ñ
-Tapp/src/main/java/com/example/firebasechatapp/data/repositories/StorageRepository.kt,8\3\83fee439b237f5a30f1095dde6d5eb22b1dcee9a
 {
 Kapp/src/main/java/com/example/firebasechatapp/cache_source/CacheDatabase.kt,8\4\84d304aa31fa3f6320074294d384a684056c11c1
 n
 >app/src/main/java/com/example/firebasechatapp/di/MainModule.kt,e\9\e97ab303058378870615cb2ef9ab299a72ed36f3
 x
 Happ/src/main/java/com/example/firebasechatapp/ui/first/FirstViewModel.kt,e\7\e71db7545c2e619909aa894117ea7f96784f439e
-Ö
-Uapp/src/main/java/com/example/firebasechatapp/data/db/remote/FirebaseStorageSource.kt,5\3\53b3a139b503e0d161acef240dd4ae1dd4bd1217
 Ç
 Rapp/src/main/java/com/example/firebasechatapp/data/db/remote/FirebaseAuthSource.kt,f\5\f5fd595a6b1349fd828fd8b7e3ba8bd1c7b9977b
 Å
@@ -76,8 +58,6 @@ Aapp/src/main/java/com/example/firebasechatapp/data/models/Chat.kt,6\7\67cb6ae8
 Wapp/src/main/java/com/example/firebasechatapp/data/repositories/RemoteUserRepository.kt,c\2\c2821782a5a193734b82c48183e2fbc717e24b65
 ã
 [app/src/main/java/com/example/firebasechatapp/data/repositories/RemoteUserRepositoryImpl.kt,7\a\7ae72d296e03148793edc0b50dbf7429a4f4dc1e
-à
-Xapp/src/main/java/com/example/firebasechatapp/data/repositories/StorageRepositoryImpl.kt,c\b\cbcff7a35b499c95043331e507ce9a0905b8128c
 Ä
 Papp/src/main/java/com/example/firebasechatapp/ui/firstmessage/MessageFragment.kt,f\e\fe5b1bd5308403ac55c985777c6c0639407e89f8
 {

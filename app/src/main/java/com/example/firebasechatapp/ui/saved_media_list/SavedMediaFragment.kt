@@ -56,14 +56,14 @@ class SavedMediaFragment : Fragment(R.layout.fragment_saved_media),
     }
 
     override fun onSavedItemClicked(media: SavedMedia) {
-        val action = SavedMediaFragmentDirections.actionSavedMediaFragmentToMediaDisplayFragment(
+     /*   val action = SavedMediaFragmentDirections.actionSavedMediaFragmentToMediaDisplayFragment(
             0,
             null,
             null,
             null,
             media
         )
-        findNavController().navigate(action)
+        findNavController().navigate(action)*/
     }
 }
 

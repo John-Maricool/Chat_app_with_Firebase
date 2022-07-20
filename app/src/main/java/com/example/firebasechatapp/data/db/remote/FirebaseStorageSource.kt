@@ -21,9 +21,9 @@ class FirebaseStorageSource
         return ref.downloadUrl.await()
     }
 
-    suspend fun putMediaInChatStorage(channelId: String, media: String): UploadTask.TaskSnapshot? {
+    suspend fun putMediaInChatStorage(channelId: String, media: ByteArray): UploadTask.TaskSnapshot? {
         val ref  = source.reference.child("media/$channelId")
-        return ref.putFile(media.toUri()).await()
+        return ref.putBytes(media).await()
     }
 
     suspend fun getDownloadUriOfChatMedia(channelId: String): Uri? {

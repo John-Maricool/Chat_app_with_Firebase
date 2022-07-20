@@ -21,13 +21,11 @@ import com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener
 import com.example.firebasechatapp.databinding.ChatToolbarBinding
 import com.example.firebasechatapp.databinding.FragmentChatBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
-import com.example.firebasechatapp.utils.Constants
-import com.example.firebasechatapp.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener {
+class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
@@ -53,10 +51,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val dataUri = result.data?.data.toString()
-                    val type =
-                        if (dataUri.contains("video")) Constants.TYPE_VIDEO else Constants.TYPE_IMAGE
                     val action = ChatFragmentDirections.actionChatFragmentToMediaDisplayFragment(
-                        type, args.channelId, dataUri, args.otherUserId, null
+                        args.channelId, dataUri, args.otherUserId
                     )
                     findNavController().navigate(action)
                 }
@@ -81,7 +77,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
         model.otherUserId = args.otherUserId
         model.getUserInfo(args.otherUserId)
         model.getAllMessages(args.channelId)
-        adapter.setOnItemClickListener(this)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.adapter = adapter
         binding.model = model
@@ -94,14 +89,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     }
 
     private fun observeLiveData() {
-        model.media.observe(viewLifecycleOwner, EventObserver {
-            if (it) {
-                val action =
-                    ChatFragmentDirections.actionChatFragmentToSavedMediaFragment(args.channelId)
-                findNavController().navigate(action)
-            }
-        })
-
         model.messages.observe(viewLifecycleOwner) {
             if (it != null) {
                 adapter.getMessages(it)
@@ -120,8 +107,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     }
 
     private fun setClickListeners() {
-        binding.gallery.setOnClickListener { openGallery() }
-        binding.camera.setOnClickListener { openVideo() }
+        binding.openGallery.setOnClickListener { openGallery() }
         binding.refresh.setOnRefreshListener {
             model.loadNewPage(args.channelId)
             binding.refresh.isRefreshing = false
@@ -165,21 +151,5 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
             Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         intent.type = "image/*"
         resultLauncher.launch(intent)
-    }
-
-    private fun openVideo() {
-        val intent =
-            Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Video.Media.INTERNAL_CONTENT_URI)
-        intent.type = "video/*"
-        resultLauncher.launch(intent)
-    }
-
-    override fun onMediaItemClick(type: Int, mediaLink: String) {
-        val action = ChatFragmentDirections.actionChatFragmentToMediaFragment(
-            type,
-            mediaLink,
-            args.channelId
-        )
-        findNavController().navigate(action)
     }
 }

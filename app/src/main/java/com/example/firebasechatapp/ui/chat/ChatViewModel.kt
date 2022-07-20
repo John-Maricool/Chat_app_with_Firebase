@@ -32,9 +32,6 @@ class ChatViewModel
     private val _userInfo = MutableLiveData<UserInfo?>()
     val userInfo: LiveData<UserInfo?> get() = _userInfo
 
-    private var isOpened = MutableLiveData(false)
-    val opened: LiveData<Boolean> get() = isOpened
-
     private val _media = MutableLiveData<Event<Boolean>>()
     val media: LiveData<Event<Boolean>> get() = _media
 
@@ -59,9 +56,6 @@ class ChatViewModel
         }
     }
 
-    fun toggleOpenOptions() {
-        isOpened.value = !isOpened.value!!
-    }
 
     fun sendMessage(channelId: String) {
         if (isTextValid(1, messageText.value)) {

@@ -8,7 +8,7 @@ interface StorageRepository {
 
     suspend fun getUserImageDownloadString(userId: String): Uri?
 
-    suspend fun putChatMedia(channelId: String, media: String)
+    suspend fun putChatMedia(channelId: String, media: ByteArray)
 
     suspend fun getChatMediaDownloadString(channelId: String): Uri?
 }

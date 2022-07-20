@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="fragment"
             type="com.example.firebasechatapp.ui.chat.MediaDisplayFragment" />
@@ -16,38 +17,52 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundColor"
+        android:background="@color/chatBackground"
         tools:context=".ui.chat.MediaDisplayFragment">
 
-        <VideoView
-            android:id="@+id/video_player"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+        <com.isseiaoki.simplecropview.CropImageView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cropImageView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/send"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            custom:scv_crop_mode="free"
+            custom:scv_frame_color="@color/colorPrimary"
+            custom:scv_frame_stroke_weight="1dp"
+            custom:scv_guide_color="@color/colorPrimary"
+            custom:scv_guide_show_mode="show_always"
+            custom:scv_guide_stroke_weight="1dp"
+            custom:scv_handle_color="@color/colorPrimary"
+            custom:scv_handle_show_mode="show_always"
+            custom:scv_handle_size="14dp"
+            custom:scv_min_frame_size="50dp"
+            custom:scv_touch_padding="8dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/send"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:onClick="@{() -> model.sendMediaToStorage()}"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/ic_send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

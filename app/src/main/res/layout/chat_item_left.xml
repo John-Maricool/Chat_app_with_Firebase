@@ -11,10 +11,6 @@
             name="message"
             type="com.example.firebasechatapp.data.models.Message" />
 
-        <variable
-            name="listener"
-            type="com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener" />
-
     </data>
 
     <FrameLayout
@@ -59,35 +55,20 @@
                     android:layout_height="200dp"
                     android:adjustViewBounds="true"
                     android:gravity="start"
-                    android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
                     android:scaleType="fitCenter"
                     android:visibility="@{message.type != 0 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:setImageRes="@{message}" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/video_play"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:adjustViewBounds="true"
-                    android:gravity="start"
-                    android:onClick="@{() -> listener.onMediaItemClick(message.type, message.text)}"
-                    android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="@+id/image"
-                    app:layout_constraintEnd_toEndOf="@+id/image"
-                    app:layout_constraintStart_toStartOf="@+id/image"
-                    app:layout_constraintTop_toTopOf="@+id/image"
-                    app:set_video_play_button_visible="@{message}" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/message_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
+                    android:textColor="@color/chatTextLight"
                     android:textSize="12sp"
                     android:textStyle="italic"
-                    android:textColor="@color/chatTextLight"
                     app:layout_constraintStart_toStartOf="@+id/show_message"
                     app:layout_constraintTop_toBottomOf="@+id/show_message"
                     app:setMessageTime="@{message}"

@@ -15,7 +15,7 @@ class StorageRepositoryImpl(val storage: FirebaseStorageSource) : StorageReposit
         return storage.getDownloadUriOfUserImage(userId)
     }
 
-    override suspend fun putChatMedia(channelId: String, media: String) {
+    override suspend fun putChatMedia(channelId: String, media: ByteArray) {
         storage.putMediaInChatStorage(channelId, media)
     }
 

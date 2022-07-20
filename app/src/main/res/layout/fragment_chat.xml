@@ -70,7 +70,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="3dp"
-            android:onClick="@{() -> model.toggleOpenOptions()}"
             app:layout_constraintBottom_toBottomOf="@+id/edit_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edit_text"
@@ -85,40 +84,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edit_text"
             app:srcCompat="@drawable/ic_send" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/camera"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/blue_border"
-            android:src="@drawable/ic_video"
-            app:layout_constraintBottom_toBottomOf="@+id/gallery"
-            app:layout_constraintEnd_toStartOf="@+id/gallery"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@+id/refresh"
-            app:layout_constraintTop_toTopOf="@+id/gallery"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/gallery"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="24dp"
-            android:background="@drawable/red_border"
-            android:src="@drawable/ic_image"
-            app:layout_constraintBottom_toBottomOf="@+id/refresh"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/refresh"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/camera" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="camera,gallery"
-            app:toggleViewVisibility="@{model.opened}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
