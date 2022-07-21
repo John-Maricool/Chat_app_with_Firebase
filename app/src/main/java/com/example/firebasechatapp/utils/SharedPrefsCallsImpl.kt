@@ -33,10 +33,10 @@ class SharedPrefsCallsImpl(val prefs: SharedPreferences) : SharedPrefsCalls {
             prefs.edit().putString(USERNAME, name).apply()
         }
         if (email.isNotEmpty()) {
-            prefs.edit().putString(USER_MAIL, name).apply()
+            prefs.edit().putString(USER_MAIL, email).apply()
         }
         if (photo.isNotEmpty()) {
-            prefs.edit().putString(USER_PHOTOT, name).apply()
+            prefs.edit().putString(USER_PHOTOT, photo).apply()
         }
     }
 

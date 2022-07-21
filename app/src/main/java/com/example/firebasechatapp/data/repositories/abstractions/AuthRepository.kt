@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.abstractions
 
 import androidx.lifecycle.LiveData
 import com.example.firebasechatapp.data.models.CreateUser
@@ -12,4 +12,5 @@ interface AuthRepository {
     fun signOut()
     fun loginUser(login: Login, b: ((Result<FirebaseUser>) -> Unit))
     fun getUser(): LiveData<FirebaseUser?>
+    suspend fun updateProfile(name: String, img: String)
 }

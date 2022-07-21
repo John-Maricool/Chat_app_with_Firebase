@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.databinding.FragmentMediaBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
-import com.example.firebasechatapp.ui.chat.ChatFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,21 +19,21 @@ class MediaFragment : Fragment(R.layout.fragment_media) {
     private val binding: FragmentMediaBinding get() = _binding!!
     private val args: MediaFragmentArgs by navArgs()
 
-   /* override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val action = MediaFragmentDirections.actionMediaFragmentToChatFragment(args.channelId, args.otherUserId)
-                findNavController().navigate(action)
+                findNavController().apply {
+                    popBackStack(R.id.chatFragment, true)
+                }
             }
         })
-    }*/
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMediaBinding.bind(view)
         (activity as MainActivity).supportActionBar?.hide()
-
 
         Glide.with(this)
             .load(args.mediaUri)

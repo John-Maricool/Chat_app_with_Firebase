@@ -1,6 +1,8 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.abstractions
 
 import android.net.Uri
+import com.google.android.gms.tasks.Task
+import com.google.firebase.storage.ListResult
 
 interface StorageRepository {
 
@@ -11,4 +13,7 @@ interface StorageRepository {
     suspend fun putChatMedia(channelId: String, media: ByteArray)
 
     suspend fun getChatMediaDownloadString(channelId: String): Uri?
+
+    suspend fun getAllImages(channelId: String): Task<ListResult>
+
 }

@@ -1,8 +1,11 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.impl
 
 import androidx.lifecycle.LifecycleOwner
 import com.example.firebasechatapp.data.models.CreateUser
 import com.example.firebasechatapp.data.models.UserInfo
+import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
+import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
+import com.example.firebasechatapp.data.repositories.abstractions.StorageRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import kotlinx.coroutines.CoroutineScope
@@ -29,9 +32,6 @@ class SignUpRepository
             auth.createUser(createUser = user)
             listenForUserChange(user, userImg, scope) {
                 b.invoke(it)
-               /* if (it is Result.Success) {
-                    b.invoke(Result.Success("Successful"))
-                }*/
             }
         } catch (e: Exception) {
             b.invoke(Result.Error(e.toString()))
@@ -49,6 +49,7 @@ class SignUpRepository
                 prefs.storeUserUid(it.uid)
                 try {
                     scope.launch {
+                        auth.updateProfile(user.displayName, uri)
                         val res = scope.launch {
                             storage.putUserImage(it.uid, uri)
                             val downloadUri = storage.getUserImageDownloadString(it.uid)

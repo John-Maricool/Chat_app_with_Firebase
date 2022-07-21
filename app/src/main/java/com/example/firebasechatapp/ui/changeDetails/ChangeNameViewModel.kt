@@ -3,9 +3,7 @@ package com.example.firebasechatapp.ui.changeDetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.firebasechatapp.data.repositories.AuthRepository
-import com.example.firebasechatapp.data.repositories.CloudRepository
-import com.example.firebasechatapp.data.repositories.CloudRepositoryImpl
+import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
@@ -17,8 +15,8 @@ import javax.inject.Inject
 class ChangeNameViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val cloud: CloudRepository,
-    val auth: AuthRepository) : ViewModel() {
+    val cloud: CloudRepository
+) : ViewModel() {
 
     val text = MutableLiveData<String>()
     val email = MutableLiveData<String>()
@@ -35,7 +33,7 @@ class ChangeNameViewModel
     }
 
     private fun changeUserName(newName: String) {
-        cloud.changeUserName(auth.getUserID(), newName){
+        cloud.changeUserName(newName){
             defaultRepo.onResult(null, it)
             if (it is Result.Success){
                 _done.value = "Successful"

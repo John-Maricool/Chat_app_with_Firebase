@@ -98,9 +98,9 @@ class FirebaseFirestoreSource @Inject constructor(
     /**
      * This function is used to save the user data to the database on sign up.
      */
-  /*  fun saveUserDetailsToDb(userInfo: UserInfo): Task<Void> {
-        return cloud.collection(Constants.user).document(userInfo.id).set(userInfo)
-    }*/
+    /*  fun saveUserDetailsToDb(userInfo: UserInfo): Task<Void> {
+          return cloud.collection(Constants.user).document(userInfo.id).set(userInfo)
+      }*/
 
     /**
      * This function created chat channel with the first message in it
@@ -166,35 +166,35 @@ class FirebaseFirestoreSource @Inject constructor(
         return cloud.collection(Constants.user).document(userId).update("displayName", name)
     }
 
-    fun checkIfUserHasNewMessages(userId: String): MutableLiveData<Boolean> {
+    suspend fun checkIfUserHasNewMessages(userId: String): MutableLiveData<Boolean> {
         val state = MutableLiveData<Boolean>()
-        cloud.collection(Constants.user).document(userId).collection(Constants.chatChannels)
-            .addSnapshotListener { value, error ->
-                val chats = value?.toObjects(ChatInfo::class.java)
-                chats?.forEach {
-                    cloud.collection(Constants.chatChannels).document(it.id)
-                        .collection(Constants.messages)
-                        .document(Constants.lastMessage)
-                        .addSnapshotListener { value, error ->
-                            val seen = value?.get("seen")
-                            val receiver = value?.get("receiverId")
-                            if (seen == false && receiver == userId) {
-                                state.value = !(seen as Boolean?)!!
-                                Log.d("testTag", state.value.toString())
-                                Log.d("testTag", seen.toString())
-                                //  values.add(true)
-                            } else {
-                                if (state.value == true) {
-                                    state.value = true
-                                } else {
-                                    Log.d("testTag", seen.toString())
-                                    Log.d("testTag", state.value.toString())
-                                    state.value = false
-                                }
-                            }
+        val value =
+            cloud.collection(Constants.user).document(userId).collection(Constants.chatChannels)
+                .get().await()
+        val chats = value?.toObjects(ChatInfo::class.java)
+        chats?.forEach {
+            cloud.collection(Constants.chatChannels).document(it.id)
+                .collection(Constants.messages)
+                .document(Constants.lastMessage)
+                .addSnapshotListener { value, error ->
+                    val seen = value?.get("seen")
+                    val receiver = value?.get("receiverId")
+                    if (seen == false && receiver == userId) {
+                        state.value = !(seen as Boolean?)!!
+                        Log.d("testTag", state.value.toString())
+                        Log.d("testTag", seen.toString())
+                        //  values.add(true)
+                    } else {
+                        if (state.value == true) {
+                            state.value = true
+                        } else {
+                            Log.d("testTag", seen.toString())
+                            Log.d("testTag", state.value.toString())
+                            state.value = false
                         }
+                    }
                 }
-            }
+        }
         return state
     }
 }

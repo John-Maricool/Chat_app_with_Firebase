@@ -64,13 +64,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                     )
             }
         })
-        model.checkIfNewMessageReceived().observeForever {
-            if (it != null && it) {
-                nav_view.getOrCreateBadge(R.id.chatsFragment)
-            } else {
-                nav_view.removeBadge(R.id.chatsFragment)
-            }
-        }
     }
 
     fun showGlobalProgressBar(show: Boolean) {
@@ -89,6 +82,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        //return navController.navigateUp() || super.onSupportNavigateUp()
+          onBackPressed()
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
@@ -97,6 +92,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         destination: NavDestination,
         arguments: Bundle?
     ) {
+        model.checkIfNewMessageReceived()
+
+        model.isNewMessage.observeForever {
+            if (it != null && it) {
+                nav_view.getOrCreateBadge(R.id.chatsFragment)
+            } else {
+                nav_view.removeBadge(R.id.chatsFragment)
+            }
+        }
         when (destination.id) {
             R.id.firstFragment -> {
                 nav_view.visibility = View.GONE
@@ -105,6 +109,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             R.id.chatsFragment -> {
                 nav_view.visibility = View.VISIBLE
                 toolbar.visibility = View.VISIBLE
+
             }
             R.id.usersFragment -> {
                 nav_view.visibility = View.VISIBLE
@@ -123,6 +128,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onDestroy() {
         super.onDestroy()
-        model.checkIfNewMessageReceived().removeObservers(this)
+        model.isNewMessage.removeObservers(this)
     }
 }

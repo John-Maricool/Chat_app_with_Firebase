@@ -61,9 +61,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycle_version"
     kapt "android.arch.lifecycle:compiler:1.1.1"
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
 
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

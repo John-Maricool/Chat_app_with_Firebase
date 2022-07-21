@@ -1,7 +1,8 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.impl
 
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.UserInfo
+import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 

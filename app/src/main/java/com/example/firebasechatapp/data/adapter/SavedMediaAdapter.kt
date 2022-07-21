@@ -5,9 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebasechatapp.R
-import com.example.firebasechatapp.data.interfaces.OnListItemClickListener
 import com.example.firebasechatapp.data.interfaces.OnSavedMediaItemClickedListener
-import com.example.firebasechatapp.data.models.SavedMedia
 import com.example.firebasechatapp.databinding.SavedMediaListItemBinding
 import javax.inject.Inject
 
@@ -15,18 +13,18 @@ class SavedMediaAdapter
 @Inject constructor() :
     RecyclerView.Adapter<SavedMediaAdapter.SavedMediaViewHolder>() {
 
-    var medias: List<SavedMedia> = listOf()
+    var medias: List<String> = listOf()
     lateinit var listener: OnSavedMediaItemClickedListener
 
     inner class SavedMediaViewHolder(val binding: SavedMediaListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SavedMedia) {
+        fun bind(item: String) {
             binding.media = item
-            binding.listener  = listener
+            binding.listener = listener
         }
     }
 
-    fun setOnItemClickListener(mListener: OnSavedMediaItemClickedListener){
+    fun setOnItemClickListener(mListener: OnSavedMediaItemClickedListener) {
         listener = mListener
     }
 
@@ -40,11 +38,11 @@ class SavedMediaAdapter
         return SavedMediaViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SavedMediaViewHolder, position: Int){
+    override fun onBindViewHolder(holder: SavedMediaViewHolder, position: Int) {
         holder.bind(medias[position])
     }
 
-    fun getMedias(mMedia: List<SavedMedia>) {
+    fun getMedias(mMedia: List<String>) {
         medias = mMedia
         notifyDataSetChanged()
     }

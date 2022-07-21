@@ -4,7 +4,8 @@ import android.content.SharedPreferences
 import com.example.firebasechatapp.data.db.remote.FirebaseAuthSource
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.db.remote.FirebaseStorageSource
-import com.example.firebasechatapp.data.repositories.*
+import com.example.firebasechatapp.data.repositories.abstractions.*
+import com.example.firebasechatapp.data.repositories.impl.*
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import com.example.firebasechatapp.utils.SharedPrefsCallsImpl
 import dagger.Module
@@ -48,9 +49,10 @@ object RepoModule {
     @Singleton
     @Provides
     fun provideCloudRepository(
-        source: FirebaseFirestoreSource
+        source: FirebaseFirestoreSource,
+        prefs: SharedPrefsCalls
     ): CloudRepository {
-        return CloudRepositoryImpl(source)
+        return CloudRepositoryImpl(source, prefs)
     }
 
     @Provides

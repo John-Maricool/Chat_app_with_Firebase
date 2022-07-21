@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.firebasechatapp.data.models.Login
-import com.example.firebasechatapp.data.repositories.AuthRepository
+import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result

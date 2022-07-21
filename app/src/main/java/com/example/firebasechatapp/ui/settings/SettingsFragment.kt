@@ -21,7 +21,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var _binding: FragmentSettingsBinding? = null
     private val binding: FragmentSettingsBinding get() = _binding!!
     private val model: SettingsViewModel by viewModels()
-    lateinit var user: UserInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +41,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun observeLiveData() {
-        model.result.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.user = it
-                user = it
-            }
-        }
         model.defaultRepo.dataLoading.observe(viewLifecycleOwner, EventObserver {
             (activity as MainActivity).showGlobalProgressBar(it)
         })
@@ -56,8 +49,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         })
         model.isSignOut.observe(viewLifecycleOwner, EventObserver {
             if (it) {
-                val action = SettingsFragmentDirections.actionSettingsFragmentToFirstFragment()
-                findNavController().navigate(action)
+                (activity as MainActivity).finish()
             }
         })
 
@@ -79,11 +71,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         })
         model.navigateToChangeName.observe(viewLifecycleOwner, EventObserver
         {
-            if (it && this::user.isInitialized) {
                 val action =
-                    SettingsFragmentDirections.actionSettingsFragmentToChangeNameFragment(user)
+                    SettingsFragmentDirections.actionSettingsFragmentToChangeNameFragment(model.userName!!, model.userEmail!!)
                 findNavController().navigate(action)
-            }
         })
     }
 

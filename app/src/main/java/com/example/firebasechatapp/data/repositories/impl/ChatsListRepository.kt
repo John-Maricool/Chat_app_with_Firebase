@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.impl
 
 import android.util.Log
 import com.example.firebasechatapp.cache_source.UserDao
@@ -6,6 +6,7 @@ import com.example.firebasechatapp.cache_source.UserEntity
 import com.example.firebasechatapp.data.mapper.CacheMapperImpl
 import com.example.firebasechatapp.data.models.Chat
 import com.example.firebasechatapp.data.models.ChatWithUserInfo
+import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import javax.inject.Inject

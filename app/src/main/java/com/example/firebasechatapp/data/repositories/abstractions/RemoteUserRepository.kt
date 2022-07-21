@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.abstractions
 
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Result
@@ -13,3 +13,4 @@ interface RemoteUserRepository {
     fun changeUserName(newName: String, b: (Result<String>) -> Unit)
     suspend fun uploadUserData(userInfo: UserInfo)
 }
+

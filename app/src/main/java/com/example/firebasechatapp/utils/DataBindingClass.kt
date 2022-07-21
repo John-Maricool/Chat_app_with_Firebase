@@ -16,8 +16,6 @@ import com.example.firebasechatapp.cache_source.UserEntity
 import com.example.firebasechatapp.data.adapter.ChatsListAdapter
 import com.example.firebasechatapp.data.adapter.SavedMediaAdapter
 import com.example.firebasechatapp.data.adapter.UsersListAdapter
-import com.example.firebasechatapp.data.models.Message
-import com.example.firebasechatapp.data.models.SavedMedia
 import com.example.firebasechatapp.data.models.UserInfo
 import com.google.android.material.tabs.TabLayout
 
@@ -45,15 +43,17 @@ fun ImageView.setImageResourceNormal(uri: Bitmap) {
         .into(this)
 }
 
-@BindingAdapter("set_video_play_button_visible")
-fun ImageView.setVideoPlayVisible(message: Message){
-    if(message.type == 2){
-        visibility = View.VISIBLE
-        setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_play_circle, null))
-    }else{
-        visibility = View.GONE
-    }
+
+@BindingAdapter("set_image_media")
+fun ImageView.setImageMedia(uri: String) {
+    Glide.with(context)
+        .load(uri)
+        .centerCrop()
+        .placeholder(R.drawable.ic_media)
+        .error(R.drawable.ic_media)
+        .into(this)
 }
+
 
 @BindingAdapter("submitList")
 fun submitList(recyclerView: RecyclerView, list: List<UserInfo>?) {
@@ -89,7 +89,7 @@ fun setMediaAdapter(
     adapter: SavedMediaAdapter
 ) {
     recyclerView.setHasFixedSize(true)
-    val lm = GridLayoutManager(recyclerView.context, 3)
+    val lm = GridLayoutManager(recyclerView.context, 4)
     recyclerView.layoutManager = lm
     adapter.let {
         recyclerView.adapter = it
@@ -97,7 +97,7 @@ fun setMediaAdapter(
 }
 
 @BindingAdapter("submitSavedMediaList")
-fun submitMediaList(recyclerView: RecyclerView, list: List<SavedMedia>?) {
+fun submitMediaList(recyclerView: RecyclerView, list: List<String>?) {
     val adapter = recyclerView.adapter as SavedMediaAdapter
     if (list != null)
         adapter.getMedias(list)

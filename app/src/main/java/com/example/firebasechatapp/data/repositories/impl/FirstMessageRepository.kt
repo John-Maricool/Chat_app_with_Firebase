@@ -1,10 +1,11 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.impl
 
 import com.example.firebasechatapp.cache_source.UserDao
 import com.example.firebasechatapp.data.mapper.CacheMapperImpl
 import com.example.firebasechatapp.data.models.Chat
 import com.example.firebasechatapp.data.models.ChatWithUserInfo
 import com.example.firebasechatapp.data.models.Message
+import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import java.util.*

@@ -1,13 +1,16 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.impl
 
 import androidx.lifecycle.LiveData
 import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
+import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.utils.Constants.currentPage
 import com.example.firebasechatapp.utils.Result
+import com.example.firebasechatapp.utils.SharedPrefsCalls
 
-class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource) : CloudRepository {
+class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource, val prefs: SharedPrefsCalls) :
+    CloudRepository {
 
     override suspend fun getChatsIds(id: String): List<String> {
         val ids = mutableListOf<String>()
@@ -27,7 +30,6 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource) : CloudRepos
     }
 
     override fun getAllMessages(
-        userId: String,
         channelId: String,
         b: (Result<List<Message>>) -> Unit
     ) {
@@ -35,7 +37,7 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource) : CloudRepos
         cloudSource.getAllMessages(channelId).addSnapshotListener { value, error ->
             if (value != null && error == null) {
                 value.documents.forEach { doc ->
-                    if (doc["receiverId"] == userId && doc["seen"] == false)
+                    if (doc["receiverId"] == prefs.getUserUid() && doc["seen"] == false)
                         doc.reference.update("seen", true)
                 }
                 b.invoke(
@@ -123,16 +125,17 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource) : CloudRepos
         }
     }
 
-    override fun changeUserName(userId: String, name: String, b: (Result<String>) -> Unit) {
+    override fun changeUserName(name: String, b: (Result<String>) -> Unit) {
         b.invoke(Result.Loading)
-        cloudSource.changeName(userId, name).addOnSuccessListener {
+        cloudSource.changeName(prefs.getUserUid()!!, name).addOnSuccessListener {
+            prefs.storeUserDetails(name = name)
             b.invoke(Result.Success("Successful"))
         }.addOnFailureListener {
             b.invoke(Result.Error(it.toString()))
         }
     }
 
-    override fun checkIfUserHasNewMessages(userId: String): LiveData<Boolean> {
+    override suspend fun checkIfUserHasNewMessages(userId: String): LiveData<Boolean> {
         return cloudSource.checkIfUserHasNewMessages(userId)
     }
 }

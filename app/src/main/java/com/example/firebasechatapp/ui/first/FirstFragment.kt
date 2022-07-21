@@ -49,7 +49,6 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         model.createAccountEvent.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.signUpFragment)
         }
-
     }
 
 }

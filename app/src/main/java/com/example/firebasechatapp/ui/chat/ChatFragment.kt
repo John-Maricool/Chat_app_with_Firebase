@@ -21,11 +21,12 @@ import com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener
 import com.example.firebasechatapp.databinding.ChatToolbarBinding
 import com.example.firebasechatapp.databinding.FragmentChatBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
+import com.example.firebasechatapp.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ChatFragment : Fragment(R.layout.fragment_chat) {
+class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener {
 
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
@@ -43,8 +44,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val action = ChatFragmentDirections.actionChatFragmentToChatsFragment()
-                findNavController().navigate(action)
+                findNavController().popBackStack(R.id.chatsFragment, true)
             }
         })
         resultLauncher =
@@ -86,6 +86,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         setupListAdapter()
         setClickListeners()
         observeLiveData()
+        adapter.setOnMediaItemClickListener(this)
     }
 
     private fun observeLiveData() {
@@ -104,6 +105,13 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 }
             }
         }
+        model.media.observe(viewLifecycleOwner, EventObserver {
+            if (it) {
+                val action =
+                    ChatFragmentDirections.actionChatFragmentToSavedMediaFragment(args.channelId)
+                findNavController().navigate(action)
+            }
+        })
     }
 
     private fun setClickListeners() {
@@ -151,5 +159,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         intent.type = "image/*"
         resultLauncher.launch(intent)
+    }
+
+    override fun onMediaItemClick(mediaLink: String) {
+        val args = Bundle()
+        args.putString("mediaUri", mediaLink)
+        findNavController().navigate(R.id.mediaFragment, args)
     }
 }

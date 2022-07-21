@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="listener"
+            type="com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener" />
+
+        <variable
             name="message"
             type="com.example.firebasechatapp.data.models.Message" />
 
@@ -54,6 +58,7 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:adjustViewBounds="true"
+                    android:onClick="@{() -> listener.onMediaItemClick(message.text)}"
                     android:gravity="start"
                     android:scaleType="fitCenter"
                     android:visibility="@{message.type != 0 ? View.VISIBLE : View.GONE}"

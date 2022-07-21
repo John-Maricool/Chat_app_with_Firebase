@@ -1,5 +1,6 @@
 package com.example.firebasechatapp.data.db.remote
 
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import com.example.firebasechatapp.data.models.CreateUser
 import com.example.firebasechatapp.data.models.Login
@@ -7,6 +8,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,5 +37,15 @@ class FirebaseAuthSource
 
     fun loginUser(login: Login): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(login.email, login.password)
+    }
+
+    suspend fun updateUserProfile(name: String, img: String) {
+        val profileChanges =
+            UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .setPhotoUri(img.toUri())
+                .build()
+
+        auth.currentUser!!.updateProfile(profileChanges).await()
     }
 }

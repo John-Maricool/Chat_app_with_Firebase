@@ -3,7 +3,7 @@ package com.example.firebasechatapp.ui.chat
 import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.ChatRepository
+import com.example.firebasechatapp.data.repositories.impl.ChatRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel

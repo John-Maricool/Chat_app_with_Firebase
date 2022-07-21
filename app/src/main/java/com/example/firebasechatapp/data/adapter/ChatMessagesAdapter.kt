@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.data.interfaces.ConstraintInstructions
+import com.example.firebasechatapp.data.interfaces.OnMediaItemClickListener
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.databinding.ChatItemLeftBinding
 import com.example.firebasechatapp.databinding.ChatItemRightBinding
@@ -23,6 +24,7 @@ class ChatMessagesAdapter
     private val USER_OTHER = 2
 
     var messages = mutableListOf<Message>()
+    private lateinit var listener: OnMediaItemClickListener
 
     inner class ChatMessageViewHolderLeft(val binding: ChatItemLeftBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -50,6 +52,7 @@ class ChatMessagesAdapter
                 }
             }
             binding.message = data
+            binding.listener = listener
         }
     }
 
@@ -78,9 +81,13 @@ class ChatMessagesAdapter
                 }
             }
             binding.message = data
+            binding.listener = listener
         }
     }
 
+    fun setOnMediaItemClickListener(mlistener: OnMediaItemClickListener) {
+        listener = mlistener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == USER_OTHER) {

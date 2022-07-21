@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.cache_source.UserEntity
-import com.example.firebasechatapp.data.repositories.ChatsListRepository
+import com.example.firebasechatapp.data.repositories.impl.ChatsListRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel

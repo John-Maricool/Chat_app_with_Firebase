@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.AuthRepository
+import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.data.repositories.UsersAndChatsRepository
-import com.example.firebasechatapp.data.repositories.UsersListRepository
+import com.example.firebasechatapp.data.repositories.abstractions.UsersAndChatsRepository
+import com.example.firebasechatapp.data.repositories.impl.UsersListRepository
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

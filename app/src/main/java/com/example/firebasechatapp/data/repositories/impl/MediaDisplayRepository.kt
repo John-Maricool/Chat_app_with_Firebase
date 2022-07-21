@@ -1,8 +1,10 @@
-package com.example.firebasechatapp.data.repositories
+package com.example.firebasechatapp.data.repositories.impl
 
 import android.content.Context
 import android.graphics.Bitmap
 import com.example.firebasechatapp.data.models.Message
+import com.example.firebasechatapp.data.repositories.abstractions.StorageRepository
+import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.qualifiers.ApplicationContext

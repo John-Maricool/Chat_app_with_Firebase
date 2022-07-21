@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="user"
-            type="com.example.firebasechatapp.data.models.UserInfo" />
 
         <variable
             name="viewmodel"
@@ -24,7 +21,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            app:set_image_resource="@{user.profileImageUrl}"
+            app:set_image_resource="@{viewmodel.userImg}"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{user.displayName}"
+            android:text="@{viewmodel.userName}"
             android:textColor="@color/textColor"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -48,7 +45,7 @@
             android:id="@+id/user_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{user.email}"
+            android:text="@{viewmodel.userEmail}"
             android:textColor="@color/textColor"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/user_image"

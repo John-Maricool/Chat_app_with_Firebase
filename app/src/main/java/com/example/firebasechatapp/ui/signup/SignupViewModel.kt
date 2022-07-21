@@ -6,7 +6,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.CreateUser
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.data.repositories.SignUpRepository
+import com.example.firebasechatapp.data.repositories.impl.SignUpRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isEmailValid

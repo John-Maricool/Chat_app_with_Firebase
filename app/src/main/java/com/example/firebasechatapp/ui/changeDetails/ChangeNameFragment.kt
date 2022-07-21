@@ -33,8 +33,8 @@ class ChangeNameFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentChangeNameBinding.bind(view)
-        model.text.value = args.userInfo.displayName
-        model.email.value = args.userInfo.email
+        model.text.value = args.userName
+        model.email.value = args.userEmail
 
         binding.model = model
         binding.executePendingBindings()

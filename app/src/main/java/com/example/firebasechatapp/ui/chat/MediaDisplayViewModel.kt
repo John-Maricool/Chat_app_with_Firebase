@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.data.repositories.MediaDisplayRepository
+import com.example.firebasechatapp.data.repositories.impl.MediaDisplayRepository
 import com.example.firebasechatapp.utils.Constants.TYPE_IMAGE
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result

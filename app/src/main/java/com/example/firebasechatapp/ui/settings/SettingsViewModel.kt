@@ -5,13 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.cache_source.UserDao
-import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.AuthRepository
-import com.example.firebasechatapp.data.repositories.CloudRepository
-import com.example.firebasechatapp.data.repositories.CloudRepositoryImpl
+import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Event
-import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,14 +17,14 @@ import javax.inject.Inject
 class SettingsViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val cloud: CloudRepository,
     val auth: AuthRepository,
     val prefs: SharedPrefsCalls,
     val dao: UserDao
 ) : ViewModel() {
 
-    private val _result = MutableLiveData<UserInfo?>()
-    val result: LiveData<UserInfo?> get() = _result
+    val userName = prefs.getUserName()
+    val userEmail = prefs.getUserEmail()
+    val userImg = prefs.getUserPhoto()
 
     private val _isSignOut = MutableLiveData<Event<Boolean>>()
     val isSignOut: LiveData<Event<Boolean>> get() = _isSignOut
@@ -38,10 +34,6 @@ class SettingsViewModel
 
     private val _activateMode = MutableLiveData<Event<Boolean>>()
     val activateMode: LiveData<Event<Boolean>> get() = _activateMode
-
-    init {
-        getUserInfo()
-    }
 
     fun signOutUser() {
         viewModelScope.launch {
@@ -67,19 +59,6 @@ class SettingsViewModel
         } else {
             _activateMode.value = Event(false)
             prefs.changeNightMode(true)
-        }
-    }
-
-    private fun getUserInfo() {
-        viewModelScope.launch {
-            prefs.getUserUid()?.let { uid ->
-                cloud.getUserInfo(uid) {
-                    defaultRepo.onResult(null, it)
-                    if (it is Result.Success) {
-                        _result.value = it.data
-                    }
-                }
-            }
         }
     }
 }

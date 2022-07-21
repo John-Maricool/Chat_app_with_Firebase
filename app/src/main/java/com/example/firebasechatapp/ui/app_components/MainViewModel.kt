@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.firebasechatapp.data.repositories.CloudRepository
+import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +23,14 @@ class MainViewModel
     private val _activateMode = MutableLiveData<Event<Boolean>>()
     val activateMode: LiveData<Event<Boolean>> get() = _activateMode
 
-    fun checkIfNewMessageReceived(): LiveData<Boolean> {
-        return if (uid != null) {
-            cloud.checkIfUserHasNewMessages(uid)
+    var isNewMessage: LiveData<Boolean> = MutableLiveData()
+
+
+    fun checkIfNewMessageReceived() {
+        if (uid != null) {
+            viewModelScope.launch {
+                isNewMessage = cloud.checkIfUserHasNewMessages(uid)
+            }
         } else {
             MutableLiveData(false)
         }
