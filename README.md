@@ -5,11 +5,10 @@ This application is a Chat Application with Firebase Backend.
 - Sign in to account.
 - Able to see all registered users.
 - Able to chat with a user.
-- Able to send images and video to users.
+- Able to send images.
 - Change of theme night and day mode.
-- Able to view downloaded media.
+- Able to view media.
 - Caching of Chat list in local db.
-- Able to doanload images and videos to internal storage.
 - Able to view user online status and unread messages.
 
 ## Components used
