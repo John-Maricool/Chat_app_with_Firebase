@@ -1,8 +1,7 @@
 package com.example.firebasechatapp.data.repositories.impl
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.firebasechatapp.data.db.remote.FirebaseAuthSource
+import com.example.firebasechatapp.data.source.remote.FirebaseAuthSource
 import com.example.firebasechatapp.data.models.CreateUser
 import com.example.firebasechatapp.data.models.Login
 import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository

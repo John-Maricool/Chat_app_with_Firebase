@@ -17,14 +17,14 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
     private val binding get() = _binding!!
     private val model: FirstViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+  /*  override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
         })
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,9 +32,10 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
         binding.viewmodel = model
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        if (model.user != null) {
-            navigateToChats()
-        }
+         if (model.user != null) {
+             navigateToChats()
+         }
+
         navigate()
     }
 
@@ -44,10 +45,10 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
     private fun navigate() {
         model.loginEvent.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.loginFragment)
+            findNavController().navigate(R.id.action_firstFragment_to_loginFragment)
         }
         model.createAccountEvent.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.signUpFragment)
+            findNavController().navigate(R.id.action_firstFragment_to_signUpFragment)
         }
     }
 

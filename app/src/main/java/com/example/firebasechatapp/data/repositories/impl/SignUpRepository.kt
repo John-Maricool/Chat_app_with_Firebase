@@ -20,7 +20,6 @@ class SignUpRepository
     private val storage: StorageRepository,
     private val prefs: SharedPrefsCalls
 ) {
-
     fun createAccount(
         user: CreateUser,
         userImg: String,

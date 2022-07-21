@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
+import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isTextValid
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class ChangeNameViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val cloud: CloudRepository
+    val cloud: RemoteUserRepository
 ) : ViewModel() {
 
     val text = MutableLiveData<String>()

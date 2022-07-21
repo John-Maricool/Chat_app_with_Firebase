@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.db.remote
+package com.example.firebasechatapp.data.source.remote
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

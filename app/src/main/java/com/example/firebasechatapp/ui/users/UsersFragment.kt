@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.firebasechatapp.R
-import com.example.firebasechatapp.data.adapter.UsersListAdapter
 import com.example.firebasechatapp.data.interfaces.OnListItemClickListener
 import com.example.firebasechatapp.databinding.FragmentUsersBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity

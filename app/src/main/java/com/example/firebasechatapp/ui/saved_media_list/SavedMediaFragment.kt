@@ -3,13 +3,11 @@ package com.example.firebasechatapp.ui.saved_media_list
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.firebasechatapp.R
-import com.example.firebasechatapp.data.adapter.SavedMediaAdapter
 import com.example.firebasechatapp.data.interfaces.OnSavedMediaItemClickedListener
 import com.example.firebasechatapp.databinding.FragmentSavedMediaBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
@@ -29,14 +27,14 @@ class SavedMediaFragment : Fragment(R.layout.fragment_saved_media),
     @Inject
     lateinit var adapter: SavedMediaAdapter
 
-      override fun onCreate(savedInstanceState: Bundle?) {
-          super.onCreate(savedInstanceState)
-          requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-              override fun handleOnBackPressed() {
-                  findNavController().popBackStack(R.id.chatFragment, true)
-              }
-          })
-      }
+    /* override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+             override fun handleOnBackPressed() {
+                 findNavController().popBackStack(R.id.chatFragment, true)
+             }
+         })
+     }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

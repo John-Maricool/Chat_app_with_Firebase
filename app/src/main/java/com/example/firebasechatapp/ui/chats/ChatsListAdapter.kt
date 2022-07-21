@@ -1,13 +1,12 @@
-package com.example.firebasechatapp.data.adapter
+package com.example.firebasechatapp.ui.chats
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebasechatapp.R
-import com.example.firebasechatapp.cache_source.UserEntity
+import com.example.firebasechatapp.data.source.local.UserEntity
 import com.example.firebasechatapp.data.interfaces.OnListItemClickListener
-import com.example.firebasechatapp.data.models.ChatWithUserInfo
 import com.example.firebasechatapp.databinding.ListItemChatBinding
 import javax.inject.Inject
 

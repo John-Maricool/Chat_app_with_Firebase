@@ -8,7 +8,7 @@
         <import type="android.view.View" />
         <variable
             name="userEntity"
-            type="com.example.firebasechatapp.cache_source.UserEntity" />
+            type="com.example.firebasechatapp.data.source.local.UserEntity" />
        <variable
            name="listener"
            type="com.example.firebasechatapp.data.interfaces.OnListItemClickListener" />

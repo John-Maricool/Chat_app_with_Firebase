@@ -1,7 +1,7 @@
 package com.example.firebasechatapp.data.repositories.impl
 
 import android.net.Uri
-import com.example.firebasechatapp.data.db.remote.FirebaseStorageSource
+import com.example.firebasechatapp.data.source.remote.FirebaseStorageSource
 import com.example.firebasechatapp.data.repositories.abstractions.StorageRepository
 import com.example.firebasechatapp.utils.Result
 import com.google.android.gms.tasks.Task

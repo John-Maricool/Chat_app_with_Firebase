@@ -35,10 +35,8 @@ class ChangeNameFragment : BottomSheetDialogFragment() {
         _binding = FragmentChangeNameBinding.bind(view)
         model.text.value = args.userName
         model.email.value = args.userEmail
-
         binding.model = model
         binding.executePendingBindings()
-
         observeLiveData()
     }
 

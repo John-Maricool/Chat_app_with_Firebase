@@ -1,5 +1,6 @@
 package com.example.firebasechatapp.ui.first
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,5 +27,10 @@ class FirstViewModel
 
     fun goToCreateAccountPressed() {
         _createAccountEvent.value = Event(Unit)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("cleared", "first fragment")
     }
 }

@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
-import com.example.firebasechatapp.cache_source.UserEntity
-import com.example.firebasechatapp.data.adapter.ChatsListAdapter
-import com.example.firebasechatapp.data.adapter.SavedMediaAdapter
-import com.example.firebasechatapp.data.adapter.UsersListAdapter
+import com.example.firebasechatapp.data.source.local.UserEntity
+import com.example.firebasechatapp.ui.chats.ChatsListAdapter
+import com.example.firebasechatapp.ui.saved_media_list.SavedMediaAdapter
+import com.example.firebasechatapp.ui.users.UsersListAdapter
 import com.example.firebasechatapp.data.models.UserInfo
 import com.google.android.material.tabs.TabLayout
 

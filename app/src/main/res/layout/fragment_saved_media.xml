@@ -5,7 +5,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.example.firebasechatapp.data.adapter.SavedMediaAdapter" />
+            type="com.example.firebasechatapp.ui.saved_media_list.SavedMediaAdapter" />
 
         <variable
             name="model"

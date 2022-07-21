@@ -31,16 +31,15 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     model.imageUri.value = result.data?.data.toString()
                 }
             }
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val action = SignUpFragmentDirections.actionSignUpFragmentToFirstFragment()
-                findNavController().navigate(action)
-            }
-        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.firstFragment)
+            }
+        })
         _binding = FragmentSignUpBinding.bind(view)
         binding.viewmodel = model
         binding.lifecycleOwner = this.viewLifecycleOwner

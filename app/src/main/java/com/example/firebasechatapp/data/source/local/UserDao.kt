@@ -1,6 +1,5 @@
-package com.example.firebasechatapp.cache_source
+package com.example.firebasechatapp.data.source.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

@@ -57,6 +57,6 @@ class LoginViewModel
 
     override fun onCleared() {
         super.onCleared()
-        Log.d("clear", "AllCleared")
+        Log.d("cleared", "Login fragment")
     }
 }

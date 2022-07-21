@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.db.remote
+package com.example.firebasechatapp.data.source.remote
 
 import android.net.Uri
 import androidx.core.net.toUri

@@ -42,11 +42,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().popBackStack(R.id.chatsFragment, true)
-            }
-        })
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -74,6 +69,13 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.chatsFragment)
+            }
+        })
+
         model.otherUserId = args.otherUserId
         model.getUserInfo(args.otherUserId)
         model.getAllMessages(args.channelId)

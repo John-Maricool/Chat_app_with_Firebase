@@ -10,7 +10,7 @@
 
         <variable
             name="adapter"
-            type="com.example.firebasechatapp.data.adapter.UsersListAdapter" />
+            type="com.example.firebasechatapp.ui.users.UsersListAdapter" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

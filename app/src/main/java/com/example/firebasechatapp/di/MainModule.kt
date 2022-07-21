@@ -3,8 +3,8 @@ package com.example.firebasechatapp.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.firebasechatapp.cache_source.CacheDatabase
-import com.example.firebasechatapp.cache_source.UserDao
+import com.example.firebasechatapp.data.source.local.CacheDatabase
+import com.example.firebasechatapp.data.source.local.UserDao
 import com.example.firebasechatapp.utils.Constants.PREFS_NAME
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

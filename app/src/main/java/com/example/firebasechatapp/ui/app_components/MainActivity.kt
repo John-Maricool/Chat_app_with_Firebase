@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.firebasechatapp.R
 import com.example.firebasechatapp.utils.EventObserver
@@ -32,11 +31,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         toolbar = findViewById(R.id.main_toolbar)
         model.toggleMode()
 
+        setSupportActionBar(toolbar)
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        setSupportActionBar(toolbar)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.chatsFragment,
@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             )
         )
         navController.addOnDestinationChangedListener(this)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        // setupActionBarWithNavController(navController, appBarConfiguration)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
         mainProgressBar = findViewById(R.id.main_progressBar)
 
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onSupportNavigateUp(): Boolean {
         //return navController.navigateUp() || super.onSupportNavigateUp()
-          onBackPressed()
+        // onBackPressed()
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
@@ -101,6 +102,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 nav_view.removeBadge(R.id.chatsFragment)
             }
         }
+
         when (destination.id) {
             R.id.firstFragment -> {
                 nav_view.visibility = View.GONE

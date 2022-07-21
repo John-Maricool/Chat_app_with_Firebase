@@ -21,19 +21,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private val binding get() = _binding!!
     private val model: LoginViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val action = LoginFragmentDirections.actionLoginFragmentToFirstFragment()
-                findNavController().navigate(action)
-
-            }
-        })
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.firstFragment)
+            }
+        })
         _binding = FragmentLoginBinding.bind(view)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewmodel = model
@@ -63,8 +57,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToChats() {
-        val action = LoginFragmentDirections.actionLoginFragmentToChatsFragment()
-        findNavController().navigate(action)
+        findNavController().navigate(R.id.chatsFragment)
     }
 
     override fun onDestroy() {

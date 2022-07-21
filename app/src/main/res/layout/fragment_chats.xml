@@ -11,7 +11,7 @@
 
         <variable
             name="adapter"
-            type="com.example.firebasechatapp.data.adapter.ChatsListAdapter" />
+            type="com.example.firebasechatapp.ui.chats.ChatsListAdapter" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

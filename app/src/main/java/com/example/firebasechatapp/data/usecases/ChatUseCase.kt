@@ -1,13 +1,14 @@
-package com.example.firebasechatapp.data.repositories.impl
+package com.example.firebasechatapp.data.usecases
 
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
+import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
 import com.example.firebasechatapp.utils.Result
 import javax.inject.Inject
 
-class ChatRepository
-@Inject constructor(var cloud: CloudRepository) {
+class ChatUseCase
+@Inject constructor(var cloud: CloudRepository, val user: RemoteUserRepository) {
 
     fun getAllMessages(channelId: String, b: (Result<List<Message>>) -> Unit) {
         cloud.getAllMessages(channelId) {

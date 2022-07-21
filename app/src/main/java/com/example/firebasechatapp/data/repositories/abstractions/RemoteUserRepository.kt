@@ -1,5 +1,6 @@
 package com.example.firebasechatapp.data.repositories.abstractions
 
+import androidx.lifecycle.LiveData
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.utils.Result
 
@@ -12,5 +13,7 @@ interface RemoteUserRepository {
     suspend fun toggleOnline(online: Boolean)
     fun changeUserName(newName: String, b: (Result<String>) -> Unit)
     suspend fun uploadUserData(userInfo: UserInfo)
+    suspend fun checkIfUserHasNewMessages(userId: String): LiveData<Boolean>
+
 }
 

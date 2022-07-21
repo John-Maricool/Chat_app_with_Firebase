@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.db.remote
+package com.example.firebasechatapp.data.source.remote
 
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData

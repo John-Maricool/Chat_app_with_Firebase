@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.firebasechatapp.cache_source.UserDao
-import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
+import com.example.firebasechatapp.data.usecases.SettingsUseCase
 import com.example.firebasechatapp.utils.Event
-import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,14 +15,12 @@ import javax.inject.Inject
 class SettingsViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    val auth: AuthRepository,
-    val prefs: SharedPrefsCalls,
-    val dao: UserDao
+    val settings: SettingsUseCase
 ) : ViewModel() {
 
-    val userName = prefs.getUserName()
-    val userEmail = prefs.getUserEmail()
-    val userImg = prefs.getUserPhoto()
+    val userName = settings.userName()
+    val userEmail = settings.userEmail()
+    val userImg = settings.userImg()
 
     private val _isSignOut = MutableLiveData<Event<Boolean>>()
     val isSignOut: LiveData<Event<Boolean>> get() = _isSignOut
@@ -38,9 +34,7 @@ class SettingsViewModel
     fun signOutUser() {
         viewModelScope.launch {
             val job = viewModelScope.launch {
-                auth.signOut()
-                prefs.resetUserUid()
-                dao.deleteAll()
+                settings.performLogout()
             }
             job.join()
             if (job.isCompleted)
@@ -53,12 +47,12 @@ class SettingsViewModel
     }
 
     fun toggleMode() {
-        if (prefs.isNightModeOn()) {
+        if (settings.nightModeState) {
             _activateMode.value = Event(true)
-            prefs.changeNightMode(false)
+            settings.changeNightMode(false)
         } else {
             _activateMode.value = Event(false)
-            prefs.changeNightMode(true)
+            settings.changeNightMode(true)
         }
     }
 }

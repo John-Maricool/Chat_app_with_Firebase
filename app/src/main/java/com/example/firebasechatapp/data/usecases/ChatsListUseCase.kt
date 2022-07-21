@@ -1,20 +1,20 @@
-package com.example.firebasechatapp.data.repositories.impl
+package com.example.firebasechatapp.data.usecases
 
 import android.util.Log
-import com.example.firebasechatapp.cache_source.UserDao
-import com.example.firebasechatapp.cache_source.UserEntity
+import com.example.firebasechatapp.data.source.local.UserDao
+import com.example.firebasechatapp.data.source.local.UserEntity
 import com.example.firebasechatapp.data.mapper.CacheMapperImpl
 import com.example.firebasechatapp.data.models.Chat
 import com.example.firebasechatapp.data.models.ChatWithUserInfo
 import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
+import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
 import com.example.firebasechatapp.utils.Result
-import com.example.firebasechatapp.utils.SharedPrefsCalls
 import javax.inject.Inject
 
-class ChatsListRepository
+class ChatsListUseCase
 @Inject constructor(
     private val cloud: CloudRepository,
-    private val prefs: SharedPrefsCalls,
+    private val remote: RemoteUserRepository,
     private val dao: UserDao,
     private val mapperImpl: CacheMapperImpl
 ) {
@@ -26,15 +26,15 @@ class ChatsListRepository
     suspend fun cacheChatList(b: (Result<List<UserEntity>>) -> Unit) {
         b.invoke(Result.Loading)
         try {
-            val chatsIds = cloud.getChatsIds(prefs.getUserUid()!!)
+            val chatsIds = cloud.getChatsIds()
             val sourceChats = mutableListOf<ChatWithUserInfo>()
             chatsIds.forEach { id ->
-                val channelId = cloud.getChatChannel(prefs.getUserUid()!!, id)
+                val channelId = cloud.getChatChannel(id)
                 val userInfo = cloud.getUserInfo(id)
                 val lastMessage = cloud.getLastMessage(channelId!!)
                 val chatWithUserInfo = ChatWithUserInfo(
                     mChat = Chat(lastMessage!!, channelId),
-                    mUserInfo = userInfo!!
+                    mUserInfo = userInfo
                 )
                 sourceChats.add(chatWithUserInfo)
             }
@@ -52,7 +52,7 @@ class ChatsListRepository
     suspend fun getChannelId(otherId: String, b: (Result<String>) -> Unit) {
         b.invoke(Result.Loading)
         try {
-            val result = cloud.getChatChannel(prefs.getUserUid()!!, otherId)
+            val result = cloud.getChatChannel(otherId)
             b.invoke(Result.Success(result))
         } catch (e: Exception) {
             b.invoke(Result.Error(e.toString()))

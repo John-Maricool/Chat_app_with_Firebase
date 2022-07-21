@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.data.repositories.impl.FirstMessageRepository
+import com.example.firebasechatapp.data.usecases.FirstMessageUseCase
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.isTextValid
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MessageViewModel
 @Inject constructor(
-    val repo: FirstMessageRepository,
+    val repo: FirstMessageUseCase,
     val defRepo: DefaultRepository,
 ) : ViewModel() {
 

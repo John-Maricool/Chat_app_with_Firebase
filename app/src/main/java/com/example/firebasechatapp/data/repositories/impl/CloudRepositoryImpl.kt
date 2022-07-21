@@ -1,7 +1,6 @@
 package com.example.firebasechatapp.data.repositories.impl
 
-import androidx.lifecycle.LiveData
-import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
+import com.example.firebasechatapp.data.source.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.Message
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
@@ -12,17 +11,40 @@ import com.example.firebasechatapp.utils.SharedPrefsCalls
 class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource, val prefs: SharedPrefsCalls) :
     CloudRepository {
 
-    override suspend fun getChatsIds(id: String): List<String> {
+    fun userID(): String? {
+        return prefs.getUserUid()
+    }
+
+    override suspend fun getChatsIds(): List<String> {
         val ids = mutableListOf<String>()
-        val res = cloudSource.getChats(id)?.documents
+        val res = cloudSource.getChats(userID()!!)?.documents
         res?.forEach {
             ids.add(it.reference.id)
         }
         return ids
     }
 
-    override suspend fun getChatChannel(userId: String, chatId: String): String? {
-        return cloudSource.getChatChannelId(userId, chatId)?.get("id")?.toString()
+    override suspend fun getUserInfo(id: String): UserInfo {
+        val result = cloudSource.getUserInfo(id).toObject(UserInfo::class.java)
+        return result!!
+    }
+
+    override fun getChangedUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
+        b.invoke(Result.Loading)
+        try {
+            cloudSource.getChangedUserInfo(id).addSnapshotListener { value, error ->
+                if (value != null && error == null) {
+                    val result = value.toObject(UserInfo::class.java)
+                    b.invoke(Result.Success(result))
+                }
+            }
+        } catch (it: java.lang.Exception) {
+            b.invoke(Result.Error(it.toString()))
+        }
+    }
+
+    override suspend fun getChatChannel(chatId: String): String? {
+        return cloudSource.getChatChannelId(userID()!!, chatId)?.get("id")?.toString()
     }
 
     override suspend fun getLastMessage(channelId: String): Message? {
@@ -64,47 +86,15 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource, val prefs: S
         }
     }
 
-    override suspend fun getUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
-        b.invoke(Result.Loading)
-        try {
-            val result = cloudSource.getUserInfo(id).toObject(UserInfo::class.java)
-            b.invoke(Result.Success(result))
-        } catch (it: java.lang.Exception) {
-            b.invoke(Result.Error(it.toString()))
-        }
-    }
-
-    override fun getChangedUserInfo(id: String, b: ((Result<UserInfo>) -> Unit)) {
-        b.invoke(Result.Loading)
-        try {
-            cloudSource.getChangedUserInfo(id).addSnapshotListener { value, error ->
-                if (value != null && error == null) {
-                    val result = value.toObject(UserInfo::class.java)
-                    b.invoke(Result.Success(result))
-                }
-            }
-        } catch (it: java.lang.Exception) {
-            b.invoke(Result.Error(it.toString()))
-        }
-    }
-
-    override suspend fun getUserInfo(id: String): UserInfo? {
-        return cloudSource.getUserInfo(id).toObject(UserInfo::class.java)
-    }
-
-    override suspend fun toggleOnline(id: String, online: Boolean) {
-        cloudSource.toggleOnline(id, online)
-    }
 
     override suspend fun createChatChannel(
-        user: String,
         secUser: String,
     ): String {
-        return cloudSource.createChatInfo(user, secUser)
+        return cloudSource.createChatInfo(userID()!!, secUser)
     }
 
-    override suspend fun addUserToChats(userId: String, otherId: String) {
-        cloudSource.addUserToChats(userId, otherId)
+    override suspend fun addUserToChats(otherId: String) {
+        cloudSource.addUserToChats(userID()!!, otherId)
     }
 
     override suspend fun sendMessage(message: Message, channelId: String) {
@@ -123,20 +113,6 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource, val prefs: S
         } catch (e: Exception) {
             b.invoke(Result.Error(e.toString()))
         }
-    }
-
-    override fun changeUserName(name: String, b: (Result<String>) -> Unit) {
-        b.invoke(Result.Loading)
-        cloudSource.changeName(prefs.getUserUid()!!, name).addOnSuccessListener {
-            prefs.storeUserDetails(name = name)
-            b.invoke(Result.Success("Successful"))
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
-    }
-
-    override suspend fun checkIfUserHasNewMessages(userId: String): LiveData<Boolean> {
-        return cloudSource.checkIfUserHasNewMessages(userId)
     }
 }
 

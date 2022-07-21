@@ -1,6 +1,6 @@
 package com.example.firebasechatapp.data.mapper
 
-import com.example.firebasechatapp.cache_source.UserEntity
+import com.example.firebasechatapp.data.source.local.UserEntity
 import com.example.firebasechatapp.data.interfaces.Mapper
 import com.example.firebasechatapp.data.models.ChatWithUserInfo
 import javax.inject.Inject

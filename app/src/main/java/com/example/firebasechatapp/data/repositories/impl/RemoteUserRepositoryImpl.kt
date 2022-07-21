@@ -1,6 +1,7 @@
 package com.example.firebasechatapp.data.repositories.impl
 
-import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
+import androidx.lifecycle.LiveData
+import com.example.firebasechatapp.data.source.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.UserInfo
 import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
 import com.example.firebasechatapp.utils.Result
@@ -22,15 +23,6 @@ class RemoteUserRepositoryImpl(var source: FirebaseFirestoreSource, var prefs: S
         prefs.getUserUid()?.let { source.toggleOnline(it, online) }
     }
 
-    override fun changeUserName(newName: String, b: (Result<String>) -> Unit) {
-        b.invoke(Result.Loading)
-        source.changeName(prefs.getUserUid()!!, newName).addOnSuccessListener {
-            b.invoke(Result.Success("Successful"))
-        }.addOnFailureListener {
-            b.invoke(Result.Error(it.toString()))
-        }
-    }
-
     override suspend fun uploadUserData(userInfo: UserInfo) {
         source.uploadUserDetailsToDb(userInfo).addOnSuccessListener {
             prefs.storeUserDetails(
@@ -39,5 +31,19 @@ class RemoteUserRepositoryImpl(var source: FirebaseFirestoreSource, var prefs: S
                 photo = userInfo.profileImageUrl
             )
         }
+    }
+
+    override fun changeUserName(newName: String, b: (Result<String>) -> Unit) {
+        b.invoke(Result.Loading)
+        source.changeName(prefs.getUserUid()!!, newName).addOnSuccessListener {
+            prefs.storeUserDetails(name = newName)
+            b.invoke(Result.Success("Successful"))
+        }.addOnFailureListener {
+            b.invoke(Result.Error(it.toString()))
+        }
+    }
+
+    override suspend fun checkIfUserHasNewMessages(userId: String): LiveData<Boolean> {
+        return source.checkIfUserHasNewMessages(userId)
     }
 }

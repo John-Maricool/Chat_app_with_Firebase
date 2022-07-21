@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.cache_source
+package com.example.firebasechatapp.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

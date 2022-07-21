@@ -2,6 +2,7 @@ package com.example.firebasechatapp.ui.signup
 
 import android.content.Intent
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.*
 import com.example.firebasechatapp.data.models.CreateUser
@@ -85,5 +86,10 @@ class SignupViewModel
             Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         intent.type = "image/*"
         resultLauncher.launch(intent)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("cleared", "signup fragment")
     }
 }

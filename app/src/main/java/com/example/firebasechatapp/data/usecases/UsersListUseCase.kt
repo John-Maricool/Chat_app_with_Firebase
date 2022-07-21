@@ -1,15 +1,14 @@
-package com.example.firebasechatapp.data.repositories.impl
+package com.example.firebasechatapp.data.usecases
 
-import com.example.firebasechatapp.data.db.remote.FirebaseFirestoreSource
+import com.example.firebasechatapp.data.source.remote.FirebaseFirestoreSource
 import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.abstractions.UsersAndChatsRepository
 import com.example.firebasechatapp.utils.Result
 import com.example.firebasechatapp.utils.SharedPrefsCalls
+import javax.inject.Inject
 
-class UsersListRepository(var prefs: SharedPrefsCalls, var source: FirebaseFirestoreSource) :
-    UsersAndChatsRepository {
-
-    override fun getList(b: (Result<List<UserInfo>>) -> Unit) {
+class UsersListUseCase
+@Inject constructor(var prefs: SharedPrefsCalls, var source: FirebaseFirestoreSource) {
+    fun getList(b: (Result<List<UserInfo>>) -> Unit) {
         b.invoke(Result.Loading)
         source.getAllUsers(prefs.getUserUid()!!).addSnapshotListener { value, error ->
             if (value != null) {

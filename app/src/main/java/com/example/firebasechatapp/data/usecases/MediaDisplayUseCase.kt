@@ -1,4 +1,4 @@
-package com.example.firebasechatapp.data.repositories.impl
+package com.example.firebasechatapp.data.usecases
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,7 +13,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class MediaDisplayRepository
+class MediaDisplayUseCase
 @Inject constructor(
     val cloud: CloudRepository,
     val storage: StorageRepository,

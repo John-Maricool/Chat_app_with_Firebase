@@ -2,9 +2,7 @@ package com.example.firebasechatapp.ui.mediaDisplay
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.firebasechatapp.R
@@ -19,7 +17,7 @@ class MediaFragment : Fragment(R.layout.fragment_media) {
     private val binding: FragmentMediaBinding get() = _binding!!
     private val args: MediaFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -28,7 +26,7 @@ class MediaFragment : Fragment(R.layout.fragment_media) {
                 }
             }
         })
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

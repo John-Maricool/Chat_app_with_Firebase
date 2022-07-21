@@ -6,12 +6,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.firebasechatapp.R
-import com.example.firebasechatapp.data.adapter.ChatsListAdapter
 import com.example.firebasechatapp.data.interfaces.OnListItemClickListener
 import com.example.firebasechatapp.databinding.FragmentChatsBinding
 import com.example.firebasechatapp.ui.app_components.MainActivity
@@ -30,14 +28,14 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
     @Inject
     lateinit var mAdapter: ChatsListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
         })
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

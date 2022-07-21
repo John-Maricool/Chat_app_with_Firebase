@@ -5,21 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.models.UserInfo
-import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
 import com.example.firebasechatapp.data.repositories.DefaultRepository
-import com.example.firebasechatapp.data.repositories.abstractions.UsersAndChatsRepository
-import com.example.firebasechatapp.data.repositories.impl.UsersListRepository
+import com.example.firebasechatapp.data.repositories.abstractions.AuthRepository
+import com.example.firebasechatapp.data.usecases.UsersListUseCase
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
 
 @HiltViewModel
 class UsersViewModel
 @Inject constructor(
     val defaultRepo: DefaultRepository,
-    @Named("users") val repo: UsersAndChatsRepository,
+    val repo: UsersListUseCase,
     val auth: AuthRepository
 ) : ViewModel() {
 
@@ -44,7 +42,7 @@ class UsersViewModel
 
     fun isUserAdded(secUser: String) {
         viewModelScope.launch {
-            (repo as UsersListRepository).isUserAdded(secUser) {
+            repo.isUserAdded(secUser) {
                 defaultRepo.onResult(null, it)
                 if (it is Result.Success) {
                     _added.value = it.data

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasechatapp.data.repositories.abstractions.CloudRepository
+import com.example.firebasechatapp.data.repositories.abstractions.RemoteUserRepository
 import com.example.firebasechatapp.utils.Event
 import com.example.firebasechatapp.utils.SharedPrefsCalls
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel
 @Inject constructor(
-    val cloud: CloudRepository,
+    val cloud: RemoteUserRepository,
     val prefs: SharedPrefsCalls
 ) : ViewModel() {
 
@@ -39,7 +40,7 @@ class MainViewModel
     fun goOnline() {
         if (uid != null) {
             viewModelScope.launch {
-                cloud.toggleOnline(uid, true)
+                cloud.toggleOnline(true)
             }
         }
     }
@@ -55,7 +56,7 @@ class MainViewModel
     fun goOffline() {
         if (uid != null) {
             viewModelScope.launch {
-                cloud.toggleOnline(uid, false)
+                cloud.toggleOnline(false)
             }
         }
     }
