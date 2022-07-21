@@ -33,7 +33,6 @@ This application is a Chat Application with Firebase Backend.
 
 Unadded Features
 - Firebase Cloud Messaging for incoming message notification.
-- Search functionality for users and chats. 
 - Ability to send voice messages.
 
 Special thanks to 
