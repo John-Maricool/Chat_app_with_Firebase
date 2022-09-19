@@ -21,13 +21,13 @@ class ChatViewModel
 
     val messageText = MutableLiveData<String?>()
     var otherUserId: String? = null
-    var currentScrollPos: Int? = null
+    //var currentScrollPos: Int? = null
 
     private val _messages = MediatorLiveData<List<Message>?>()
     val messages: LiveData<List<Message>?> get() = _messages
 
-    private val _olderMessages = MediatorLiveData<List<Message>?>()
-    val olderMessages: LiveData<List<Message>?> get() = _olderMessages
+    //private val _olderMessages = MediatorLiveData<List<Message>?>()
+   // val olderMessages: LiveData<List<Message>?> get() = _olderMessages
 
     private val _userInfo = MutableLiveData<UserInfo?>()
     val userInfo: LiveData<UserInfo?> get() = _userInfo
@@ -40,12 +40,12 @@ class ChatViewModel
             defaultRepo.onResult(null, res)
             if (res is Result.Success) {
                 _messages.postValue(res.data)
-                currentScrollPos = res.data?.size!! - 1
+              //  currentScrollPos = res.data?.size!! - 1
             }
         }
     }
 
-    fun loadNewPage(channelId: String) {
+  /*  fun loadNewPage(channelId: String) {
         viewModelScope.launch {
             cloud.loadOldMessages(channelId) { res ->
                 if (res is Result.Success) {
@@ -54,8 +54,7 @@ class ChatViewModel
                 }
             }
         }
-    }
-
+    }*/
 
     fun sendMessage(channelId: String) {
         if (isTextValid(1, messageText.value)) {
@@ -85,8 +84,8 @@ class ChatViewModel
         }
     }
 
-    override fun onCleared() {
+   /* override fun onCleared() {
         super.onCleared()
         currentScrollPos = null
-    }
+    }*/
 }

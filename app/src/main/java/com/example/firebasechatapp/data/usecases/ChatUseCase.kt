@@ -16,11 +16,11 @@ class ChatUseCase
         }
     }
 
-    fun loadOldMessages(channelId: String, b: (Result<List<Message>>) -> Unit) {
+   /* fun loadOldMessages(channelId: String, b: (Result<List<Message>>) -> Unit) {
         cloud.reloadNewPageOfMessages(channelId) {
             b.invoke(it)
         }
-    }
+    }*/
 
     fun getUserInfo(otherUserId: String, b: (Result<UserInfo>) -> Unit) {
         cloud.getChangedUserInfo(otherUserId) {

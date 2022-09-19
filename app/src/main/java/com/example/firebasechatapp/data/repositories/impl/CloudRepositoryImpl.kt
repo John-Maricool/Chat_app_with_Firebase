@@ -73,7 +73,7 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource, val prefs: S
         }
     }
 
-    override fun reloadNewPageOfMessages(
+/*    override fun reloadNewPageOfMessages(
         channelId: String, b: (Result<List<Message>>) -> Unit
     ) {
         currentPage++
@@ -84,7 +84,7 @@ class CloudRepositoryImpl(var cloudSource: FirebaseFirestoreSource, val prefs: S
                 )
             )
         }
-    }
+    }*/
 
 
     override suspend fun createChatChannel(

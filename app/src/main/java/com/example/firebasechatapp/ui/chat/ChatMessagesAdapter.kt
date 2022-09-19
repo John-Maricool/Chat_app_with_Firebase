@@ -133,14 +133,14 @@ class ChatMessagesAdapter
         notifyDataSetChanged()
     }
 
-    fun addNewMessages(mMessages: List<Message>) {
+   /* fun addNewMessages(mMessages: List<Message>) {
         val diffCallback = CoursesCallback(messages, mMessages)
         val diffCourses = DiffUtil.calculateDiff(diffCallback)
         //messages.clear()
         messages = mMessages as MutableList<Message>
         diffCourses.dispatchUpdatesTo(this)
         notifyItemInserted(0)
-    }
+    }*/
 }
 
 class CoursesCallback(private val oldList: List<Message>, private val newList: List<Message>) :

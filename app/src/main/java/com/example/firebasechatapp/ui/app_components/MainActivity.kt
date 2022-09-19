@@ -74,12 +74,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onStop() {
         super.onStop()
-        model.goOnline()
+        model.goOffline()
     }
 
     override fun onStart() {
         super.onStart()
-        model.goOffline()
+        model.goOnline()
     }
 
     override fun onSupportNavigateUp(): Boolean {

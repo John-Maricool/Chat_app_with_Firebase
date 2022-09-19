@@ -63,18 +63,18 @@ class FirebaseFirestoreSource @Inject constructor(
 
     fun getAllMessages(channelId: String): Query {
         return cloud.collection(Constants.chatChannels)
-            .document(channelId).collection(Constants.messages).limit(PER_PAGE)
+            .document(channelId).collection(Constants.messages)
             .orderBy("sentTime", Query.Direction.DESCENDING)
     }
 
-    fun getReloadedMessages(
+  /*  fun getReloadedMessages(
         channelId: String,
     ): Query {
         return cloud.collection(Constants.chatChannels)
             .document(channelId).collection(Constants.messages)
             .limit((PER_PAGE * currentPage).toLong())
             .orderBy("sentTime", Query.Direction.DESCENDING)
-    }
+    }*/
 
     suspend fun getChatChannelId(userId: String, chatId: String): DocumentSnapshot? {
         return cloud.collection(Constants.user).document(userId)

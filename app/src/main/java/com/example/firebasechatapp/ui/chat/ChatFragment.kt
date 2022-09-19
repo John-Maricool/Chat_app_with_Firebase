@@ -99,14 +99,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
             }
         }
 
-        model.olderMessages.observe(viewLifecycleOwner) {
+       /* model.olderMessages.observe(viewLifecycleOwner) {
             if (it != null) {
                 adapter.addNewMessages(it)
                 model.currentScrollPos?.let { scr ->
                     binding.recyclerView.scrollToPosition(scr)
                 }
             }
-        }
+        }*/
         model.media.observe(viewLifecycleOwner, EventObserver {
             if (it) {
                 val action =
@@ -118,10 +118,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat), OnMediaItemClickListener 
 
     private fun setClickListeners() {
         binding.openGallery.setOnClickListener { openGallery() }
-        binding.refresh.setOnRefreshListener {
+       /* binding.refresh.setOnRefreshListener {
             model.loadNewPage(args.channelId)
             binding.refresh.isRefreshing = false
-        }
+        }*/
         binding.sendMessage.setOnClickListener {
             model.sendMessage(args.channelId)
         }

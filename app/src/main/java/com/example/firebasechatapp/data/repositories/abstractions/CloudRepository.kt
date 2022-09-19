@@ -15,9 +15,9 @@ interface CloudRepository {
         b: (Result<List<Message>>) -> Unit
     )
 
-    fun reloadNewPageOfMessages(
+   /* fun reloadNewPageOfMessages(
         channelId: String, b: (Result<List<Message>>) -> Unit
-    )
+    )*/
 
     suspend fun getUserInfo(id: String): UserInfo
     fun getChangedUserInfo(id: String, b: ((Result<UserInfo>) -> Unit))
