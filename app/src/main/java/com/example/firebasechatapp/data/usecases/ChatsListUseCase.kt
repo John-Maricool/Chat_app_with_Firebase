@@ -1,6 +1,7 @@
 package com.example.firebasechatapp.data.usecases
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.firebasechatapp.data.source.local.UserDao
 import com.example.firebasechatapp.data.source.local.UserEntity
 import com.example.firebasechatapp.data.mapper.CacheMapperImpl
@@ -19,11 +20,11 @@ class ChatsListUseCase
     private val mapperImpl: CacheMapperImpl
 ) {
 
-    suspend fun getAllChats(): List<UserEntity> {
+    fun getAllChats(): LiveData<List<UserEntity>> {
         return dao.getAllUsers()
     }
 
-    suspend fun cacheChatList(b: (Result<List<UserEntity>>) -> Unit) {
+    suspend fun cacheChatList(b: (Result<LiveData<List<UserEntity>>>) -> Unit) {
         b.invoke(Result.Loading)
         try {
             val chatsIds = cloud.getChatsIds()

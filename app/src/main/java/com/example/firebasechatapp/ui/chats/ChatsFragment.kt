@@ -47,7 +47,6 @@ class ChatsFragment : Fragment(R.layout.fragment_chats), OnListItemClickListener
         binding.chatsRecyclerView.apply {
             setHasFixedSize(true)
         }
-
         binding.adapter = mAdapter
         binding.viewmodel = model
         binding.lifecycleOwner = this.viewLifecycleOwner

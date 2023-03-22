@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.data.source.local.UserEntity
 import com.example.firebasechatapp.data.usecases.ChatsListUseCase
-import com.example.firebasechatapp.data.repositories.DefaultRepository
 import com.example.firebasechatapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,18 +17,18 @@ import javax.inject.Inject
 class ChatsViewModel
 @Inject constructor(
     var defaultRepo: DefaultRepository,
-    var repo: ChatsListUseCase
+    var repo: ChatsListUseCase,
 ) : ViewModel() {
 
     private var _chat: MutableLiveData<List<UserEntity>?> = MutableLiveData()
-    val chat: LiveData<List<UserEntity>?> get() = _chat
+    var chat: LiveData<List<UserEntity>> = MutableLiveData()
 
     private val _channelId = MutableLiveData<String?>()
     val channelId: LiveData<String?> get() = _channelId
 
     fun initialize() {
         viewModelScope.launch {
-            _chat.postValue(repo.getAllChats())
+            chat = repo.getAllChats()
         }
     }
 
@@ -37,7 +37,7 @@ class ChatsViewModel
             repo.cacheChatList {
                 defaultRepo.onResult(null, it)
                 if (it is Result.Success)
-                    _chat.postValue(it.data)
+                    chat = it.data!!
             }
         }
     }

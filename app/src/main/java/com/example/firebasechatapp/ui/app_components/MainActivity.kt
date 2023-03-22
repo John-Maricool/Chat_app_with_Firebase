@@ -113,15 +113,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 toolbar.visibility = View.VISIBLE
 
             }
-            R.id.usersFragment -> {
+            R.id.usersFragment, R.id.settingsFragment -> {
                 nav_view.visibility = View.VISIBLE
                 toolbar.visibility = View.VISIBLE
             }
-            R.id.settingsFragment -> {
-                nav_view.visibility = View.VISIBLE
-                toolbar.visibility = View.VISIBLE
-            }
-
             else -> {
                 nav_view.visibility = View.GONE
             }

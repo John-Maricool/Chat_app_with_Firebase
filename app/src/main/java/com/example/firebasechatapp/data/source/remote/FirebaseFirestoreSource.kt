@@ -29,7 +29,7 @@ class FirebaseFirestoreSource @Inject constructor(
      */
     suspend fun getChats(id: String): QuerySnapshot? {
         return cloud.collection(Constants.user).document(id)
-            .collection(Constants.chat).get().await()
+            .collection(Constants.chat).get(Source.DEFAULT).await()
     }
 
     /**
@@ -58,7 +58,7 @@ class FirebaseFirestoreSource @Inject constructor(
     suspend fun getLastMessageFromChat(chatId: String): DocumentSnapshot? {
         return cloud.collection(Constants.chatChannels)
             .document(chatId).collection(Constants.messages)
-            .document(Constants.lastMessage).get().await()
+            .document(Constants.lastMessage).get(Source.DEFAULT).await()
     }
 
     fun getAllMessages(channelId: String): Query {
@@ -79,7 +79,7 @@ class FirebaseFirestoreSource @Inject constructor(
     suspend fun getChatChannelId(userId: String, chatId: String): DocumentSnapshot? {
         return cloud.collection(Constants.user).document(userId)
             .collection(Constants.chatChannels)
-            .document(chatId).get().await()
+            .document(chatId).get(Source.CACHE).await()
     }
 
     /**
